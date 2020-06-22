@@ -1,3 +1,7 @@
+/**
+ * Header.js - The header component for this App.
+ */
+
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
@@ -6,6 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import D20Logo from "../../assets/d20Logo.svg";
 
+/** Styling for this component */
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -20,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Header() {
+  // Make sure the component is using the styles
   const classes = useStyles();
 
   return (
