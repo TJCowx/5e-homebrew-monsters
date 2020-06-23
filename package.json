@@ -14,8 +14,8 @@
     "react-scripts": "3.4.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "webpack-dev-server --open",
+    "build": "webpack",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -35,12 +35,16 @@
     ]
   },
   "devDependencies": {
+    "@babel/core": "^7.10.3",
+    "@babel/preset-env": "^7.10.3",
     "@types/react": "^16.9.38",
     "@types/react-dom": "^16.9.8",
     "awesome-typescript-loader": "^5.2.1",
+    "babel-loader": "^8.1.0",
     "css-loader": "^3.6.0",
     "html-webpack-plugin": "^4.3.0",
     "mini-css-extract-plugin": "^0.9.0",
+    "react-svg-loader": "^3.0.3",
     "source-map-loader": "^1.0.0",
     "typescript": "^3.9.5",
     "webpack": "^4.43.0",
