@@ -36,7 +36,7 @@ export default function Header() {
             <LogoSVG />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            5e Homebrew Monsters
+            5e Homebrew Monsters Test
           </Typography>
         </Toolbar>
       </AppBar>
