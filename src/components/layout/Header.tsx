@@ -3,7 +3,7 @@
  */
 
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -11,7 +11,7 @@ import Typography from "@material-ui/core/Typography";
 import D20Logo from "../../assets/d20Logo.svg";
 
 /** Styling for this component */
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     background: "#004d00",
