@@ -3,15 +3,15 @@
  */
 
 import React from "react";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, Theme } from "@material-ui/core/styles";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import D20Logo from "../../assets/d20Logo.svg";
+import LogoSVG from "./LogoSVG";
 
 /** Styling for this component */
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     flexGrow: 1,
     background: "#004d00",
@@ -33,10 +33,10 @@ export default function Header() {
       <AppBar className={classes.root}>
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit">
-            <img src={D20Logo} alt="D20 Logo" />
+            <LogoSVG />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            5e Homebrew Monsters
+            5e Homebrew Monsters Test
           </Typography>
         </Toolbar>
       </AppBar>
