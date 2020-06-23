@@ -1,6 +1,6 @@
-import { Component } from "react";
+import { Component } from 'react';
 
-import React from "react";
+import React from 'react';
 
 export default class LogoSVG extends React.Component {
   render() {
