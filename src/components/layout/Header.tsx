@@ -29,7 +29,7 @@ export default function Header() {
   const classes = useStyles();
 
   return (
-    <>
+    <div>
       <AppBar className={classes.root}>
         <Toolbar>
           <IconButton className={classes.menuButton} color="inherit">
@@ -40,6 +40,6 @@ export default function Header() {
           </Typography>
         </Toolbar>
       </AppBar>
-    </>
+    </div>
   );
 }
