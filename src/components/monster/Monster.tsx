@@ -16,10 +16,11 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Typography,
+  Theme,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme: Theme) => ({
   root: {
     width: '100%',
   },

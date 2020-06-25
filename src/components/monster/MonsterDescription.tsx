@@ -6,14 +6,42 @@
  * Alignment - The monster's alignment
  */
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, makeStyles, Theme } from '@material-ui/core';
+import { spacing } from '@material-ui/system';
+
+const useStyles = makeStyles((theme: Theme) => ({
+  descriptionRoot: {
+    width: '100%',
+  },
+  inputField: {
+    display: 'flex',
+    paddingRight: '8px',
+  },
+  monsterName: {
+    width: '100%',
+  },
+  descriptorFields: {
+    width: '50%',
+  },
+}));
 
 export default function MonsterDescription() {
+  const classes = useStyles();
   return (
-    <div>
-      <TextField label="Monster Name" />
-      <TextField label="Size" />
-      <TextField label="Alignment" />
+    <div className={classes.descriptionRoot}>
+      <TextField
+        className={(classes.inputField, classes.monsterName)}
+        style={{}}
+        label="Monster Name"
+      />
+      <TextField
+        className={(classes.inputField, classes.descriptorFields)}
+        label="Size"
+      />
+      <TextField
+        className={(classes.inputField, classes.descriptorFields)}
+        label="Alignment"
+      />
     </div>
   );
 }
