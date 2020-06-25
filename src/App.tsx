@@ -14,9 +14,7 @@ function App() {
     <div className="App">
       <Header />
       <div className={classes.appBarSpacer} />
-      <Container maxWidth="lg">
-        <Monster />
-      </Container>
+      <Monster />
     </div>
   );
 }
