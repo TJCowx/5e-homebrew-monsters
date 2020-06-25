@@ -4,6 +4,6 @@
  */
 import React from 'react';
 
-export default function AddMonsterProperty() {
-  return <div>Add A property here</div>;
+export default function AddMonsterAbility() {
+  return <div>Add an ability here</div>;
 }

@@ -1,5 +1,12 @@
 import React from 'react';
+import AddMonsterAbility from './AddMonsterAbility';
+import MonsterAbilitiesList from './MonsterAbilitiesList';
 
 export default function MonsterAbilities() {
-  return <div>Monster Abilities</div>;
+  return (
+    <div>
+      <AddMonsterAbility />
+      <MonsterAbilitiesList />
+    </div>
+  );
 }

@@ -1,12 +1,13 @@
 import React from 'react';
 import AddMonsterAction from './AddMonsterAction';
+import MonsterActionsList from './MonsterActionsList';
 
 export default function MonsterActions() {
   return (
     <div>
       <h1>Actions</h1>
-      <span>A list of actions</span>
       <AddMonsterAction />
+      <MonsterActionsList />
     </div>
   );
 }

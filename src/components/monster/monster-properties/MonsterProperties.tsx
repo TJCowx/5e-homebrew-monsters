@@ -1,6 +1,5 @@
 import React from 'react';
 import { TextField } from '@material-ui/core';
-import AddMonsterProperty from './AddMonsterProperty';
 
 export default function MonsterProperties() {
   return (
@@ -12,9 +11,6 @@ export default function MonsterProperties() {
       <TextField id="standard-basic" label="Languages" />
       <TextField id="standard-basic" label="Challenge Rating" />
       <TextField id="standard-basic" label="Reward XP" />
-
-      <div>List of properties</div>
-      <AddMonsterProperty />
     </div>
   );
 }
