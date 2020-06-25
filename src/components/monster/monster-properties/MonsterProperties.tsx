@@ -1,3 +1,7 @@
+/**
+ * MonsterProperties.tsx
+ * Handles the monster's properties.
+ */
 import React from 'react';
 import { TextField } from '@material-ui/core';
 

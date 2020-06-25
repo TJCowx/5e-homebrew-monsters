@@ -1,8 +1,15 @@
+/**
+ * Monster.tsx
+ * The base monster component. Handles grouping together all the monster
+ * properties in an expansion panel.
+ */
+
 import React from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
 import MonsterAbilities from './monster-abilities/MonsterAbilities';
+import MonsterDescription from './MonsterDescription';
 import {
   makeStyles,
   ExpansionPanel,
@@ -32,6 +39,18 @@ export default function Monster() {
 
   return (
     <div className={classes.root}>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Description</Typography>
+          <Typography className={classes.secondaryHeading}>
+            Description Summary
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterDescription />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
       <ExpansionPanel>
         <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
           <Typography className={classes.heading}>Monster Stats</Typography>

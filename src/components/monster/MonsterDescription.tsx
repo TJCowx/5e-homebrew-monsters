@@ -11,9 +11,9 @@ import { TextField } from '@material-ui/core';
 export default function MonsterDescription() {
   return (
     <div>
-      <TextField id="standard-basic" label="Monster Name" />
-      <TextField id="standard-basic" label="Size" />
-      <TextField id="standard-basic" label="Alignment" />
+      <TextField label="Monster Name" />
+      <TextField label="Size" />
+      <TextField label="Alignment" />
     </div>
   );
 }
