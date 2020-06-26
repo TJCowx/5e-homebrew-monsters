@@ -6,22 +6,21 @@
  * Alignment - The monster's alignment
  */
 import React from 'react';
-import { TextField, makeStyles, Theme } from '@material-ui/core';
-import { spacing } from '@material-ui/system';
+import { TextField, makeStyles, Theme, Box } from '@material-ui/core';
 
 const useStyles = makeStyles((theme: Theme) => ({
   descriptionRoot: {
     width: '100%',
+    '& .MuiTextField-root': {
+      display: 'flex',
+      margin: theme.spacing(1),
+    },
   },
   inputField: {
     display: 'flex',
-    paddingRight: '8px',
   },
   monsterName: {
     width: '100%',
-  },
-  descriptorFields: {
-    width: '50%',
   },
 }));
 
@@ -29,19 +28,29 @@ export default function MonsterDescription() {
   const classes = useStyles();
   return (
     <div className={classes.descriptionRoot}>
-      <TextField
-        className={(classes.inputField, classes.monsterName)}
-        style={{}}
-        label="Monster Name"
-      />
-      <TextField
-        className={(classes.inputField, classes.descriptorFields)}
-        label="Size"
-      />
-      <TextField
-        className={(classes.inputField, classes.descriptorFields)}
-        label="Alignment"
-      />
+      <Box display="flex" flexDirection="row">
+        <TextField
+          className={(classes.inputField, classes.monsterName)}
+          label="Monster Name"
+          variant="outlined"
+        />
+      </Box>
+      <Box display="flex" flexDirection="row">
+        <Box width="50%">
+          <TextField
+            className={classes.inputField}
+            label="Size"
+            variant="outlined"
+          />
+        </Box>
+        <Box width="50%">
+          <TextField
+            className={classes.inputField}
+            label="Alignment"
+            variant="outlined"
+          />{' '}
+        </Box>
+      </Box>
     </div>
   );
 }
