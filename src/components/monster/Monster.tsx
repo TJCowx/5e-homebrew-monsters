@@ -50,6 +50,21 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     name: 'Harold the Destroyer',
     alignment: 'Lawful Good',
     size: 'Large',
+    stats: {
+      armourClass: 23,
+      hitPoints: 543,
+      hitDie: '12d20',
+      speed: '50 land',
+      str: 20,
+      dex: 20,
+      con: 20,
+      int: 20,
+      wis: 20,
+      chr: 20,
+      proficiencyBonus: 12,
+      proficiencies: ['something', 'anothaone'],
+      savingThrows: ['str', 'dex', 'con', 'int', 'wis', 'chr'],
+    },
   };
 
   /**
