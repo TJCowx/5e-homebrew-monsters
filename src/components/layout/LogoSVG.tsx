@@ -15,7 +15,7 @@ export default class LogoSVG extends React.Component {
           id="Whole Curved"
           fill="white"
           stroke="white"
-          stroke-width="1"
+          strokeWidth="1"
           d="M 214.83,59.00
           C 215.64,51.81 215.92,44.43 224.00,42.00
             223.35,49.98 218.12,75.01 215.72,83.00
