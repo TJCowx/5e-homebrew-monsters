@@ -2,26 +2,36 @@
  * Handles the monster's stats
  */
 import React from 'react';
-import { TextField } from '@material-ui/core';
+import { TextField, Box } from '@material-ui/core';
 
-export default function MonsterStats() {
-  return (
-    <div>
-      <TextField id="standard-basic" label="Armour Class" />
-      <TextField id="standard-basic" label="Hit Points" />
-      <TextField id="standard-basic" label="Hit Die" />
-      <TextField id="standard-basic" label="Speed" />
+class MonsterStats extends React.Component {
+  render() {
+    return (
+      <div>
+        <Box>
+          <TextField id="standard-basic" label="Armour Class" />
+          <TextField id="standard-basic" label="Hit Points" />
+          <TextField id="standard-basic" label="Hit Die" />
+          <TextField id="standard-basic" label="Speed" />
+        </Box>
 
-      <TextField id="standard-basic" label="Strength" />
-      <TextField id="standard-basic" label="Dex" />
-      <TextField id="standard-basic" label="Con" />
-      <TextField id="standard-basic" label="Int" />
-      <TextField id="standard-basic" label="Wis" />
-      <TextField id="standard-basic" label="Charisma" />
-      <TextField id="standard-basic" label="Proficiency Bonus" />
+        <Box>
+          <TextField id="standard-basic" label="Strength" />
+          <TextField id="standard-basic" label="Dex" />
+          <TextField id="standard-basic" label="Con" />
+          <TextField id="standard-basic" label="Int" />
+          <TextField id="standard-basic" label="Wis" />
+          <TextField id="standard-basic" label="Charisma" />
+          <TextField id="standard-basic" label="Proficiency Bonus" />
+        </Box>
 
-      <TextField id="standard-basic" label="Saving Throws" />
-      <TextField id="standard-basic" label="Skill Proficiencies" />
-    </div>
-  );
+        <Box>
+          <TextField id="standard-basic" label="Saving Throws" />
+          <TextField id="standard-basic" label="Skill Proficiencies" />
+        </Box>
+      </div>
+    );
+  }
 }
+
+export default MonsterStats;
