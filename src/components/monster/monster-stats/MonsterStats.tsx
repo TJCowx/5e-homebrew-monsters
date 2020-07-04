@@ -1,37 +1,112 @@
 /**
- * Handles the monster's stats
+ * MonsterStats.tsx
+ * Handles the stats for the monster.
  */
 import React from 'react';
-import { TextField, Box } from '@material-ui/core';
+import { TextField, Box, Theme, withStyles } from '@material-ui/core';
+import PropTypes from 'prop-types';
 
-class MonsterStats extends React.Component {
+/** Setup the styling for these inputs */
+const useStyles = (theme: Theme) => ({
+  descriptionRoot: {
+    width: '100%',
+  },
+  inputField: {
+    display: 'flex',
+    margin: theme.spacing(1),
+  },
+});
+
+export interface MonsterStatProps {
+  classes: any;
+}
+
+class MonsterStats extends React.Component<MonsterStatProps> {
+  static propTypes: { [key in keyof MonsterStatProps]: any } = {
+    classes: PropTypes.object,
+  };
+
   render() {
+    const { classes } = this.props;
+
     return (
-      <div>
-        <Box>
-          <TextField id="standard-basic" label="Armour Class" />
-          <TextField id="standard-basic" label="Hit Points" />
-          <TextField id="standard-basic" label="Hit Die" />
-          <TextField id="standard-basic" label="Speed" />
+      <div className={classes.descriptionRoot}>
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Armour Class"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Hit Points"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Hit Die"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Speed"
+          />
         </Box>
 
-        <Box>
-          <TextField id="standard-basic" label="Strength" />
-          <TextField id="standard-basic" label="Dex" />
-          <TextField id="standard-basic" label="Con" />
-          <TextField id="standard-basic" label="Int" />
-          <TextField id="standard-basic" label="Wis" />
-          <TextField id="standard-basic" label="Charisma" />
-          <TextField id="standard-basic" label="Proficiency Bonus" />
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Strength"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Dex"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Con"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Int"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Wis"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Charisma"
+          />
         </Box>
 
-        <Box>
-          <TextField id="standard-basic" label="Saving Throws" />
-          <TextField id="standard-basic" label="Skill Proficiencies" />
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Proficiency Bonus"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Skill Proficiencies"
+          />
+          <TextField
+            className={classes.inputField}
+            id="standard-basic"
+            label="Saving Throws"
+          />
         </Box>
       </div>
     );
   }
 }
 
-export default MonsterStats;
+export default withStyles(useStyles, { withTheme: true })(MonsterStats);
