@@ -1,9 +1,24 @@
 /**
  * MonsterStats.tsx
  * Handles the stats for the monster.
+ * Unfortunately a few of these fields which should be number can't
+ * due to the material UI's number input fields not working how I would
+ * like, so I made a work around making it so only numbers can be put
+ * in normal textfields which forces the types to have to be strings
  */
 import React from 'react';
-import { TextField, Box, Theme, withStyles } from '@material-ui/core';
+import {
+  TextField,
+  Box,
+  Theme,
+  withStyles,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  Checkbox,
+  ListItemText,
+} from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 /** Setup the styling for these inputs */
@@ -18,91 +33,259 @@ const useStyles = (theme: Theme) => ({
 });
 
 export interface MonsterStatProps {
+  armourClass: string;
+  hitPoints: string;
+  str: string;
+  dex: string;
+  con: string;
+  int: string;
+  wis: string;
+  chr: string;
+  profBonus: string;
+  hitDie: string;
+  speed: string;
+  proficiencies: Array<string>;
+  savingThrows: Array<string>;
+  handleChange: any;
   classes: any;
 }
 
 class MonsterStats extends React.Component<MonsterStatProps> {
   static propTypes: { [key in keyof MonsterStatProps]: any } = {
+    armourClass: PropTypes.string.isRequired,
+    hitPoints: PropTypes.string.isRequired,
+    str: PropTypes.string.isRequired,
+    dex: PropTypes.string.isRequired,
+    con: PropTypes.string.isRequired,
+    int: PropTypes.string.isRequired,
+    wis: PropTypes.string.isRequired,
+    chr: PropTypes.string.isRequired,
+    profBonus: PropTypes.string.isRequired,
+    hitDie: PropTypes.string.isRequired,
+    speed: PropTypes.string.isRequired,
+    proficiencies: PropTypes.array.isRequired,
+    savingThrows: PropTypes.array.isRequired,
+    handleChange: PropTypes.func.isRequired,
     classes: PropTypes.object,
   };
 
+  /**
+   * Get a list of proficiencies available to 5e
+   */
+  private getProficiencies(): Array<{ value: string; name: string }> {
+    return [
+      { value: 'ath', name: 'Athletics' },
+      { value: 'acr', name: 'Acrobatics' },
+      { value: 'soh', name: 'Sleight of Hand' },
+      { value: 'sth', name: 'Stealth' },
+      { value: 'arc', name: 'Arcana' },
+      { value: 'hst', name: 'History' },
+      { value: 'inv', name: 'Investigation' },
+      { value: 'nat', name: 'Nature' },
+      { value: 'rel', name: 'Religion' },
+      { value: 'anh', name: 'Animal Handling' },
+      { value: 'ins', name: 'Insight' },
+      { value: 'med', name: 'Medicine' },
+      { value: 'per', name: 'Perception' },
+      { value: 'svl', name: 'Survival' },
+      { value: 'dec', name: 'Deception' },
+      { value: 'imd', name: 'Intimidation' },
+      { value: 'pfm', name: 'Performance' },
+      { value: 'psn', name: 'Persuasion' },
+    ];
+  }
+
+  /**
+   * Get a list of saving throws available to 5e
+   */
+  private getSavingThrows(): Array<{ value: string; name: string }> {
+    return [
+      { value: 'str', name: 'Strength' },
+      { value: 'dex', name: 'Dexterity' },
+      { value: 'con', name: 'Constitution' },
+      { value: 'int', name: 'Wisdom' },
+      { value: 'chr', name: 'Charisma' },
+    ];
+  }
+
+  /**
+   * Takes an input event and checks to see if it was an integer input
+   * before trying to update the state
+   * @param event The event passed in from material UI onChange
+   */
+  private handleIntChange = (event: { target: { name: any; value: any } }) => {
+    // If it's null or a number value we will let it update the state in the parent
+    if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
+      // event.target.value = Number(event.target.value);
+      event.target.value = parseInt(event.target.value);
+      this.props.handleChange(event);
+    }
+  };
+
   render() {
-    const { classes } = this.props;
+    const {
+      classes,
+      armourClass,
+      hitPoints,
+      str,
+      dex,
+      con,
+      int,
+      wis,
+      chr,
+      profBonus,
+      proficiencies,
+      savingThrows,
+      hitDie,
+      speed,
+    } = this.props;
+
+    // Populate the saving throws and the proficiencies dropdowns
+    const availableProfs: Array<{
+      value: string;
+      name: string;
+    }> = this.getProficiencies();
+    const availableSavingThrows: Array<{
+      value: string;
+      name: string;
+    }> = this.getSavingThrows();
 
     return (
       <div className={classes.descriptionRoot}>
         <Box display="flex" flexDirection="row">
           <TextField
             className={classes.inputField}
-            id="standard-basic"
+            value={armourClass}
+            name="armourClass"
             label="Armour Class"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Hit Points"
+            value={hitPoints}
+            name="hitPoints"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Hit Die"
+            value={hitDie}
+            name="hitDie"
+            onChange={this.props.handleChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Speed"
+            value={speed}
+            name="speed"
+            onChange={this.props.handleChange}
           />
         </Box>
 
         <Box display="flex" flexDirection="row">
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Strength"
+            value={str}
+            name="str"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
-            label="Dex"
+            label="Dexerity"
+            value={dex}
+            name="dex"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
-            label="Con"
+            label="Constitution"
+            value={con}
+            name="con"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
-            label="Int"
+            label="Intelligence"
+            value={int}
+            name="int"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
-            label="Wis"
+            label="Wisdom"
+            value={wis}
+            name="wis"
+            onChange={this.handleIntChange}
           />
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Charisma"
+            value={chr}
+            name="chr"
+            onChange={this.handleIntChange}
           />
         </Box>
 
         <Box display="flex" flexDirection="row">
           <TextField
             className={classes.inputField}
-            id="standard-basic"
             label="Proficiency Bonus"
+            value={profBonus}
+            name="profBonus"
+            onChange={this.handleIntChange}
           />
-          <TextField
-            className={classes.inputField}
-            id="standard-basic"
-            label="Skill Proficiencies"
-          />
-          <TextField
-            className={classes.inputField}
-            id="standard-basic"
-            label="Saving Throws"
-          />
+          <FormControl className={classes.inputField}>
+            <InputLabel id="skillProf-label">Skill Proficiencies</InputLabel>
+            <Select
+              name="proficiencies"
+              multiple
+              labelId="skillProf-label"
+              id="skillProf-select"
+              value={proficiencies}
+              onChange={this.props.handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {availableProfs.map((prof: { value: string; name: string }) => (
+                <MenuItem key={prof.value} value={prof.value}>
+                  <Checkbox checked={proficiencies.indexOf(prof.name) > -1} />
+                  <ListItemText primary={prof.name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+          <FormControl className={classes.inputField}>
+            <InputLabel id="savingThrows-label">Saving Throws</InputLabel>
+            <Select
+              name="savingThrows"
+              multiple
+              labelId="savingThrows-label"
+              id="savingThrows-select"
+              value={savingThrows}
+              renderValue={() => savingThrows.join(', ')}
+              onChange={this.props.handleChange}
+            >
+              <MenuItem value="">
+                <em>None</em>
+              </MenuItem>
+              {availableSavingThrows.map(
+                (savingThrow: { value: string; name: string }) => (
+                  <MenuItem key={savingThrow.value} value={savingThrow.value}>
+                    <Checkbox
+                      checked={savingThrows.indexOf(savingThrow.name) > -1}
+                    />
+                    <ListItemText primary={savingThrow.name} />
+                  </MenuItem>
+                )
+              )}
+            </Select>
+          </FormControl>
         </Box>
       </div>
     );

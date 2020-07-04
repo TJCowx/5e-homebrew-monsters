@@ -46,37 +46,44 @@ export interface MonsterProps {
 }
 
 class Monster extends Component<{ classes: any }, MonsterProps> {
+  /**
+   * Unfortunately a few of these fields which should be number can't
+   * due to the material UI's number input fields not working how I would
+   * like, so I made a work around making it so only numbers can be put
+   * in normal textfields which forces the types to have to be strings
+   */
   public state = {
     name: 'Harold the Destroyer',
     alignment: 'Lawful Good',
     size: 'Large',
-    stats: {
-      armourClass: 23,
-      hitPoints: 543,
-      hitDie: '12d20',
-      speed: '50 land',
-      str: 20,
-      dex: 20,
-      con: 20,
-      int: 20,
-      wis: 20,
-      chr: 20,
-      proficiencyBonus: 12,
-      proficiencies: ['something', 'anothaone'],
-      savingThrows: ['str', 'dex', 'con', 'int', 'wis', 'chr'],
-    },
+    armourClass: '23',
+    hitPoints: '543',
+    hitDie: '12d20',
+    speed: '50 land',
+    str: '20',
+    dex: '20',
+    con: '20',
+    int: '20',
+    wis: '20',
+    chr: '20',
+    profBonus: '12',
+    proficiencies: ['ins', 'pfm'],
+    savingThrows: ['str', 'dex', 'con', 'int', 'wis', 'chr'],
   };
 
   /**
-   * Updates the state of the monster on a change
+   * Updates the state of the monster on a change.
    * @param event The material UI event
    */
-  private handleChange = (event: { target: { name: any; value: any } }) => {
+  private handleChange = (event: {
+    target: { name: any; value: any; valueAsNumber: boolean };
+  }) => {
     // Update the passed in key with it's value pair
     const newState = { [event.target.name]: event.target.value } as Pick<
       MonsterProps,
       keyof MonsterProps
     >;
+
     this.setState(newState);
   };
 
@@ -110,7 +117,22 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterStats />
+            <MonsterStats
+              handleChange={this.handleChange}
+              armourClass={this.state.armourClass}
+              hitPoints={this.state.hitPoints}
+              hitDie={this.state.hitDie}
+              speed={this.state.speed}
+              str={this.state.str}
+              dex={this.state.dex}
+              con={this.state.con}
+              int={this.state.int}
+              wis={this.state.wis}
+              chr={this.state.chr}
+              profBonus={this.state.profBonus}
+              proficiencies={this.state.proficiencies}
+              savingThrows={this.state.savingThrows}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
