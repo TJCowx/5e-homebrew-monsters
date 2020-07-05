@@ -43,6 +43,7 @@ export interface MonsterProps {
   name: string;
   size: string;
   alignment: string;
+  savingThrows: Array<string>;
 }
 
 class Monster extends Component<{ classes: any }, MonsterProps> {
@@ -68,7 +69,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     chr: '20',
     profBonus: '12',
     proficiencies: ['ins', 'pfm'],
-    savingThrows: ['str', 'dex', 'con', 'int', 'wis', 'chr'],
+    savingThrows: new Array<string>(),
   };
 
   /**

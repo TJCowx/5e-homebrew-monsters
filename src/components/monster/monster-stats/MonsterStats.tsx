@@ -16,8 +16,6 @@ import {
   InputLabel,
   Select,
   MenuItem,
-  Checkbox,
-  ListItemText,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
@@ -32,6 +30,9 @@ const useStyles = (theme: Theme) => ({
   },
 });
 
+/**
+ * Setup the props for monster stats
+ */
 export interface MonsterStatProps {
   armourClass: string;
   hitPoints: string;
@@ -51,6 +52,7 @@ export interface MonsterStatProps {
 }
 
 class MonsterStats extends React.Component<MonsterStatProps> {
+  // Setup the prop types
   static propTypes: { [key in keyof MonsterStatProps]: any } = {
     armourClass: PropTypes.string.isRequired,
     hitPoints: PropTypes.string.isRequired,
@@ -154,6 +156,7 @@ class MonsterStats extends React.Component<MonsterStatProps> {
       <div className={classes.descriptionRoot}>
         <Box display="flex" flexDirection="row">
           <TextField
+            style={{ width: '20%' }}
             className={classes.inputField}
             value={armourClass}
             name="armourClass"
@@ -161,6 +164,7 @@ class MonsterStats extends React.Component<MonsterStatProps> {
             onChange={this.handleIntChange}
           />
           <TextField
+            style={{ width: '20%' }}
             className={classes.inputField}
             label="Hit Points"
             value={hitPoints}
@@ -168,6 +172,7 @@ class MonsterStats extends React.Component<MonsterStatProps> {
             onChange={this.handleIntChange}
           />
           <TextField
+            style={{ width: '20%' }}
             className={classes.inputField}
             label="Hit Die"
             value={hitDie}
@@ -175,6 +180,7 @@ class MonsterStats extends React.Component<MonsterStatProps> {
             onChange={this.props.handleChange}
           />
           <TextField
+            style={{ width: '40%' }}
             className={classes.inputField}
             label="Speed"
             value={speed}
@@ -235,8 +241,9 @@ class MonsterStats extends React.Component<MonsterStatProps> {
             value={profBonus}
             name="profBonus"
             onChange={this.handleIntChange}
+            style={{ width: '20%' }}
           />
-          <FormControl className={classes.inputField}>
+          <FormControl className={classes.inputField} style={{ width: '40%' }}>
             <InputLabel id="skillProf-label">Skill Proficiencies</InputLabel>
             <Select
               name="proficiencies"
@@ -246,41 +253,26 @@ class MonsterStats extends React.Component<MonsterStatProps> {
               value={proficiencies}
               onChange={this.props.handleChange}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               {availableProfs.map((prof: { value: string; name: string }) => (
                 <MenuItem key={prof.value} value={prof.value}>
-                  <Checkbox checked={proficiencies.indexOf(prof.name) > -1} />
-                  <ListItemText primary={prof.name} />
+                  {prof.name}
                 </MenuItem>
               ))}
             </Select>
           </FormControl>
-          <FormControl className={classes.inputField}>
+          <FormControl className={classes.inputField} style={{ width: '40%' }}>
             <InputLabel id="savingThrows-label">Saving Throws</InputLabel>
             <Select
               name="savingThrows"
               multiple
               labelId="savingThrows-label"
-              id="savingThrows-select"
               value={savingThrows}
-              renderValue={() => savingThrows.join(', ')}
               onChange={this.props.handleChange}
             >
-              <MenuItem value="">
-                <em>None</em>
-              </MenuItem>
               {availableSavingThrows.map(
                 (savingThrow: { value: string; name: string }) => (
                   <MenuItem key={savingThrow.value} value={savingThrow.value}>
-                    <Checkbox
-                      checked={savingThrows.indexOf(savingThrow.name) > -1}
-                    />
-                    <ListItemText primary={savingThrow.name} />
+                    {savingThrow.name}
                   </MenuItem>
                 )
               )}
