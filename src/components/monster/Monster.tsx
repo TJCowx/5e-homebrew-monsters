@@ -43,6 +43,18 @@ export interface MonsterProps {
   name: string;
   size: string;
   alignment: string;
+  armourClass: string;
+  hitPoints: string;
+  hitDie: string;
+  speed: string;
+  str: string;
+  dex: string;
+  con: string;
+  int: string;
+  wis: string;
+  chr: string;
+  profBonus: string;
+  proficiencies: Array<string>;
   savingThrows: Array<string>;
 }
 
@@ -55,8 +67,8 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    */
   public state = {
     name: 'Harold the Destroyer',
-    alignment: 'Lawful Good',
     size: 'Large',
+    alignment: 'Lawful Good',
     armourClass: '23',
     hitPoints: '543',
     hitDie: '12d20',
@@ -68,7 +80,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     wis: '20',
     chr: '20',
     profBonus: '12',
-    proficiencies: ['ins', 'pfm'],
+    proficiencies: new Array<string>(),
     savingThrows: new Array<string>(),
   };
 
