@@ -19,6 +19,7 @@ import {
   withStyles,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import MonsterAbility from '../../models/MonsterAbility';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -62,6 +63,7 @@ export interface MonsterProps {
   weaknesses: Array<string>;
   senses: Array<string>;
   languages: Array<string>;
+  abilities: Array<MonsterAbility>;
   challengeRating: string;
   rewardXP: string;
 }
@@ -74,20 +76,20 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * in normal textfields which forces the types to have to be strings
    */
   public state = {
-    name: 'Harold the Destroyer',
-    size: 'Large',
-    alignment: 'Lawful Good',
-    armourClass: '23',
-    hitPoints: '543',
-    hitDie: '12d20',
-    speed: '50 land',
-    str: '20',
-    dex: '20',
-    con: '20',
-    int: '20',
-    wis: '20',
-    chr: '20',
-    profBonus: '12',
+    name: '',
+    size: '',
+    alignment: '',
+    armourClass: '',
+    hitPoints: '',
+    hitDie: '',
+    speed: '',
+    str: '',
+    dex: '',
+    con: '',
+    int: '',
+    wis: '',
+    chr: '',
+    profBonus: '',
     proficiencies: new Array<string>(),
     savingThrows: new Array<string>(),
     immunities: new Array<string>(),
@@ -95,6 +97,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     weaknesses: new Array<string>(),
     languages: new Array<string>(),
     senses: new Array<string>(),
+    abilities: new Array<MonsterAbility>(),
     challengeRating: '',
     rewardXP: '',
     handleChange: '',
