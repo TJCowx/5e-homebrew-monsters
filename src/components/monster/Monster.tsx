@@ -56,6 +56,14 @@ export interface MonsterProps {
   profBonus: string;
   proficiencies: Array<string>;
   savingThrows: Array<string>;
+
+  immunities: Array<string>;
+  resistances: Array<string>;
+  weaknesses: Array<string>;
+  senses: Array<string>;
+  languages: Array<string>;
+  challengeRating: string;
+  rewardXP: string;
 }
 
 class Monster extends Component<{ classes: any }, MonsterProps> {
@@ -82,6 +90,14 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     profBonus: '12',
     proficiencies: new Array<string>(),
     savingThrows: new Array<string>(),
+    immunities: new Array<string>(),
+    resistances: new Array<string>(),
+    weaknesses: new Array<string>(),
+    languages: new Array<string>(),
+    senses: new Array<string>(),
+    challengeRating: '',
+    rewardXP: '',
+    handleChange: '',
   };
 
   /**
@@ -157,7 +173,16 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterProperties />
+            <MonsterProperties
+              immunities={this.state.immunities}
+              resistances={this.state.resistances}
+              weaknesses={this.state.weaknesses}
+              languages={this.state.languages}
+              senses={this.state.senses}
+              challengeRating={this.state.profBonus}
+              rewardXP={this.state.profBonus}
+              handleChange={this.handleChange}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
