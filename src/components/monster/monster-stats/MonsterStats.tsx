@@ -30,7 +30,7 @@ const useStyles = (theme: Theme) => ({
   },
 });
 
-export function MonsterStats({
+function MonsterStats({
   classes,
   armourClass,
   hitPoints,

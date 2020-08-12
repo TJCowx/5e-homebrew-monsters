@@ -34,7 +34,7 @@ const useStyles = (theme: Theme) => ({
   },
 });
 
-export function MonsterDescription({
+function MonsterDescription({
   name,
   size,
   alignment,
