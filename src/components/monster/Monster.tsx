@@ -57,7 +57,6 @@ export interface MonsterProps {
   profBonus: string;
   proficiencies: Array<string>;
   savingThrows: Array<string>;
-
   immunities: Array<string>;
   resistances: Array<string>;
   weaknesses: Array<string>;
