@@ -5,5 +5,5 @@
 import React from 'react';
 
 export default function AddMonsterAbility() {
-  return <div>Add an ability here</div>;
+  return <div></div>;
 }
