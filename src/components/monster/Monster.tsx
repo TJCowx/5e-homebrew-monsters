@@ -96,7 +96,18 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     weaknesses: new Array<string>(),
     languages: new Array<string>(),
     senses: new Array<string>(),
-    abilities: new Array<MonsterAbility>(),
+    // abilities: new Array<MonsterAbility>(),
+    abilities: [
+      new MonsterAbility({
+        name: 'Darksight',
+        description: 'Can see in the dark for up to 120ft',
+      }),
+      new MonsterAbility({
+        name: 'Legendary Resistance (3/Day)',
+        description:
+          'If the Dragon fails a saving throw, it can choose to succeed instead.',
+      }),
+    ],
     challengeRating: '',
     rewardXP: '',
     handleChange: '',
@@ -196,7 +207,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterAbilities />
+            <MonsterAbilities monsterAbilities={this.state.abilities} />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
