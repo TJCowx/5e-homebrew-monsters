@@ -5,13 +5,26 @@
 import React from 'react';
 import AddMonsterAction from './AddMonsterAction';
 import MonsterActionsList from './MonsterActionsList';
+import MonsterAction from '../../../models/MonsterAction';
+import PropTypes, { InferProps } from 'prop-types';
 
-export default function MonsterActions() {
+function MonsterActions({
+  monsterActions,
+  handleChange,
+  classes,
+}: InferProps<typeof MonsterActions.propTypes>) {
   return (
-    <div>
-      <h1>Actions</h1>
+    <div style={{ width: '100%' }}>
       <AddMonsterAction />
-      <MonsterActionsList />
+      <MonsterActionsList monsterActions={monsterActions} />
     </div>
   );
 }
+
+MonsterActions.propTypes = {
+  monsterActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
+  handleChange: PropTypes.func,
+  classes: PropTypes.object,
+};
+
+export default MonsterActions;

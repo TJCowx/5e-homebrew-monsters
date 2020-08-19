@@ -5,9 +5,11 @@ export default class MonsterAction {
   name: string;
   description: string;
   actionType: string;
-  attackType: string;
-  toHit: string;
-  damage: string;
+  attackType?: string;
+  toHit?: string;
+  damage?: string;
+  damageType?: string;
+  reach?: string;
 
   constructor(init?: Partial<MonsterAction>) {
     if (init.id == null) {

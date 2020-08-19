@@ -6,5 +6,5 @@
 import React from 'react';
 
 export default function AddMonsterAction() {
-  return <div>Add Monster Action Here</div>;
+  return <div></div>;
 }
