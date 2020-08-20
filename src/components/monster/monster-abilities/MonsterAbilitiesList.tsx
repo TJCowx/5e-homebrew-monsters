@@ -6,9 +6,9 @@ import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAbilityListItem from './MonsterAbilityListItem';
-import { List, withStyles, Theme } from '@material-ui/core';
+import { List, withStyles } from '@material-ui/core';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = () => ({
   list: {
     width: '100%',
   },
@@ -22,7 +22,7 @@ function MonsterAbilitiesList({
     <>
       <List className={classes.list}>
         {monsterAbilities.map((ability: MonsterAbility) => (
-          <MonsterAbilityListItem ability={ability} />
+          <MonsterAbilityListItem key={ability.id} ability={ability} />
         ))}
       </List>
     </>

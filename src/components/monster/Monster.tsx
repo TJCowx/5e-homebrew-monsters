@@ -20,6 +20,7 @@ import {
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
+import MonsterAction from '../../models/MonsterAction';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -106,6 +107,23 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
         name: 'Legendary Resistance (3/Day)',
         description:
           'If the Dragon fails a saving throw, it can choose to succeed instead.',
+      }),
+    ],
+    actions: [
+      new MonsterAction({
+        name: 'Paralyzing Touch',
+        toHit: '+12',
+        damage: '3d6',
+        attackType: 'Melee',
+        actionType: 'Action',
+        description:
+          'The target must succeed on a DC 18 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success',
+        damageType: 'Cold',
+      }),
+      new MonsterAction({
+        name: 'Cantrip',
+        actionType: 'Legendary',
+        description: 'The lich casts a cantrip',
       }),
     ],
     challengeRating: '',
@@ -219,7 +237,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterActions />
+            <MonsterActions monsterActions={this.state.actions} />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
