@@ -22,7 +22,7 @@ function MonsterAbilitiesList({
     <>
       <List className={classes.list}>
         {monsterAbilities.map((ability: MonsterAbility) => (
-          <MonsterAbilityListItem ability={ability} />
+          <MonsterAbilityListItem key={ability.id} ability={ability} />
         ))}
       </List>
     </>
