@@ -2,9 +2,10 @@
  * AddMonsterProperty.tsx
  * Handles adding an individual monster property with the title and description
  */
-import React from 'react';
+import React, { useState } from 'react';
 import { TextField, Button, Box, Theme, withStyles } from '@material-ui/core';
 import PropTypes, { InferProps } from 'prop-types';
+import MonsterAbility from '../../../models/MonsterAbility';
 
 const useStyles = (theme: Theme) => ({
   inputField: {
@@ -17,8 +18,12 @@ const useStyles = (theme: Theme) => ({
 });
 
 function AddMonsterAbility({
+  addMonsterAbility,
   classes,
 }: InferProps<typeof AddMonsterAbility.propTypes>) {
+  const [ability, setAbility] = useState(new MonsterAbility({}));
+  const [isNew, setIsNew] = useState(false);
+
   return (
     <>
       <Box
@@ -49,7 +54,7 @@ function AddMonsterAbility({
           alignItems="center"
         >
           <Button color="primary" variant="contained" aria-label="Save Ability">
-            Save
+            {isNew ? 'Save' : 'Update'}
           </Button>
         </Box>
       </Box>
@@ -58,6 +63,7 @@ function AddMonsterAbility({
 }
 
 AddMonsterAbility.propTypes = {
+  addMonsterAbility: PropTypes.func.isRequired,
   classes: PropTypes.any,
 };
 
