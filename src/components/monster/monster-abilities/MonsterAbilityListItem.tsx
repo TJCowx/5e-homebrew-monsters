@@ -13,6 +13,7 @@ import EditIcon from '@material-ui/icons/Edit';
 
 export default function MonsterAbilityListItem({
   ability,
+  removeAbility,
 }: InferProps<typeof MonsterAbilityListItem.propTypes>) {
   return (
     <>
@@ -25,7 +26,10 @@ export default function MonsterAbilityListItem({
           <IconButton aria-label="edit ability">
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="delete ability">
+          <IconButton
+            aria-label="delete ability"
+            onClick={removeAbility.bind(this, ability.id)}
+          >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>
         </ListItemSecondaryAction>
@@ -37,4 +41,5 @@ export default function MonsterAbilityListItem({
 
 MonsterAbilityListItem.propTypes = {
   ability: PropTypes.instanceOf(MonsterAbility).isRequired,
+  removeAbility: PropTypes.func.isRequired,
 };

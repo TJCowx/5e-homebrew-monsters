@@ -16,13 +16,18 @@ const useStyles = () => ({
 
 function MonsterAbilitiesList({
   monsterAbilities,
+  removeAbility,
   classes,
 }: InferProps<typeof MonsterAbilitiesList.propTypes>) {
   return (
     <>
       <List className={classes.list}>
         {monsterAbilities.map((ability: MonsterAbility) => (
-          <MonsterAbilityListItem key={ability.id} ability={ability} />
+          <MonsterAbilityListItem
+            key={ability.id}
+            ability={ability}
+            removeAbility={removeAbility}
+          />
         ))}
       </List>
     </>
@@ -31,6 +36,7 @@ function MonsterAbilitiesList({
 
 MonsterAbilitiesList.propTypes = {
   monsterAbilities: PropTypes.array.isRequired,
+  removeAbility: PropTypes.func.isRequired,
   classes: PropTypes.any,
 };
 

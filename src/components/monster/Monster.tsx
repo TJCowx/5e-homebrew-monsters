@@ -161,6 +161,20 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     }
   };
 
+  /**
+   * Removes an ability from the state
+   * @param id the id of the ability to remove
+   */
+  private removeAbility = (id: string) => {
+    this.setState({
+      abilities: [
+        ...this.state.abilities.filter(
+          (ability: MonsterAbility) => ability.id !== id
+        ),
+      ],
+    });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -242,6 +256,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             <MonsterAbilities
               monsterAbilities={this.state.abilities}
               addMonsterAbility={this.updateMonsterAbilities}
+              removeAbility={this.removeAbility}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
