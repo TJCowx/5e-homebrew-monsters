@@ -22,7 +22,17 @@ function AddMonsterAbility({
   classes,
 }: InferProps<typeof AddMonsterAbility.propTypes>) {
   const [ability, setAbility] = useState(new MonsterAbility({}));
-  const [isNew, setIsNew] = useState(false);
+  const [isNew, setIsNew] = useState(true);
+
+  const handleChange = (event: any) => {
+    // Update the passed in key with it's value pair
+    const newState = { [event.target.name]: event.target.value } as Pick<
+      MonsterAbility,
+      keyof MonsterAbility
+    >;
+
+    setAbility(newState);
+  };
 
   return (
     <>
@@ -36,6 +46,9 @@ function AddMonsterAbility({
           <TextField
             label="Name"
             aria-label="Ability Name"
+            name="name"
+            value={ability.name}
+            onChange={handleChange}
             className={classes.inputField}
           />
         </Box>
@@ -44,6 +57,9 @@ function AddMonsterAbility({
             multiline
             label="Description"
             aria-label="Ability Description"
+            name="description"
+            value={ability.description}
+            onChange={handleChange}
             className={classes.inputField}
           />
         </Box>
