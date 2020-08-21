@@ -152,9 +152,6 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
       (ability: MonsterAbility) => ability.id === updatedAbility.id
     );
 
-    console.log(this.state.abilities[0] instanceof MonsterAbility);
-    console.log(updatedAbility instanceof MonsterAbility);
-
     if (existingIndex > -1) {
       console.log('Existing!');
     } else {
