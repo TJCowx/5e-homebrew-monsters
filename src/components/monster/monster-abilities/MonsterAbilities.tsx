@@ -10,12 +10,13 @@ import PropTypes, { InferProps } from 'prop-types';
 
 function MonsterAbilities({
   monsterAbilities,
+  addMonsterAbility,
   handleChange,
   classes,
 }: InferProps<typeof MonsterAbilities.propTypes>) {
   return (
     <div style={{ width: '100%' }}>
-      <AddMonsterAbility />
+      <AddMonsterAbility addMonsterAbility={addMonsterAbility} />
       <MonsterAbilitiesList monsterAbilities={monsterAbilities} />
     </div>
   );
@@ -24,6 +25,7 @@ function MonsterAbilities({
 MonsterAbilities.propTypes = {
   monsterAbilities: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAbility))
     .isRequired,
+  addMonsterAbility: PropTypes.func,
   handleChange: PropTypes.func,
   classes: PropTypes.object,
 };

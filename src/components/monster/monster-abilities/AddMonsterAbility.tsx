@@ -19,19 +19,31 @@ const useStyles = (theme: Theme) => ({
 
 function AddMonsterAbility({
   addMonsterAbility,
+  editAbility,
   classes,
 }: InferProps<typeof AddMonsterAbility.propTypes>) {
   const [ability, setAbility] = useState(new MonsterAbility({}));
   const [isNew, setIsNew] = useState(true);
 
+  /**
+   * Handles updating the state on both the inputs
+   * @param event The event from the input
+   */
   const handleChange = (event: any) => {
-    // Update the passed in key with it's value pair
-    const newState = { [event.target.name]: event.target.value } as Pick<
-      MonsterAbility,
-      keyof MonsterAbility
-    >;
+    setAbility({
+      ...ability,
+      [event.target.name]: event.target.value,
+    } as MonsterAbility);
+  };
 
-    setAbility(newState);
+  /**
+   * Add or edit a monster ability by passing it up to the parent
+   * and then reset the state
+   */
+  const addAbility = () => {
+    addMonsterAbility(ability);
+    setAbility(new MonsterAbility());
+    setIsNew(true);
   };
 
   return (
@@ -69,7 +81,12 @@ function AddMonsterAbility({
           display="flex"
           alignItems="center"
         >
-          <Button color="primary" variant="contained" aria-label="Save Ability">
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Save Ability"
+            onClick={addAbility}
+          >
             {isNew ? 'Save' : 'Update'}
           </Button>
         </Box>
@@ -80,6 +97,7 @@ function AddMonsterAbility({
 
 AddMonsterAbility.propTypes = {
   addMonsterAbility: PropTypes.func.isRequired,
+  editAbility: PropTypes.instanceOf(MonsterAbility),
   classes: PropTypes.any,
 };
 

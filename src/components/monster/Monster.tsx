@@ -147,6 +147,23 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     this.setState(newState);
   };
 
+  private updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
+    const existingIndex: number = this.state.abilities.findIndex(
+      (ability: MonsterAbility) => ability.id === updatedAbility.id
+    );
+
+    console.log(this.state.abilities[0] instanceof MonsterAbility);
+    console.log(updatedAbility instanceof MonsterAbility);
+
+    if (existingIndex > -1) {
+      console.log('Existing!');
+    } else {
+      this.setState({
+        abilities: [...this.state.abilities, new MonsterAbility(updatedAbility)],
+      });
+    }
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -225,7 +242,10 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterAbilities monsterAbilities={this.state.abilities} />
+            <MonsterAbilities
+              monsterAbilities={this.state.abilities}
+              addMonsterAbility={this.updateMonsterAbilities}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
