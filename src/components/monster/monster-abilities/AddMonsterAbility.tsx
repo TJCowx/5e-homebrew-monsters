@@ -2,7 +2,7 @@
  * AddMonsterProperty.tsx
  * Handles adding an individual monster property with the title and description
  */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, Theme, withStyles } from '@material-ui/core';
 import PropTypes, { InferProps } from 'prop-types';
 import MonsterAbility from '../../../models/MonsterAbility';
@@ -24,6 +24,26 @@ function AddMonsterAbility({
 }: InferProps<typeof AddMonsterAbility.propTypes>) {
   const [ability, setAbility] = useState(new MonsterAbility({}));
   const [isNew, setIsNew] = useState(true);
+
+  /**
+   * An effect that checks if the editAbility prop has been change
+   * When it does, it sets the ability being editted to that if it isn't null
+   * and sets the isNew state to false. If it is null it just creates a
+   * new blank monster ability and sets the isNew state to false
+   */
+  useEffect(() => {
+    if (editAbility == null) {
+      setIsNew(true);
+      setAbility(new MonsterAbility({}));
+    } else {
+      setIsNew(false);
+      setAbility(editAbility);
+    }
+
+    return () => {
+      setAbility(new MonsterAbility({}));
+    };
+  }, [editAbility]);
 
   /**
    * Handles updating the state on both the inputs

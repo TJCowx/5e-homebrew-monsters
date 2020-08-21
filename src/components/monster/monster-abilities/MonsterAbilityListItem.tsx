@@ -14,6 +14,7 @@ import EditIcon from '@material-ui/icons/Edit';
 export default function MonsterAbilityListItem({
   ability,
   removeAbility,
+  editAbility,
 }: InferProps<typeof MonsterAbilityListItem.propTypes>) {
   return (
     <>
@@ -23,7 +24,10 @@ export default function MonsterAbilityListItem({
           secondary={ability.description}
         ></ListItemText>
         <ListItemSecondaryAction>
-          <IconButton aria-label="edit ability">
+          <IconButton
+            aria-label="edit ability"
+            onClick={editAbility.bind(this, ability)}
+          >
             <EditIcon />
           </IconButton>
           <IconButton
@@ -42,4 +46,5 @@ export default function MonsterAbilityListItem({
 MonsterAbilityListItem.propTypes = {
   ability: PropTypes.instanceOf(MonsterAbility).isRequired,
   removeAbility: PropTypes.func.isRequired,
+  editAbility: PropTypes.func.isRequired,
 };

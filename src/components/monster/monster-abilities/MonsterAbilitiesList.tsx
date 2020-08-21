@@ -17,6 +17,7 @@ const useStyles = () => ({
 function MonsterAbilitiesList({
   monsterAbilities,
   removeAbility,
+  editAbility,
   classes,
 }: InferProps<typeof MonsterAbilitiesList.propTypes>) {
   return (
@@ -27,6 +28,7 @@ function MonsterAbilitiesList({
             key={ability.id}
             ability={ability}
             removeAbility={removeAbility}
+            editAbility={editAbility}
           />
         ))}
       </List>
@@ -37,6 +39,7 @@ function MonsterAbilitiesList({
 MonsterAbilitiesList.propTypes = {
   monsterAbilities: PropTypes.array.isRequired,
   removeAbility: PropTypes.func.isRequired,
+  editAbility: PropTypes.func.isRequired,
   classes: PropTypes.any,
 };
 
