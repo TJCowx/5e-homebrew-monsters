@@ -147,18 +147,44 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     this.setState(newState);
   };
 
+  /**
+   * Updates an ability item if its id is already existing.
+   * If the id doesn't exist it will append the ability to the end
+   * @param updatedAbility The ability item to update or add
+   */
   private updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
+    // Check to see if we have an already existing ability item
     const existingIndex: number = this.state.abilities.findIndex(
       (ability: MonsterAbility) => ability.id === updatedAbility.id
     );
 
     if (existingIndex > -1) {
-      console.log('Existing!');
+      // Copy the array so we don't have a chance to manipulate it before wanted
+      const abilities = [...this.state.abilities];
+      abilities[existingIndex] = new MonsterAbility(updatedAbility);
+
+      this.setState({
+        abilities,
+      });
     } else {
       this.setState({
         abilities: [...this.state.abilities, new MonsterAbility(updatedAbility)],
       });
     }
+  };
+
+  /**
+   * Removes an ability from the state that has the matching id
+   * @param id the id of the ability to remove
+   */
+  private removeAbility = (id: string) => {
+    this.setState({
+      abilities: [
+        ...this.state.abilities.filter(
+          (ability: MonsterAbility) => ability.id !== id
+        ),
+      ],
+    });
   };
 
   render() {
@@ -242,6 +268,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             <MonsterAbilities
               monsterAbilities={this.state.abilities}
               addMonsterAbility={this.updateMonsterAbilities}
+              removeAbility={this.removeAbility}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
