@@ -14,6 +14,7 @@ import {
   Box,
 } from '@material-ui/core';
 import PropTypes, { InferProps } from 'prop-types';
+import { getDamageTypes } from '../../../hooks/getDamageTypes';
 
 /** Setup the styling for these inputs */
 const useStyles = (theme: Theme) => ({
@@ -40,54 +41,38 @@ function MonsterProperties({
   /**
    * A list of available damage types in 5e
    */
-  const damageTypes: Array<{ value: string; name: string }> = [
-    { value: 'acd', name: 'Acid' },
-    { value: 'cld', name: 'Cold' },
-    { value: 'fre', name: 'Fire' },
-    { value: 'fce', name: 'Force' },
-    { value: 'lgh', name: 'Lightning' },
-    { value: 'nec', name: 'Necrotic' },
-    { value: 'psn', name: 'Poison' },
-    { value: 'psy', name: 'Psychic' },
-    { value: 'rad', name: 'Radiant' },
-    { value: 'thun', name: 'Thunder' },
-    { value: 'nmag', name: 'Non-Magical' },
-    { value: 'wmag', name: 'Magic Weapons' },
-    { value: 'blu', name: 'Bludgeoning' },
-    { value: 'slsh', name: 'Slashing' },
-    { value: 'prc', name: 'Piercing' },
-  ];
+  const damageTypes: Array<string> = getDamageTypes();
 
   /**
    * A list of available senses in 5e
    */
-  const availableSenses: Array<{ value: string; name: string }> = [
-    { value: 'bld', name: 'Blindsight' },
-    { value: 'drk', name: 'Darkvision' },
-    { value: 'tmr', name: 'Tremorsense' },
-    { value: 'tru', name: 'Truesight' },
+  const availableSenses: Array<string> = [
+    'Blindsight',
+    'Darkvision',
+    'Tremorsense',
+    'Truesight',
   ];
 
   /**
    * A list of available languages in 5e
    */
-  const availableLanguages: Array<{ value: string; name: string }> = [
-    { value: 'com', name: 'Common' },
-    { value: 'dwv', name: 'Dwarvish' },
-    { value: 'elv', name: 'Elvish' },
-    { value: 'gnt', name: 'Giant' },
-    { value: 'gnm', name: 'Gnomish' },
-    { value: 'gob', name: 'Goblin' },
-    { value: 'hfl', name: 'Halfling' },
-    { value: 'orc', name: 'Orc' },
-    { value: 'aby', name: 'Abyssal' },
-    { value: 'cel', name: 'Celestial' },
-    { value: 'dra', name: 'Draconic' },
-    { value: 'dps', name: 'Deep Speech' },
-    { value: 'inf', name: 'Infernal' },
-    { value: 'pri', name: 'Primordial' },
-    { value: 'syl', name: 'Sylvan' },
-    { value: 'undr', name: 'Undercommon' },
+  const availableLanguages: Array<string> = [
+    'Dwarvish',
+    'Common',
+    'Elvish',
+    'Giant',
+    'Gnomish',
+    'Goblin',
+    'Halfling',
+    'Orc',
+    'Abyssal',
+    'Celestial',
+    'Draconic',
+    'Deep Speech',
+    'Infernal',
+    'Primordial',
+    'Sylvan',
+    'Undercommon',
   ];
 
   return (
@@ -102,9 +87,9 @@ function MonsterProperties({
             value={immunities}
             onChange={handleChange}
           >
-            {damageTypes.map((damageType: { value: string; name: string }) => (
-              <MenuItem key={damageType.value} value={damageType.value}>
-                {damageType.name}
+            {damageTypes.map((damageType: string) => (
+              <MenuItem key={damageType} value={damageType}>
+                {damageType}
               </MenuItem>
             ))}
           </Select>
@@ -118,9 +103,9 @@ function MonsterProperties({
             value={resistances}
             onChange={handleChange}
           >
-            {damageTypes.map((damageType: { value: string; name: string }) => (
-              <MenuItem key={damageType.value} value={damageType.value}>
-                {damageType.name}
+            {damageTypes.map((damageType: string) => (
+              <MenuItem key={damageType} value={damageType}>
+                {damageType}
               </MenuItem>
             ))}
           </Select>
@@ -134,9 +119,9 @@ function MonsterProperties({
             value={weaknesses}
             onChange={handleChange}
           >
-            {damageTypes.map((damageType: { value: string; name: string }) => (
-              <MenuItem key={damageType.value} value={damageType.value}>
-                {damageType.name}
+            {damageTypes.map((damageType: string) => (
+              <MenuItem key={damageType} value={damageType}>
+                {damageType}
               </MenuItem>
             ))}
           </Select>
@@ -152,9 +137,9 @@ function MonsterProperties({
             value={senses}
             onChange={handleChange}
           >
-            {availableSenses.map((sense: { value: string; name: string }) => (
-              <MenuItem key={sense.value} value={sense.value}>
-                {sense.name}
+            {availableSenses.map((sense: string) => (
+              <MenuItem key={sense} value={sense}>
+                {sense}
               </MenuItem>
             ))}
           </Select>
@@ -168,9 +153,9 @@ function MonsterProperties({
             value={languages}
             onChange={handleChange}
           >
-            {availableLanguages.map((language: { value: string; name: string }) => (
-              <MenuItem key={language.value} value={language.value}>
-                {language.name}
+            {availableLanguages.map((language: string) => (
+              <MenuItem key={language} value={language}>
+                {language}
               </MenuItem>
             ))}
           </Select>
