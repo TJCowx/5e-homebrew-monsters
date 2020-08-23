@@ -12,8 +12,6 @@ function MonsterAbilities({
   monsterAbilities,
   addMonsterAbility,
   removeAbility,
-  handleChange,
-  classes,
 }: InferProps<typeof MonsterAbilities.propTypes>) {
   const [edittingAbility, setEdittingAbility] = useState(null);
 
@@ -47,8 +45,6 @@ MonsterAbilities.propTypes = {
     .isRequired,
   addMonsterAbility: PropTypes.func.isRequired,
   removeAbility: PropTypes.func.isRequired,
-  handleChange: PropTypes.func,
-  classes: PropTypes.object,
 };
 
 export default MonsterAbilities;
