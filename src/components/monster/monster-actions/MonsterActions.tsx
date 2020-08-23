@@ -31,7 +31,11 @@ function MonsterActions({
         addMonsterAction={addMonsterAction}
         editAction={edittingAction}
       />
-      <MonsterActionsList monsterActions={monsterActions} />
+      <MonsterActionsList
+        monsterActions={monsterActions}
+        removeAction={removeAction}
+        editAction={editAction}
+      />
     </div>
   );
 }

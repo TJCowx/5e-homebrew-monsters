@@ -16,13 +16,20 @@ const useStyles = () => ({
 
 function MonsterActionsList({
   monsterActions,
+  removeAction,
+  editAction,
   classes,
 }: InferProps<typeof MonsterActionsList.propTypes>) {
   return (
     <>
       <List className={classes.list}>
         {monsterActions.map((action: MonsterAction) => (
-          <MonsterActionListItem key={action.id} action={action} />
+          <MonsterActionListItem
+            key={action.id}
+            action={action}
+            removeAction={removeAction}
+            editAction={editAction}
+          />
         ))}
       </List>
     </>
@@ -31,6 +38,8 @@ function MonsterActionsList({
 
 MonsterActionsList.propTypes = {
   monsterActions: PropTypes.array.isRequired,
+  removeAction: PropTypes.func.isRequired,
+  editAction: PropTypes.func.isRequired,
   classes: PropTypes.any,
 };
 
