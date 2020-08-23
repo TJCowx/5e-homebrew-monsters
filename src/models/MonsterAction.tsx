@@ -5,6 +5,7 @@ export default class MonsterAction {
   public name: string = '';
   public description: string = '';
   public actionType: string = '';
+  public isAttack: boolean = false;
   public attackType?: string;
   public toHit?: string;
   public damage?: string;
