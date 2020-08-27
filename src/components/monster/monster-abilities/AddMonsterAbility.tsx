@@ -66,6 +66,12 @@ function AddMonsterAbility({
     setIsNew(true);
   };
 
+  /** Cancels editting a monster ability */
+  const cancelEdit = () => {
+    setAbility(new MonsterAbility());
+    setIsNew(true);
+  };
+
   return (
     <>
       <Box
@@ -109,6 +115,17 @@ function AddMonsterAbility({
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
+          {!isNew && (
+            <Button
+              color="secondary"
+              variant="contained"
+              aria-label="Cancel Edit"
+              style={{ marginLeft: '8px' }}
+              onClick={cancelEdit}
+            >
+              Cancel
+            </Button>
+          )}
         </Box>
       </Box>
     </>

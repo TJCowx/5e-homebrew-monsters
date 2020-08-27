@@ -13,6 +13,8 @@ import PropTypes, { InferProps } from 'prop-types';
 
 function MonsterActionListItem({
   action,
+  removeAction,
+  editAction,
 }: InferProps<typeof MonsterActionListItem.propTypes>) {
   const [actionSummary, setActionSummary] = useState('');
 
@@ -33,10 +35,16 @@ function MonsterActionListItem({
       <ListItem>
         <ListItemText primary={action.name} secondary={actionSummary}></ListItemText>
         <ListItemSecondaryAction>
-          <IconButton aria-label="edit ability">
+          <IconButton
+            aria-label="edit ability"
+            onClick={editAction.bind(this, action)}
+          >
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="delete ability">
+          <IconButton
+            aria-label="delete ability"
+            onClick={removeAction.bind(this, action.id)}
+          >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>
         </ListItemSecondaryAction>
@@ -48,6 +56,8 @@ function MonsterActionListItem({
 
 MonsterActionListItem.propTypes = {
   action: PropTypes.instanceOf(MonsterAction).isRequired,
+  removeAction: PropTypes.func.isRequired,
+  editAction: PropTypes.func.isRequired,
 };
 
 export default MonsterActionListItem;
