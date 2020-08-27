@@ -114,6 +114,15 @@ function AddMonsterAction({
     setIsNew(true);
   };
 
+  /**
+   * Cancels editting an action setting the state
+   * back to a new state
+   */
+  const cancelEdit = () => {
+    setAction(new MonsterAction());
+    setIsNew(true);
+  };
+
   return (
     <>
       <Box display="flex" flexDirection="row" width="100%">
@@ -122,6 +131,7 @@ function AddMonsterAction({
           aria-label="Action Name"
           name="name"
           className={classes.inputField}
+          value={action.name}
           style={{ width: '33%' }}
         />
         <FormControl className={classes.inputField} style={{ width: '33%' }}>
@@ -232,6 +242,7 @@ function AddMonsterAction({
           label="Description"
           aria-label="Action Description"
           name="description"
+          value={action.description}
           onChange={handleChange}
         />
         <Box
@@ -248,6 +259,17 @@ function AddMonsterAction({
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
+          {!isNew && (
+            <Button
+              color="secondary"
+              variant="contained"
+              aria-label="Cancel Edit"
+              style={{ marginLeft: '8px' }}
+              onClick={cancelEdit}
+            >
+              Cancel
+            </Button>
+          )}
         </Box>
       </Box>
     </>

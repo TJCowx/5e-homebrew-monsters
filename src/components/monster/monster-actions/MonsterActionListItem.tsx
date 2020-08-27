@@ -35,7 +35,10 @@ function MonsterActionListItem({
       <ListItem>
         <ListItemText primary={action.name} secondary={actionSummary}></ListItemText>
         <ListItemSecondaryAction>
-          <IconButton aria-label="edit ability" onClick={editAction}>
+          <IconButton
+            aria-label="edit ability"
+            onClick={editAction.bind(this, action)}
+          >
             <EditIcon />
           </IconButton>
           <IconButton
