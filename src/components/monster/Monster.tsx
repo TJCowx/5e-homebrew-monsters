@@ -219,8 +219,9 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * @param id the id of the ability to remove
    */
   private removeAction = (id: string) => {
+    console.log(id);
     this.setState({
-      abilities: [
+      actions: [
         ...this.state.actions.filter((action: MonsterAction) => action.id !== id),
       ],
     });

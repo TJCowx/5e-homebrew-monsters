@@ -38,7 +38,10 @@ function MonsterActionListItem({
           <IconButton aria-label="edit ability" onClick={editAction}>
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="delete ability" onClick={removeAction}>
+          <IconButton
+            aria-label="delete ability"
+            onClick={removeAction.bind(this, action.id)}
+          >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>
         </ListItemSecondaryAction>
