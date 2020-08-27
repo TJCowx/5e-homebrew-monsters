@@ -64,6 +64,7 @@ export interface MonsterProps {
   senses: Array<string>;
   languages: Array<string>;
   abilities: Array<MonsterAbility>;
+  actions: Array<MonsterAction>;
   challengeRating: string;
   rewardXP: string;
 }
@@ -187,6 +188,44 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     });
   };
 
+  /**
+   * Updates an action item if its id is already existing.
+   * If the id doesn't exist it will append the action to the end
+   * @param updatedActopm The action item to update or add
+   */
+  private updateMonsterActions = (updatedAction: MonsterAction) => {
+    // Check to see if we have an already existing ability item
+    const existingIndex: number = this.state.actions.findIndex(
+      (action: MonsterAction) => action.id === updatedAction.id
+    );
+
+    if (existingIndex > -1) {
+      // Copy the array so we don't have a chance to manipulate it before wanted
+      const actions = [...this.state.actions];
+      actions[existingIndex] = new MonsterAction(updatedAction);
+
+      this.setState({
+        actions,
+      });
+    } else {
+      this.setState({
+        actions: [...this.state.actions, new MonsterAction(updatedAction)],
+      });
+    }
+  };
+
+  /**
+   * Removes an action from the state that has the matching id
+   * @param id the id of the ability to remove
+   */
+  private removeAction = (id: string) => {
+    this.setState({
+      abilities: [
+        ...this.state.actions.filter((action: MonsterAction) => action.id !== id),
+      ],
+    });
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -281,7 +320,11 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterActions monsterActions={this.state.actions} />
+            <MonsterActions
+              monsterActions={this.state.actions}
+              addMonsterAction={this.updateMonsterActions}
+              removeAction={this.removeAction}
+            />
           </ExpansionPanelDetails>
         </ExpansionPanel>
       </div>
