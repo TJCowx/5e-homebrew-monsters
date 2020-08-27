@@ -229,6 +229,30 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
     });
   };
 
+  private importConfig = () => {};
+
+  /**
+   * Takes the monster configuration and download a json file with the setup
+   */
+  private exportConfig = () => {
+    // Set the filename to be the name of the monster
+    const fileName: string =
+      this.state.name != null
+        ? `${encodeURIComponent(this.state.name)}.json`
+        : `no_name.txt`;
+
+    // Setup the blob for download
+    const element: HTMLAnchorElement = document.createElement('a');
+    const file: Blob = new Blob([JSON.stringify(this.state)], {
+      type: 'application/json;charset=utf-8;',
+    });
+
+    element.href = URL.createObjectURL(file);
+    element.download = fileName;
+    document.body.appendChild(element);
+    element.click();
+  };
+
   render() {
     const { classes } = this.props;
 
@@ -332,7 +356,12 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
         </ExpansionPanel>
 
         <Box justifyContent="flex-end" display="flex" marginTop="8px">
-          <Button color="primary" variant="contained" aria-label="Import">
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Import"
+            onClick={this.importConfig}
+          >
             Import
           </Button>
           <Button
@@ -340,6 +369,7 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             variant="contained"
             aria-label="Export"
             style={{ marginLeft: '8px' }}
+            onClick={this.exportConfig}
           >
             Export
           </Button>
