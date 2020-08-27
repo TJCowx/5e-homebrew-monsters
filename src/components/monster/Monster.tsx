@@ -17,6 +17,8 @@ import {
   Typography,
   Theme,
   withStyles,
+  Button,
+  Box,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
@@ -328,6 +330,20 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
+
+        <Box justifyContent="flex-end" display="flex" marginTop="8px">
+          <Button color="primary" variant="contained" aria-label="Import">
+            Import
+          </Button>
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Export"
+            style={{ marginLeft: '8px' }}
+          >
+            Export
+          </Button>
+        </Box>
       </div>
     );
   }
