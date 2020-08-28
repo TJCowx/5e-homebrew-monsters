@@ -25,6 +25,7 @@ import MonsterAbility from '../../models/MonsterAbility';
 import MonsterAction from '../../models/MonsterAction';
 import MonsterDefinition from '../../models/MonsterDefinition';
 import PropTypes, { InferProps } from 'prop-types';
+import FileUploadModel from '../file-upload/FileUploadModal';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -44,6 +45,7 @@ const styles = (theme: Theme) => ({
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   const [monster, setMonster] = useState(new MonsterDefinition());
+  const [openFileUpload, setOpenFileUpload] = useState(false);
 
   /**
    * Updates the state of the monster on a change.
@@ -140,7 +142,13 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     });
   };
 
-  const importConfig = async (e: any) => {};
+  const importConfig = (e: any) => {
+    setOpenFileUpload(false);
+  };
+
+  const openImportFile = () => {
+    setOpenFileUpload(true);
+  };
 
   /**
    * Takes the monster configuration and download a json file with the setup
@@ -266,7 +274,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           color="primary"
           variant="contained"
           aria-label="Import"
-          onClick={importConfig}
+          onClick={openImportFile}
         >
           Import
         </Button>
@@ -281,7 +289,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         </Button>
       </Box>
 
-      {/* <FileUploadModel /> */}
+      <FileUploadModel open={openFileUpload} onClose={importConfig} />
     </div>
   );
 }
