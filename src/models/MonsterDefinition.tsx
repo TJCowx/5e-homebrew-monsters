@@ -37,6 +37,22 @@ export default class MonsterDefinition {
   actions: Array<MonsterAction> = new Array<MonsterAction>();
 
   constructor(init?: Partial<MonsterDefinition>) {
+    // If the declaration isn't null, loop through the abilities and
+    // the actions making sure they are clean.
+    if (init != null) {
+      if (init.abilities != null && init.abilities.length > 0) {
+        for (let i: number = 0; i < init.abilities.length; i++) {
+          init.abilities[i] = new MonsterAbility(init.abilities[i]);
+        }
+      }
+
+      if (init.actions != null && init.actions.length > 0) {
+        for (let i: number = 0; i < init.actions.length; i++) {
+          init.actions[i] = new MonsterAction(init.actions[i]);
+        }
+      }
+    }
+
     Object.assign(this, init);
   }
 }
