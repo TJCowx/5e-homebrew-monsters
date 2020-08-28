@@ -1,6 +1,13 @@
 # 5e-homebrew-monsters
 
 A front-end application to help users homebrew creatures and export their creation into the typical 5e monster format.
+Currently can be found at: https://tjcowx.github.io/5e-homebrew-monsters/
+
+## VERSIONS
+### 0.1.0
+
+- Basic form has been added. Image generation is still in the works
+- Can export configurations and import them now.
 
 ## Available Scripts
 
