@@ -25,7 +25,6 @@ import MonsterAbility from '../../models/MonsterAbility';
 import MonsterAction from '../../models/MonsterAction';
 import MonsterDefinition from '../../models/MonsterDefinition';
 import PropTypes, { InferProps } from 'prop-types';
-import FileUploadModel from '../file-upload/FileUploadModal';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -45,7 +44,6 @@ const styles = (theme: Theme) => ({
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   const [monster, setMonster] = useState(new MonsterDefinition());
-  const [openFileUpload, setOpenFileUpload] = useState(false);
 
   /**
    * Updates the state of the monster on a change.
@@ -142,12 +140,24 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     });
   };
 
-  const importConfig = (e: any) => {
-    setOpenFileUpload(false);
-  };
+  /**
+   * Reads the file selected from the input, tries to make sure it's json
+   * and sets it to the monster type
+   */
+  const importConfig = ({ target }: any) => {
+    const fileReader: FileReader = new FileReader();
 
-  const openImportFile = () => {
-    setOpenFileUpload(true);
+    fileReader.onload = (e) => {
+      try {
+        const importedObject: object = JSON.parse(e.target.result as string);
+        setMonster(new MonsterDefinition(importedObject));
+        alert('Monster Has Been Uploaded');
+      } catch (e) {
+        alert('Error parsing file');
+        console.error(e);
+      }
+    };
+    fileReader.readAsText(target.files[0]);
   };
 
   /**
@@ -270,14 +280,18 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
       </ExpansionPanel>
 
       <Box justifyContent="flex-end" display="flex" marginTop="8px">
-        <Button
-          color="primary"
-          variant="contained"
-          aria-label="Import"
-          onClick={openImportFile}
-        >
-          Import
-        </Button>
+        <input
+          onChange={importConfig}
+          accept="application/JSON"
+          style={{ display: 'none' }}
+          id="config-upload"
+          type="file"
+        />
+        <label htmlFor="config-upload">
+          <Button variant="contained" component="span" color="primary">
+            Import
+          </Button>
+        </label>
         <Button
           color="primary"
           variant="contained"
@@ -288,8 +302,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           Export
         </Button>
       </Box>
-
-      <FileUploadModel open={openFileUpload} onClose={importConfig} />
     </div>
   );
 }
