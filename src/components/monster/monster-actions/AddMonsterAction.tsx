@@ -133,6 +133,7 @@ function AddMonsterAction({
           className={classes.inputField}
           value={action.name}
           style={{ width: '33%' }}
+          onChange={handleChange}
         />
         <FormControl className={classes.inputField} style={{ width: '33%' }}>
           <InputLabel id="action-type-label" aria-label="Action Type">

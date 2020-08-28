@@ -4,7 +4,7 @@
  * properties in an expansion panel.
  */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
@@ -17,10 +17,14 @@ import {
   Typography,
   Theme,
   withStyles,
+  Button,
+  Box,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
 import MonsterAction from '../../models/MonsterAction';
+import MonsterDefinition from '../../models/MonsterDefinition';
+import PropTypes, { InferProps } from 'prop-types';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -38,114 +42,20 @@ const styles = (theme: Theme) => ({
   },
 });
 
-/**
- * The prop types for this component
- */
-export interface MonsterProps {
-  name: string;
-  size: string;
-  alignment: string;
-  armourClass: string;
-  hitPoints: string;
-  hitDie: string;
-  speed: string;
-  str: string;
-  dex: string;
-  con: string;
-  int: string;
-  wis: string;
-  chr: string;
-  profBonus: string;
-  proficiencies: Array<string>;
-  savingThrows: Array<string>;
-  immunities: Array<string>;
-  resistances: Array<string>;
-  weaknesses: Array<string>;
-  senses: Array<string>;
-  languages: Array<string>;
-  abilities: Array<MonsterAbility>;
-  actions: Array<MonsterAction>;
-  challengeRating: string;
-  rewardXP: string;
-}
-
-class Monster extends Component<{ classes: any }, MonsterProps> {
-  /**
-   * Unfortunately a few of these fields which should be number can't
-   * due to the material UI's number input fields not working how I would
-   * like, so I made a work around making it so only numbers can be put
-   * in normal textfields which forces the types to have to be strings
-   */
-  public state = {
-    name: '',
-    size: '',
-    alignment: '',
-    armourClass: '',
-    hitPoints: '',
-    hitDie: '',
-    speed: '',
-    str: '',
-    dex: '',
-    con: '',
-    int: '',
-    wis: '',
-    chr: '',
-    profBonus: '',
-    proficiencies: new Array<string>(),
-    savingThrows: new Array<string>(),
-    immunities: new Array<string>(),
-    resistances: new Array<string>(),
-    weaknesses: new Array<string>(),
-    languages: new Array<string>(),
-    senses: new Array<string>(),
-    // abilities: new Array<MonsterAbility>(),
-    abilities: [
-      new MonsterAbility({
-        name: 'Darksight',
-        description: 'Can see in the dark for up to 120ft',
-      }),
-      new MonsterAbility({
-        name: 'Legendary Resistance (3/Day)',
-        description:
-          'If the Dragon fails a saving throw, it can choose to succeed instead.',
-      }),
-    ],
-    actions: [
-      new MonsterAction({
-        name: 'Paralyzing Touch',
-        toHit: '+12',
-        damage: '3d6',
-        attackType: 'Melee',
-        actionType: 'Action',
-        description:
-          'The target must succeed on a DC 18 Constitution saving throw or be paralyzed for 1 minute. The target can repeat the saving throw at the end of each of its turns, ending the effect on itself on a success',
-        damageType: 'Cold',
-      }),
-      new MonsterAction({
-        name: 'Cantrip',
-        actionType: 'Legendary',
-        description: 'The lich casts a cantrip',
-      }),
-    ],
-    challengeRating: '',
-    rewardXP: '',
-    handleChange: '',
-  };
+function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
+  const [monster, setMonster] = useState(new MonsterDefinition());
 
   /**
    * Updates the state of the monster on a change.
    * @param event The material UI event
    */
-  private handleChange = (event: {
+  const handleChange = (event: {
     target: { name: any; value: any; valueAsNumber: boolean };
   }) => {
-    // Update the passed in key with it's value pair
-    const newState = { [event.target.name]: event.target.value } as Pick<
-      MonsterProps,
-      keyof MonsterProps
-    >;
-
-    this.setState(newState);
+    setMonster({
+      ...monster,
+      [event.target.name]: event.target.value,
+    });
   };
 
   /**
@@ -153,23 +63,25 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * If the id doesn't exist it will append the ability to the end
    * @param updatedAbility The ability item to update or add
    */
-  private updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
+  const updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
     // Check to see if we have an already existing ability item
-    const existingIndex: number = this.state.abilities.findIndex(
+    const existingIndex: number = monster.abilities.findIndex(
       (ability: MonsterAbility) => ability.id === updatedAbility.id
     );
 
     if (existingIndex > -1) {
       // Copy the array so we don't have a chance to manipulate it before wanted
-      const abilities = [...this.state.abilities];
+      const abilities = [...monster.abilities];
       abilities[existingIndex] = new MonsterAbility(updatedAbility);
 
-      this.setState({
+      setMonster({
+        ...monster,
         abilities,
       });
     } else {
-      this.setState({
-        abilities: [...this.state.abilities, new MonsterAbility(updatedAbility)],
+      setMonster({
+        ...monster,
+        abilities: [...monster.abilities, new MonsterAbility(updatedAbility)],
       });
     }
   };
@@ -178,12 +90,11 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * Removes an ability from the state that has the matching id
    * @param id the id of the ability to remove
    */
-  private removeAbility = (id: string) => {
-    this.setState({
+  const removeAbility = (id: string) => {
+    setMonster({
+      ...monster,
       abilities: [
-        ...this.state.abilities.filter(
-          (ability: MonsterAbility) => ability.id !== id
-        ),
+        ...monster.abilities.filter((ability: MonsterAbility) => ability.id !== id),
       ],
     });
   };
@@ -193,23 +104,25 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * If the id doesn't exist it will append the action to the end
    * @param updatedActopm The action item to update or add
    */
-  private updateMonsterActions = (updatedAction: MonsterAction) => {
+  const updateMonsterActions = (updatedAction: MonsterAction) => {
     // Check to see if we have an already existing ability item
-    const existingIndex: number = this.state.actions.findIndex(
+    const existingIndex: number = monster.actions.findIndex(
       (action: MonsterAction) => action.id === updatedAction.id
     );
 
     if (existingIndex > -1) {
       // Copy the array so we don't have a chance to manipulate it before wanted
-      const actions = [...this.state.actions];
+      const actions = [...monster.actions];
       actions[existingIndex] = new MonsterAction(updatedAction);
 
-      this.setState({
+      setMonster({
+        ...monster,
         actions,
       });
     } else {
-      this.setState({
-        actions: [...this.state.actions, new MonsterAction(updatedAction)],
+      setMonster({
+        ...monster,
+        actions: [...monster.actions, new MonsterAction(updatedAction)],
       });
     }
   };
@@ -218,119 +131,183 @@ class Monster extends Component<{ classes: any }, MonsterProps> {
    * Removes an action from the state that has the matching id
    * @param id the id of the ability to remove
    */
-  private removeAction = (id: string) => {
-    console.log(id);
-    this.setState({
+  const removeAction = (id: string) => {
+    setMonster({
+      ...monster,
       actions: [
-        ...this.state.actions.filter((action: MonsterAction) => action.id !== id),
+        ...monster.actions.filter((action: MonsterAction) => action.id !== id),
       ],
     });
   };
 
-  render() {
-    const { classes } = this.props;
+  /**
+   * Reads the file selected from the input, tries to make sure it's json
+   * and sets it to the monster type
+   */
+  const importConfig = ({ target }: any) => {
+    const fileReader: FileReader = new FileReader();
 
-    return (
-      <div className={classes.root}>
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Description</Typography>
-            <Typography className={classes.secondaryHeading}>
-              {this.state.name}
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <MonsterDescription
-              name={this.state.name}
-              size={this.state.size}
-              alignment={this.state.alignment}
-              handleChange={this.handleChange}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+    fileReader.onload = (e) => {
+      try {
+        const importedObject: object = JSON.parse(e.target.result as string);
+        setMonster(new MonsterDefinition(importedObject));
+        alert('Monster Has Been Uploaded');
+      } catch (e) {
+        alert('Error parsing file');
+        console.error(e);
+      }
+    };
+    fileReader.readAsText(target.files[0]);
+  };
 
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Stats</Typography>
-            <Typography className={classes.secondaryHeading}>
-              Stat-Summary
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <MonsterStats
-              handleChange={this.handleChange}
-              armourClass={this.state.armourClass}
-              hitPoints={this.state.hitPoints}
-              hitDie={this.state.hitDie}
-              speed={this.state.speed}
-              str={this.state.str}
-              dex={this.state.dex}
-              con={this.state.con}
-              int={this.state.int}
-              wis={this.state.wis}
-              chr={this.state.chr}
-              profBonus={this.state.profBonus}
-              proficiencies={this.state.proficiencies}
-              savingThrows={this.state.savingThrows}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+  /**
+   * Takes the monster configuration and download a json file with the setup
+   */
+  const exportConfig = () => {
+    // Set the filename to be the name of the monster
+    const fileName: string =
+      monster.name != null
+        ? `${encodeURIComponent(monster.name)}.json`
+        : `no_name.txt`;
 
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Properties</Typography>
-            <Typography className={classes.secondaryHeading}>
-              Property Summary
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <MonsterProperties
-              immunities={this.state.immunities}
-              resistances={this.state.resistances}
-              weaknesses={this.state.weaknesses}
-              languages={this.state.languages}
-              senses={this.state.senses}
-              challengeRating={this.state.profBonus}
-              rewardXP={this.state.profBonus}
-              handleChange={this.handleChange}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+    // Setup the blob for download
+    const element: HTMLAnchorElement = document.createElement('a');
+    const file: Blob = new Blob([JSON.stringify(monster)], {
+      type: 'application/json;charset=utf-8;',
+    });
 
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Abilities</Typography>
-            <Typography className={classes.secondaryHeading}>
-              Ability Summary
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <MonsterAbilities
-              monsterAbilities={this.state.abilities}
-              addMonsterAbility={this.updateMonsterAbilities}
-              removeAbility={this.removeAbility}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
+    element.href = URL.createObjectURL(file);
+    element.download = fileName;
+    document.body.appendChild(element);
+    element.click();
+  };
 
-        <ExpansionPanel>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Actions</Typography>
-            <Typography className={classes.secondaryHeading}>
-              Action Summary
-            </Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <MonsterActions
-              monsterActions={this.state.actions}
-              addMonsterAction={this.updateMonsterActions}
-              removeAction={this.removeAction}
-            />
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </div>
-    );
-  }
+  return (
+    <div className={classes.root}>
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Description</Typography>
+          <Typography className={classes.secondaryHeading}>
+            {monster.name}
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterDescription
+            name={monster.name}
+            size={monster.size}
+            alignment={monster.alignment}
+            handleChange={handleChange}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Stats</Typography>
+          <Typography className={classes.secondaryHeading}>Stat-Summary</Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterStats
+            handleChange={handleChange}
+            armourClass={monster.armourClass}
+            hitPoints={monster.hitPoints}
+            hitDie={monster.hitDie}
+            speed={monster.speed}
+            str={monster.str}
+            dex={monster.dex}
+            con={monster.con}
+            int={monster.int}
+            wis={monster.wis}
+            chr={monster.chr}
+            profBonus={monster.profBonus}
+            proficiencies={monster.proficiencies}
+            savingThrows={monster.savingThrows}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Properties</Typography>
+          <Typography className={classes.secondaryHeading}>
+            Property Summary
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterProperties
+            immunities={monster.immunities}
+            resistances={monster.resistances}
+            weaknesses={monster.weaknesses}
+            languages={monster.languages}
+            senses={monster.senses}
+            challengeRating={monster.challengeRating}
+            rewardXP={monster.rewardXP}
+            handleChange={handleChange}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Abilities</Typography>
+          <Typography className={classes.secondaryHeading}>
+            Ability Summary
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterAbilities
+            monsterAbilities={monster.abilities}
+            addMonsterAbility={updateMonsterAbilities}
+            removeAbility={removeAbility}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <ExpansionPanel>
+        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+          <Typography className={classes.heading}>Monster Actions</Typography>
+          <Typography className={classes.secondaryHeading}>
+            Action Summary
+          </Typography>
+        </ExpansionPanelSummary>
+        <ExpansionPanelDetails>
+          <MonsterActions
+            monsterActions={monster.actions}
+            addMonsterAction={updateMonsterActions}
+            removeAction={removeAction}
+          />
+        </ExpansionPanelDetails>
+      </ExpansionPanel>
+
+      <Box justifyContent="flex-end" display="flex" marginTop="8px">
+        <input
+          onChange={importConfig}
+          accept="application/JSON"
+          style={{ display: 'none' }}
+          id="config-upload"
+          type="file"
+        />
+        <label htmlFor="config-upload">
+          <Button variant="contained" component="span" color="primary">
+            Import
+          </Button>
+        </label>
+        <Button
+          color="primary"
+          variant="contained"
+          aria-label="Export"
+          style={{ marginLeft: '8px' }}
+          onClick={exportConfig}
+        >
+          Export
+        </Button>
+      </Box>
+    </div>
+  );
 }
+
+Monster.propTypes = {
+  classes: PropTypes.any,
+};
 
 export default withStyles(styles, { withTheme: true })(Monster);
