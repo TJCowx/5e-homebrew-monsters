@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import MonsterDefinition from '../../../models/MonsterDefinition';
 import { withStyles, Theme, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import { getModifier } from '../../../hooks/getModifier';
+import MonsterAbility from '../../../models/MonsterAbility';
 
 const useStyles = (theme: Theme) =>
   createStyles({
@@ -28,7 +28,11 @@ const useStyles = (theme: Theme) =>
       fontSize: '11px',
       fontStyle: 'italic',
     },
+    quickRefStats: {
+      fontSize: '14px',
+    },
     stats: {
+      fontSize: '15px',
       padding: '8px 16px',
     },
     statHeader: {
@@ -60,7 +64,19 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.size} ADD HUMUNOID ECT, {monster.alignment}
         </div>
         <SectionSeparator />
-        AC/HP/Speed Ect
+        <div className={`${classes.quickRefStats} ${classes.accentColour}`}>
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Armour Class</span>{' '}
+            {monster.armourClass}
+          </div>
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Hit Points</span>{' '}
+            {monster.hitPoints} ({monster.hitDie})
+          </div>
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Speed</span> {monster.speed}
+          </div>
+        </div>
         <SectionSeparator />
         <Box
           display="flex"
