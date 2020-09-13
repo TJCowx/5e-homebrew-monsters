@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import MonsterDefinition from '../../../models/MonsterDefinition';
-import { withStyles, Theme, createStyles } from '@material-ui/core';
+import { withStyles, Theme, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
+import { getModifier } from '../../../hooks/getModifier';
 
 const useStyles = (theme: Theme) =>
   createStyles({
@@ -28,7 +29,10 @@ const useStyles = (theme: Theme) =>
       fontStyle: 'italic',
     },
     stats: {
-      fontSize: '11px',
+      padding: '8px 16px',
+    },
+    statHeader: {
+      fontWeight: 'bold',
     },
     typeHeader: {
       fontSize: '11px',
@@ -56,7 +60,56 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.size} ADD HUMUNOID ECT, {monster.alignment}
         </div>
         <SectionSeparator />
-        Anotha Test
+        AC/HP/Speed Ect
+        <SectionSeparator />
+        <Box
+          display="flex"
+          flexDirection="row"
+          justifyContent="space-between"
+          textAlign="center"
+          className={`${classes.stats} ${classes.accentColour}`}
+        >
+          <Box>
+            <div className={classes.statHeader}>STR</div>
+            <div>
+              {monster.str} ({getModifier(monster.str)})
+            </div>
+          </Box>
+          <Box>
+            <div className={classes.statHeader}>DEX</div>
+            <div>
+              {monster.dex} ({getModifier(monster.dex)})
+            </div>
+          </Box>
+          <Box>
+            <div className={classes.statHeader}>CON</div>
+            <div>
+              {monster.con} ({getModifier(monster.con)})
+            </div>
+          </Box>
+          <Box>
+            <div className={classes.statHeader}>INT</div>
+            <div>
+              {monster.int} ({getModifier(monster.int)})
+            </div>
+          </Box>
+          <Box>
+            <div className={classes.statHeader}>WIS</div>
+            <div>
+              {monster.wis} ({getModifier(monster.wis)})
+            </div>
+          </Box>
+          <Box>
+            <div className={classes.statHeader}>CHA</div>
+            <div>
+              {monster.chr} ({getModifier(monster.chr)})
+            </div>
+          </Box>
+        </Box>
+        <SectionSeparator />
+        Properties
+        <SectionSeparator />
+        Actions
       </div>
     </div>
   );
