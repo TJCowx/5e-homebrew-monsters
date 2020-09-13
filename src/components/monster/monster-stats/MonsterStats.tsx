@@ -90,8 +90,6 @@ function MonsterStats({
   const handleIntChange = (event: { target: { name: any; value: any } }) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
-      // event.target.value = Number(event.target.value);
-      event.target.value = parseInt(event.target.value);
       handleChange(event);
     }
   };
