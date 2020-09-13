@@ -7,7 +7,7 @@ import SectionSeparator from './SectionSeparator';
 const useStyles = (theme: Theme) =>
   createStyles({
     root: {
-      fontFamily: 'Georgia, Serif',
+      fontFamily: 'Arial, Helvetica, sans-serif',
     },
     accentColour: { color: '#58170D' },
     column: {
@@ -17,14 +17,15 @@ const useStyles = (theme: Theme) =>
       paddingRight: '16px',
     },
     name: {
+      fontFamily: 'Georgia, Serif',
       fontVariant: 'small-caps',
       fontWeight: 'bold',
       fontSize: '23px',
-      fontFamily: 'Bookmania Regular',
       letterSpacing: '1px',
     },
     type: {
       fontSize: '11px',
+      fontStyle: 'italic',
     },
     stats: {
       fontSize: '11px',
@@ -38,8 +39,6 @@ const useStyles = (theme: Theme) =>
     },
   });
 
-// fontWeight: 'bold',
-
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
   return (
     <div
@@ -52,6 +51,9 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       <div className={classes.column}>
         <div className={`${classes.name} ${classes.accentColour}`}>
           {monster.name}
+        </div>
+        <div className={classes.type}>
+          {monster.size} ADD HUMUNOID ECT, {monster.alignment}
         </div>
         <SectionSeparator />
         Anotha Test
