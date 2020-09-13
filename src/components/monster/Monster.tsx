@@ -24,12 +24,14 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
 import MonsterAction from '../../models/MonsterAction';
 import MonsterDefinition from '../../models/MonsterDefinition';
+import StatBlock from './stat-block/StatBlock';
 import PropTypes, { InferProps } from 'prop-types';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
+    display: 'flex',
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -39,6 +41,14 @@ const styles = (theme: Theme) => ({
   secondaryHeading: {
     fontSize: theme.typography.pxToRem(15),
     color: theme.palette.text.secondary,
+  },
+  monsterContainer: {
+    width: '50%',
+    paddingRight: theme.spacing(1),
+  },
+  statBlockContainer: {
+    width: '50%',
+    paddingLeft: theme.spacing(1),
   },
 });
 
@@ -183,126 +193,133 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   };
 
   return (
-    <div className={classes.root}>
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Monster Description</Typography>
-          <Typography className={classes.secondaryHeading}>
-            {monster.name}
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <MonsterDescription
-            name={monster.name}
-            size={monster.size}
-            alignment={monster.alignment}
-            handleChange={handleChange}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+    <Box className={classes.root}>
+      <Box className={classes.monsterContainer}>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Monster Description</Typography>
+            <Typography className={classes.secondaryHeading}>
+              {monster.name}
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterDescription
+              name={monster.name}
+              size={monster.size}
+              alignment={monster.alignment}
+              handleChange={handleChange}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Monster Stats</Typography>
-          <Typography className={classes.secondaryHeading}>Stat-Summary</Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <MonsterStats
-            handleChange={handleChange}
-            armourClass={monster.armourClass}
-            hitPoints={monster.hitPoints}
-            hitDie={monster.hitDie}
-            speed={monster.speed}
-            str={monster.str}
-            dex={monster.dex}
-            con={monster.con}
-            int={monster.int}
-            wis={monster.wis}
-            chr={monster.chr}
-            profBonus={monster.profBonus}
-            proficiencies={monster.proficiencies}
-            savingThrows={monster.savingThrows}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Monster Stats</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Stat-Summary
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterStats
+              handleChange={handleChange}
+              armourClass={monster.armourClass}
+              hitPoints={monster.hitPoints}
+              hitDie={monster.hitDie}
+              speed={monster.speed}
+              str={monster.str}
+              dex={monster.dex}
+              con={monster.con}
+              int={monster.int}
+              wis={monster.wis}
+              chr={monster.chr}
+              profBonus={monster.profBonus}
+              proficiencies={monster.proficiencies}
+              savingThrows={monster.savingThrows}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Monster Properties</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Property Summary
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <MonsterProperties
-            immunities={monster.immunities}
-            resistances={monster.resistances}
-            weaknesses={monster.weaknesses}
-            languages={monster.languages}
-            senses={monster.senses}
-            challengeRating={monster.challengeRating}
-            rewardXP={monster.rewardXP}
-            handleChange={handleChange}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Monster Properties</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Property Summary
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterProperties
+              immunities={monster.immunities}
+              resistances={monster.resistances}
+              weaknesses={monster.weaknesses}
+              languages={monster.languages}
+              senses={monster.senses}
+              challengeRating={monster.challengeRating}
+              rewardXP={monster.rewardXP}
+              handleChange={handleChange}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Monster Abilities</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Ability Summary
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <MonsterAbilities
-            monsterAbilities={monster.abilities}
-            addMonsterAbility={updateMonsterAbilities}
-            removeAbility={removeAbility}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Monster Abilities</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Ability Summary
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterAbilities
+              monsterAbilities={monster.abilities}
+              addMonsterAbility={updateMonsterAbilities}
+              removeAbility={removeAbility}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-      <ExpansionPanel>
-        <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography className={classes.heading}>Monster Actions</Typography>
-          <Typography className={classes.secondaryHeading}>
-            Action Summary
-          </Typography>
-        </ExpansionPanelSummary>
-        <ExpansionPanelDetails>
-          <MonsterActions
-            monsterActions={monster.actions}
-            addMonsterAction={updateMonsterActions}
-            removeAction={removeAction}
-          />
-        </ExpansionPanelDetails>
-      </ExpansionPanel>
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Monster Actions</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Action Summary
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterActions
+              monsterActions={monster.actions}
+              addMonsterAction={updateMonsterActions}
+              removeAction={removeAction}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
 
-      <Box justifyContent="flex-end" display="flex" marginTop="8px">
-        <input
-          onChange={importConfig}
-          accept="application/JSON"
-          style={{ display: 'none' }}
-          id="config-upload"
-          type="file"
-        />
-        <label htmlFor="config-upload">
-          <Button variant="contained" component="span" color="primary">
-            Import
+        <Box justifyContent="flex-end" display="flex" marginTop="8px">
+          <input
+            onChange={importConfig}
+            accept="application/JSON"
+            style={{ display: 'none' }}
+            id="config-upload"
+            type="file"
+          />
+          <label htmlFor="config-upload">
+            <Button variant="contained" component="span" color="primary">
+              Import
+            </Button>
+          </label>
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Export"
+            style={{ marginLeft: '8px' }}
+            onClick={exportConfig}
+          >
+            Export
           </Button>
-        </label>
-        <Button
-          color="primary"
-          variant="contained"
-          aria-label="Export"
-          style={{ marginLeft: '8px' }}
-          onClick={exportConfig}
-        >
-          Export
-        </Button>
+        </Box>
       </Box>
-    </div>
+      <Box className={classes.statBlockContainer}>
+        <StatBlock monster={monster} />
+      </Box>
+    </Box>
   );
 }
 
