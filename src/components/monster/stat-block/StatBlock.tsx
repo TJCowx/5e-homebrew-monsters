@@ -30,10 +30,7 @@ const useStyles = () =>
       fontSize: '11px',
       fontStyle: 'italic',
     },
-    quickRefStats: {
-      fontSize: '14px',
-    },
-    commonProperties: {
+    singleItemList: {
       fontSize: '14px',
     },
     stats: {
@@ -70,7 +67,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.size} Type, {monster.alignment}
         </div>
         <SectionSeparator />
-        <div className={`${classes.quickRefStats} ${classes.accentColour}`}>
+        <div className={`${classes.singleItemList} ${classes.accentColour}`}>
           <div>
             <span style={{ fontWeight: 'bold' }}>Armour Class</span>{' '}
             {monster.armourClass}
@@ -129,7 +126,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           </Box>
         </Box>
         <SectionSeparator />
-        <div className={`${classes.commonProperties} ${classes.accentColour}`}>
+        <div className={`${classes.singleItemList} ${classes.accentColour}`}>
           {monster.savingThrows.length > 0 && (
             <div>
               <span>
