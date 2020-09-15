@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { withStyles, Theme, createStyles, Box } from '@material-ui/core';
+import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import { getModifier } from '../../../hooks/getModifier';
 
-const useStyles = (theme: Theme) =>
+const useStyles = () =>
   createStyles({
     root: {
       fontFamily: 'Arial, Helvetica, sans-serif',
