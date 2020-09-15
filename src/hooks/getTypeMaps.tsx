@@ -3,7 +3,7 @@
  * Key: shorthand EG: str
  * Value: full name, EG: Strength
  */
-export const getStats = (): object => {
+export const getStats = (): { [index: string]: any } => {
   return {
     str: 'Strength',
     dex: 'Dexterity',
@@ -19,7 +19,7 @@ export const getStats = (): object => {
  * Key: shorthand EG: ath
  * Value: full name EG: Athletics
  */
-export const getProficiencies = (): object => {
+export const getProficiencies = (): { [index: string]: any } => {
   return {
     ath: 'Athletics',
     acr: 'Acrobatics',
