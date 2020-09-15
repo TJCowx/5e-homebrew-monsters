@@ -5,6 +5,7 @@ import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import { getDisplayModifier } from '../../../hooks/getModifier';
 import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
+import { getStats } from '../../../hooks/getTypeMaps';
 
 const useStyles = () =>
   createStyles({
@@ -135,7 +136,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 {monster.savingThrows
                   .map(
                     (savingThrow: string) =>
-                      `${savingThrow} +${getSavingThrowModifier(
+                      `${getStats()[savingThrow]} +${getSavingThrowModifier(
                         monster[savingThrow],
                         monster.profBonus
                       )}`
