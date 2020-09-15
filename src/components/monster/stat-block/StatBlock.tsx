@@ -3,7 +3,8 @@ import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
-import { getModifier } from '../../../hooks/getModifier';
+import { getDisplayModifier } from '../../../hooks/getModifier';
+import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
 
 const useStyles = () =>
   createStyles({
@@ -91,37 +92,37 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           <Box>
             <div className={classes.statHeader}>STR</div>
             <div>
-              {monster.str} ({getModifier(monster.str)})
+              {monster.str} ({getDisplayModifier(monster.str)})
             </div>
           </Box>
           <Box>
             <div className={classes.statHeader}>DEX</div>
             <div>
-              {monster.dex} ({getModifier(monster.dex)})
+              {monster.dex} ({getDisplayModifier(monster.dex)})
             </div>
           </Box>
           <Box>
             <div className={classes.statHeader}>CON</div>
             <div>
-              {monster.con} ({getModifier(monster.con)})
+              {monster.con} ({getDisplayModifier(monster.con)})
             </div>
           </Box>
           <Box>
             <div className={classes.statHeader}>INT</div>
             <div>
-              {monster.int} ({getModifier(monster.int)})
+              {monster.int} ({getDisplayModifier(monster.int)})
             </div>
           </Box>
           <Box>
             <div className={classes.statHeader}>WIS</div>
             <div>
-              {monster.wis} ({getModifier(monster.wis)})
+              {monster.wis} ({getDisplayModifier(monster.wis)})
             </div>
           </Box>
           <Box>
             <div className={classes.statHeader}>CHA</div>
             <div>
-              {monster.chr} ({getModifier(monster.chr)})
+              {monster.chr} ({getDisplayModifier(monster.chr)})
             </div>
           </Box>
         </Box>
@@ -130,7 +131,16 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.savingThrows.length > 0 && (
             <div>
               <span>
-                <strong>Saving Throws</strong> Saving throws here
+                <strong>Saving Throws</strong>{' '}
+                {monster.savingThrows
+                  .map(
+                    (savingThrow: string) =>
+                      `${savingThrow} +${getSavingThrowModifier(
+                        monster[savingThrow],
+                        monster.profBonus
+                      )}`
+                  )
+                  .join(', ')}
               </span>
             </div>
           )}
