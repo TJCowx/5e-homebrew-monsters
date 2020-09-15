@@ -78,7 +78,8 @@ function MonsterStats({
     { value: 'str', name: 'Strength' },
     { value: 'dex', name: 'Dexterity' },
     { value: 'con', name: 'Constitution' },
-    { value: 'int', name: 'Wisdom' },
+    { value: 'int', name: 'Intelligence' },
+    { value: 'wis', name: 'Wisdom' },
     { value: 'chr', name: 'Charisma' },
   ];
 
