@@ -47,7 +47,6 @@ const styles = (theme: Theme) => ({
     paddingRight: theme.spacing(1),
   },
   statBlockContainer: {
-    width: '50%',
     paddingLeft: theme.spacing(1),
   },
 });

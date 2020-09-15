@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, Theme, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
+import StatBlockBorder from './StatBlockBorder';
 import { getModifier } from '../../../hooks/getModifier';
-import MonsterAbility from '../../../models/MonsterAbility';
 
 const useStyles = (theme: Theme) =>
   createStyles({
@@ -16,6 +16,8 @@ const useStyles = (theme: Theme) =>
       backgroundColor: '#fdf1dc',
       paddingLeft: '16px',
       paddingRight: '16px',
+      marginLeft: '4px',
+      marginRight: '4px',
     },
     name: {
       fontFamily: 'Georgia, Serif',
@@ -56,6 +58,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       }}
       className={classes.root}
     >
+      <StatBlockBorder />
       <div className={classes.column}>
         <div className={`${classes.name} ${classes.accentColour}`}>
           {monster.name}
@@ -127,6 +130,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
         <SectionSeparator />
         Actions
       </div>
+      <StatBlockBorder />
     </div>
   );
 }
