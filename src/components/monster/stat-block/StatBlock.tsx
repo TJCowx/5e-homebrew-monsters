@@ -67,7 +67,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.name}
         </div>
         <div className={classes.type}>
-          {monster.size} ADD HUMUNOID ECT, {monster.alignment}
+          {monster.size} Type, {monster.alignment}
         </div>
         <SectionSeparator />
         <div className={`${classes.quickRefStats} ${classes.accentColour}`}>
@@ -77,7 +77,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           </div>
           <div>
             <span style={{ fontWeight: 'bold' }}>Hit Points</span>{' '}
-            {monster.hitPoints} ({monster.hitDie})
+            {monster.hitPoints} {monster.hitDie.length > 0 && `(${monster.hitDie})`}
           </div>
           <div>
             <span style={{ fontWeight: 'bold' }}>Speed</span> {monster.speed}
@@ -147,39 +147,42 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.resistances.length > 0 && (
             <div>
               <span>
-                <strong>Damages Resistance</strong> Resistances here
+                <strong>Damages Resistance</strong> {monster.resistances.join(', ')}
               </span>
             </div>
           )}
           {monster.immunities.length > 0 && (
             <div>
               <span>
-                <strong>Damages Immunities</strong> Immunities here
+                <strong>Damages Immunities</strong> {monster.immunities.join(', ')}
               </span>
             </div>
           )}
           {monster.weaknesses.length > 0 && (
             <div>
               <span>
-                <strong>Damages Weaknesses</strong> Weaknesses here
+                <strong>Damages Weaknesses</strong> {monster.weaknesses.join(', ')}
               </span>
             </div>
           )}
           {monster.senses.length > 0 && (
             <div>
               <span>
-                <strong>Senses</strong> Senses Here
+                <strong>Senses</strong> {monster.senses.join(', ')}
               </span>
             </div>
           )}
           <div>
             <span>
-              <strong>Languages</strong> --
+              <strong>Languages</strong>{' '}
+              {monster.languages.length === 0 ? '--' : monster.languages.join(', ')}
             </span>
           </div>
           <div>
             <span>
-              <strong>Challenge</strong> Challenge Rating
+              <strong>Challenge</strong>{' '}
+              {monster.challengeRating.length > 0 ? monster.challengeRating : '--'}
+              {monster.rewardXP.length > 0 && `(${monster.rewardXP} XP)`}
             </span>
           </div>
         </div>

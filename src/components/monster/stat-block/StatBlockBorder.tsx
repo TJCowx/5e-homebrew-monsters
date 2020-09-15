@@ -7,7 +7,7 @@ function StatBlockBorder() {
       style={{
         border: '2px solid black',
         backgroundColor: '#e69a28',
-        height: '8px',
+        height: '6px',
       }}
     ></div>
   );
