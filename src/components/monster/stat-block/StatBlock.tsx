@@ -33,6 +33,9 @@ const useStyles = () =>
     quickRefStats: {
       fontSize: '14px',
     },
+    commonProperties: {
+      fontSize: '14px',
+    },
     stats: {
       fontSize: '15px',
       padding: '8px 16px',
@@ -126,7 +129,60 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           </Box>
         </Box>
         <SectionSeparator />
-        Properties
+        <div className={`${classes.commonProperties} ${classes.accentColour}`}>
+          {monster.savingThrows.length > 0 && (
+            <div>
+              <span>
+                <strong>Saving Throws</strong> Saving throws here
+              </span>
+            </div>
+          )}
+          {monster.proficiencies.length > 0 && (
+            <div>
+              <span>
+                <strong>Skills</strong> Skill Profs Here
+              </span>
+            </div>
+          )}
+          {monster.resistances.length > 0 && (
+            <div>
+              <span>
+                <strong>Damages Resistance</strong> Resistances here
+              </span>
+            </div>
+          )}
+          {monster.immunities.length > 0 && (
+            <div>
+              <span>
+                <strong>Damages Immunities</strong> Immunities here
+              </span>
+            </div>
+          )}
+          {monster.weaknesses.length > 0 && (
+            <div>
+              <span>
+                <strong>Damages Weaknesses</strong> Weaknesses here
+              </span>
+            </div>
+          )}
+          {monster.senses.length > 0 && (
+            <div>
+              <span>
+                <strong>Senses</strong> Senses Here
+              </span>
+            </div>
+          )}
+          <div>
+            <span>
+              <strong>Languages</strong> --
+            </span>
+          </div>
+          <div>
+            <span>
+              <strong>Challenge</strong> Challenge Rating
+            </span>
+          </div>
+        </div>
         <SectionSeparator />
         Actions
       </div>
