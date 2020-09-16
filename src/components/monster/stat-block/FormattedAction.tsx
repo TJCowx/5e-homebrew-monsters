@@ -4,8 +4,15 @@ import PropTypes, { InferProps } from 'prop-types';
 
 function FormattedAction({ action }: InferProps<typeof FormattedAction.propTypes>) {
   return (
-    <div style={{ fontSize: '12px', paddingBottom: '4px' }}>
-      <strong>{action.name}.</strong> {action.description}
+    <div style={{ fontSize: '13px', paddingBottom: '4px' }}>
+      <strong>{action.name}.</strong>{' '}
+      {action.isAttack && (
+        <>
+          <i>{action.attackType}</i>: {action.toHit}, reach {action.reach}ft.{' '}
+          <i>Hit</i>: ({action.damage}) {action.damageType} Damage{' '}
+        </>
+      )}
+      {action.description}
     </div>
   );
 }
