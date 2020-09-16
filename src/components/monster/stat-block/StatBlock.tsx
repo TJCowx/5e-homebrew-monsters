@@ -7,6 +7,7 @@ import { getDisplayModifier } from '../../../hooks/getModifier';
 import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
 import { getProfModifier } from '../../../hooks/getProfModifier';
+import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
 
@@ -19,8 +20,7 @@ const useStyles = () =>
     column: {
       width: '450px',
       backgroundColor: '#fdf1dc',
-      paddingLeft: '16px',
-      paddingRight: '16px',
+      padding: '16px',
       marginLeft: '4px',
       marginRight: '4px',
     },
@@ -57,10 +57,6 @@ const useStyles = () =>
     },
     titleUnderline: {
       border: '1px solid #99351f',
-    },
-    actionDescription: {
-      fontWeight: 'bold',
-      fontSize: '12px',
     },
   });
 
@@ -271,17 +267,20 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               Actions
             </div>
             <hr className={classes.titleUnderline} />
-            Regular Actions here
+            {regActions.map((action: MonsterAction) => (
+              <FormattedAction key={`formatted-${action.id}`} action={action} />
+            ))}
           </>
         )}
-
         {reactions.length > 0 && (
           <>
             <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
               Reactions
             </div>
             <hr className={classes.titleUnderline} />
-            Reactions here
+            {reactions.map((action: MonsterAction) => (
+              <FormattedAction key={`formatted-${action.id}`} action={action} />
+            ))}
           </>
         )}
         {legenActions.length > 0 && (
@@ -290,7 +289,9 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               Legendary Actions
             </div>
             <hr className={classes.titleUnderline} />
-            Legendary Actions Here
+            {legenActions.map((action: MonsterAction) => (
+              <FormattedAction key={`formatted-${action.id}`} action={action} />
+            ))}
           </>
         )}
         {lairActions.length > 0 && (
@@ -299,7 +300,9 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               Lair Actions
             </div>
             <hr className={classes.titleUnderline} />
-            Lair Actions here
+            {lairActions.map((action: MonsterAction) => (
+              <FormattedAction key={`formatted-${action.id}`} action={action} />
+            ))}
           </>
         )}
       </div>
