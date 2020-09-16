@@ -5,7 +5,8 @@ import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import { getDisplayModifier } from '../../../hooks/getModifier';
 import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
-import { getStats } from '../../../hooks/getTypeMaps';
+import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
+import { getProfModifier } from '../../../hooks/getProfModifier';
 
 const useStyles = () =>
   createStyles({
@@ -148,7 +149,16 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.proficiencies.length > 0 && (
             <div>
               <span>
-                <strong>Skills</strong> Skill Profs Here
+                <strong>Skills</strong>{' '}
+                {monster.proficiencies
+                  .map(
+                    (prof: string) =>
+                      `${getProficiencies()[prof]} +${getProfModifier(
+                        prof,
+                        monster
+                      )}`
+                  )
+                  .join(', ')}
               </span>
             </div>
           )}
