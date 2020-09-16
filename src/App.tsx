@@ -3,10 +3,12 @@ import Header from './components/layout/Header';
 import Monster from './components/monster/Monster';
 import { makeStyles, createMuiTheme, ThemeProvider } from '@material-ui/core';
 import './App.css';
-import { green } from '@material-ui/core/colors';
 
 const useStyles = makeStyles((theme) => ({
   appBarSpacer: theme.mixins.toolbar,
+  monster: {
+    paddingTop: theme.spacing(2),
+  },
 }));
 
 const theme = createMuiTheme({
@@ -32,7 +34,9 @@ function App() {
       <Header />
       <div className={classes.appBarSpacer} />
       <ThemeProvider theme={theme}>
-        <Monster />
+        <div className={classes.monster}>
+          <Monster />
+        </div>
       </ThemeProvider>
     </div>
   );

@@ -17,6 +17,7 @@ import {
   Select,
   MenuItem,
 } from '@material-ui/core';
+import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
 import PropTypes, { InferProps } from 'prop-types';
 
 /** Setup the styling for these inputs */
@@ -47,40 +48,8 @@ function MonsterStats({
   speed,
   handleChange,
 }: InferProps<typeof MonsterStats.propTypes>) {
-  /**
-   * A list of skill proficiencies available to 5e
-   */
-  const availableProficiencies: Array<{ value: string; name: string }> = [
-    { value: 'ath', name: 'Athletics' },
-    { value: 'acr', name: 'Acrobatics' },
-    { value: 'soh', name: 'Sleight of Hand' },
-    { value: 'sth', name: 'Stealth' },
-    { value: 'arc', name: 'Arcana' },
-    { value: 'hst', name: 'History' },
-    { value: 'inv', name: 'Investigation' },
-    { value: 'nat', name: 'Nature' },
-    { value: 'rel', name: 'Religion' },
-    { value: 'anh', name: 'Animal Handling' },
-    { value: 'ins', name: 'Insight' },
-    { value: 'med', name: 'Medicine' },
-    { value: 'per', name: 'Perception' },
-    { value: 'svl', name: 'Survival' },
-    { value: 'dec', name: 'Deception' },
-    { value: 'imd', name: 'Intimidation' },
-    { value: 'pfm', name: 'Performance' },
-    { value: 'psn', name: 'Persuasion' },
-  ];
-
-  /**
-   * A list of saving throws available to 5e
-   */
-  const availableSavingThrows: Array<{ value: string; name: string }> = [
-    { value: 'str', name: 'Strength' },
-    { value: 'dex', name: 'Dexterity' },
-    { value: 'con', name: 'Constitution' },
-    { value: 'int', name: 'Wisdom' },
-    { value: 'chr', name: 'Charisma' },
-  ];
+  const availableProfs: object = getProficiencies();
+  const availableSavingThrows: object = getStats();
 
   /**
    * Takes an input event and checks to see if it was an integer input
@@ -90,8 +59,6 @@ function MonsterStats({
   const handleIntChange = (event: { target: { name: any; value: any } }) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
-      // event.target.value = Number(event.target.value);
-      event.target.value = parseInt(event.target.value);
       handleChange(event);
     }
   };
@@ -197,11 +164,13 @@ function MonsterStats({
             value={proficiencies}
             onChange={handleChange}
           >
-            {availableProficiencies.map((prof: { value: string; name: string }) => (
-              <MenuItem key={prof.value} value={prof.value}>
-                {prof.name}
-              </MenuItem>
-            ))}
+            {Object.entries(availableProfs).map(([value, name]) => {
+              return (
+                <MenuItem key={value} value={value}>
+                  {name}
+                </MenuItem>
+              );
+            })}
           </Select>
         </FormControl>
         <FormControl className={classes.inputField} style={{ width: '40%' }}>
@@ -213,13 +182,13 @@ function MonsterStats({
             value={savingThrows}
             onChange={handleChange}
           >
-            {availableSavingThrows.map(
-              (savingThrow: { value: string; name: string }) => (
-                <MenuItem key={savingThrow.value} value={savingThrow.value}>
-                  {savingThrow.name}
+            {Object.entries(availableSavingThrows).map(([value, name]) => {
+              return (
+                <MenuItem key={value} value={value}>
+                  {name}
                 </MenuItem>
-              )
-            )}
+              );
+            })}
           </Select>
         </FormControl>
       </Box>
