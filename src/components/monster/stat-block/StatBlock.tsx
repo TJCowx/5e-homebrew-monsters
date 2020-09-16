@@ -7,6 +7,7 @@ import { getDisplayModifier } from '../../../hooks/getModifier';
 import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
 import { getProfModifier } from '../../../hooks/getProfModifier';
+import MonsterAbility from '../../../models/MonsterAbility';
 
 const useStyles = () =>
   createStyles({
@@ -35,6 +36,7 @@ const useStyles = () =>
     },
     singleItemList: {
       fontSize: '14px',
+      padding: '4px 0px',
     },
     stats: {
       fontSize: '15px',
@@ -200,12 +202,20 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             <span>
               <strong>Challenge</strong>{' '}
               {monster.challengeRating.length > 0 ? monster.challengeRating : '--'}
-              {monster.rewardXP.length > 0 && `(${monster.rewardXP} XP)`}
+              {monster.rewardXP.length > 0 && ` (${monster.rewardXP} XP)`}
             </span>
           </div>
         </div>
         <SectionSeparator />
-        Actions
+        <div className={classes.singleItemList}>
+          {monster.abilities.map((ability: MonsterAbility) => {
+            return (
+              <div key={ability.id}>
+                <strong>{ability.name}</strong> {ability.description}
+              </div>
+            );
+          })}
+        </div>
       </div>
       <StatBlockBorder />
     </div>
