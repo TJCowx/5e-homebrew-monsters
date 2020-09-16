@@ -34,7 +34,7 @@ function AddMonsterAction({
   const [isNew, setIsNew] = useState(true);
 
   /** List of action types available in 5e */
-  const actionTypes: Array<string> = ['Action', 'Reaction', 'Legendary'];
+  const actionTypes: Array<string> = ['Action', 'Reaction', 'Legendary', 'Lair'];
 
   const attackTypes: Array<string> = [
     'Melee Weapon Attack',
