@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
@@ -8,6 +8,7 @@ import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
 import { getProfModifier } from '../../../hooks/getProfModifier';
 import MonsterAbility from '../../../models/MonsterAbility';
+import MonsterAction from '../../../models/MonsterAction';
 
 const useStyles = () =>
   createStyles({
@@ -55,6 +56,41 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
+  const [regActions, setRegActions] = useState(new Array<MonsterAction>());
+  const [reactions, setReactions] = useState(new Array<MonsterAction>());
+  const [legenActions, setLegenActions] = useState(new Array<MonsterAction>());
+  const [lairActions, setLairActions] = useState(new Array<MonsterAction>());
+
+  useEffect(() => {
+    monster.actions.forEach((action: MonsterAction) => {
+      switch (action.actionType) {
+        case 'Action':
+          if (!regActions.some((el: MonsterAction) => el.id === action.id)) {
+            setRegActions([...regActions, action]);
+          }
+          break;
+        case 'Reaction':
+          if (!reactions.some((el: MonsterAction) => el.id === action.id)) {
+            setReactions([...reactions, action]);
+          }
+          break;
+        case 'Legendary':
+          if (!legenActions.some((el: MonsterAction) => el.id === action.id)) {
+            setLegenActions([...legenActions, action]);
+          }
+          break;
+        case 'Lair':
+          if (!lairActions.some((el: MonsterAction) => el.id === action.id)) {
+            setLairActions([...lairActions, action]);
+          }
+          break;
+        default:
+      }
+    });
+
+    return;
+  }, [monster.actions]);
+
   return (
     <div
       style={{
@@ -216,6 +252,10 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             );
           })}
         </div>
+        {regActions.length > 0 && <>Hello Reg</>}
+        {reactions.length > 0 && <>Hello Re</>}
+        {legenActions.length > 0 && <>Hello Legen</>}
+        {lairActions.length > 0 && <>Hello</>}
       </div>
       <StatBlockBorder />
     </div>
