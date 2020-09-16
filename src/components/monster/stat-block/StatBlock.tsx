@@ -49,6 +49,15 @@ const useStyles = () =>
     typeHeader: {
       fontSize: '11px',
     },
+    actionTypeHeader: {
+      fontSize: '20px',
+      fontVariant: 'small-caps',
+      textTransform: 'capitalize',
+      paddingTop: '12px',
+    },
+    titleUnderline: {
+      border: '1px solid #99351f',
+    },
     actionDescription: {
       fontWeight: 'bold',
       fontSize: '12px',
@@ -61,6 +70,10 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
   const [legenActions, setLegenActions] = useState(new Array<MonsterAction>());
   const [lairActions, setLairActions] = useState(new Array<MonsterAction>());
 
+  /**
+   * An effect that takes changes to an action and sorts them
+   * into their related state array
+   */
   useEffect(() => {
     monster.actions.forEach((action: MonsterAction) => {
       switch (action.actionType) {
@@ -252,10 +265,43 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             );
           })}
         </div>
-        {regActions.length > 0 && <>Hello Reg</>}
-        {reactions.length > 0 && <>Hello Re</>}
-        {legenActions.length > 0 && <>Hello Legen</>}
-        {lairActions.length > 0 && <>Hello</>}
+        {regActions.length > 0 && (
+          <>
+            <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
+              Actions
+            </div>
+            <hr className={classes.titleUnderline} />
+            Regular Actions here
+          </>
+        )}
+
+        {reactions.length > 0 && (
+          <>
+            <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
+              Reactions
+            </div>
+            <hr className={classes.titleUnderline} />
+            Reactions here
+          </>
+        )}
+        {legenActions.length > 0 && (
+          <>
+            <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
+              Legendary Actions
+            </div>
+            <hr className={classes.titleUnderline} />
+            Legendary Actions Here
+          </>
+        )}
+        {lairActions.length > 0 && (
+          <>
+            <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
+              Lair Actions
+            </div>
+            <hr className={classes.titleUnderline} />
+            Lair Actions here
+          </>
+        )}
       </div>
       <StatBlockBorder />
     </div>
