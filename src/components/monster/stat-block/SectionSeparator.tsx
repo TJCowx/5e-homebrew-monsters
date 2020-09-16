@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 
 function SectionSeparator() {
   return (
