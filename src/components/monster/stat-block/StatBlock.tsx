@@ -114,7 +114,8 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
           {monster.name}
         </div>
         <div className={classes.type}>
-          {monster.size} Type, {monster.alignment}
+          {monster.size} {monster.type}
+          {monster.alignment.length > 0 && <>, {monster.alignment}</>}
         </div>
         <SectionSeparator />
         <div className={`${classes.singleItemList} ${classes.accentColour}`}>

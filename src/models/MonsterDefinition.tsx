@@ -12,6 +12,7 @@ import MonsterAction from './MonsterAction';
 export default class MonsterDefinition {
   name: string = '';
   size: string = '';
+  type: string = '';
   alignment: string = '';
   armourClass: string = '';
   hitPoints: string = '';
