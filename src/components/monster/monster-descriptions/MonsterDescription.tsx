@@ -27,16 +27,15 @@ const useStyles = (theme: Theme) => ({
   },
   inputField: {
     display: 'flex',
+    width: '50%',
     margin: theme.spacing(1),
-  },
-  monsterName: {
-    width: '100%',
   },
 });
 
 function MonsterDescription({
   name,
   size,
+  type,
   alignment,
   handleChange,
   classes,
@@ -68,62 +67,100 @@ function MonsterDescription({
     'Chaotic Evil',
   ];
 
+  /**
+   * The types of monsters that are available to 5e
+   */
+  const availableTypes: Array<string> = [
+    'Aberration',
+    'Beast',
+    'Celestial',
+    'Construct',
+    'Dragon',
+    'Elemental',
+    'Fey',
+    'Fiend',
+    'Giant',
+    'Humanoid',
+    'Monstrosity',
+    'Ooze',
+    'Plant',
+    'Undead',
+  ];
+
   return (
     <div className={classes.descriptionRoot}>
       <Box display="flex" flexDirection="row">
         <TextField
-          className={(classes.inputField, classes.monsterName)}
+          className={classes.inputField}
           label="Monster Name"
           name="name"
           value={name}
           onChange={handleChange}
         />
+
+        <FormControl className={classes.inputField}>
+          <InputLabel id="size-label">Size</InputLabel>
+          <Select
+            name="size"
+            labelId="size-label"
+            id="size-select"
+            value={size}
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {/* Map out the sizes available */}
+            {availableSizes.map((availableSize: string) => (
+              <MenuItem key={availableSize} value={availableSize}>
+                {availableSize}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
       <Box display="flex" flexDirection="row">
-        <Box width="50%">
-          <FormControl className={classes.inputField}>
-            <InputLabel id="size-label">Size</InputLabel>
-            <Select
-              name="size"
-              labelId="size-label"
-              id="size-select"
-              value={size}
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
+        <FormControl className={classes.inputField}>
+          <InputLabel id="type-label">Type</InputLabel>
+          <Select
+            name="type"
+            labelId="type-label"
+            id="type-select"
+            value={type}
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {/* Map out the sizes available */}
+            {availableTypes.map((type: string) => (
+              <MenuItem key={type} value={type}>
+                {type}
               </MenuItem>
-              {/* Map out the sizes available */}
-              {availableSizes.map((availableSize: string) => (
-                <MenuItem key={availableSize} value={availableSize}>
-                  {availableSize}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
-        <Box width="50%">
-          <FormControl className={classes.inputField}>
-            <InputLabel id="alignment-label">Alignment</InputLabel>
-            <Select
-              name="alignment"
-              labelId="alignment-label"
-              id="alignment-select"
-              value={alignment}
-              onChange={handleChange}
-            >
-              <MenuItem value="">
-                <em>None</em>
+            ))}
+          </Select>
+        </FormControl>
+
+        <FormControl className={classes.inputField}>
+          <InputLabel id="alignment-label">Alignment</InputLabel>
+          <Select
+            name="alignment"
+            labelId="alignment-label"
+            id="alignment-select"
+            value={alignment}
+            onChange={handleChange}
+          >
+            <MenuItem value="">
+              <em>None</em>
+            </MenuItem>
+            {/* Map out the alignments available */}
+            {availableAlignments.map((availableAlignment: string) => (
+              <MenuItem key={availableAlignment} value={availableAlignment}>
+                {availableAlignment}
               </MenuItem>
-              {/* Map out the alignments available */}
-              {availableAlignments.map((availableAlignment: string) => (
-                <MenuItem key={availableAlignment} value={availableAlignment}>
-                  {availableAlignment}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Box>
+            ))}
+          </Select>
+        </FormControl>
       </Box>
     </div>
   );
@@ -132,6 +169,7 @@ function MonsterDescription({
 MonsterDescription.propTypes = {
   name: PropTypes.string.isRequired,
   size: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
   alignment: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,
   classes: PropTypes.any,
