@@ -4,6 +4,13 @@ A front-end application to help users homebrew creatures and export their creati
 Currently can be found at: https://tjcowx.github.io/5e-homebrew-monsters/
 
 ## VERSIONS
+
+### 0.2.1 (2020-09-17)
+- Added the type field to the stat builder
+
+### 0.2.0 (2020-09-16)
+- Added the stat block generator. Image generation is still yet to come
+
 ### 0.1.0
 
 - Basic form has been added. Image generation is still in the works

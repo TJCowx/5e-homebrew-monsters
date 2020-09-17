@@ -205,6 +205,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             <MonsterDescription
               name={monster.name}
               size={monster.size}
+              type={monster.type}
               alignment={monster.alignment}
               handleChange={handleChange}
             />
