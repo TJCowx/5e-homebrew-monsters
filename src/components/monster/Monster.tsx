@@ -114,14 +114,31 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
    * @param updatedActopm The action item to update or add
    */
   const updateMonsterActions = (updatedAction: MonsterAction) => {
+    let actionsProperty: string = '';
+
+    switch (updatedAction.actionType) {
+      case 'Action':
+        actionsProperty = 'actions';
+        break;
+      case 'Reaction':
+        actionsProperty = 'reactions';
+        break;
+      case 'Legendary':
+        actionsProperty = 'legenActions';
+        break;
+      case 'lair':
+        actionsProperty = 'lairActions';
+        break;
+    }
+
     // Check to see if we have an already existing ability item
-    const existingIndex: number = monster.actions.findIndex(
+    const existingIndex: number = monster[`${actionsProperty}`].findIndex(
       (action: MonsterAction) => action.id === updatedAction.id
     );
 
     if (existingIndex > -1) {
       // Copy the array so we don't have a chance to manipulate it before wanted
-      const actions = [...monster.actions];
+      const actions = [...monster[`${actionsProperty}`]];
       actions[existingIndex] = new MonsterAction(updatedAction);
 
       setMonster({
@@ -131,7 +148,10 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     } else {
       setMonster({
         ...monster,
-        actions: [...monster.actions, new MonsterAction(updatedAction)],
+        [actionsProperty]: [
+          ...monster[`${actionsProperty}`],
+          new MonsterAction(updatedAction),
+        ],
       });
     }
   };
@@ -249,6 +269,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           <ExpansionPanelDetails>
             <MonsterProperties
               immunities={monster.immunities}
+              condImmunities={monster.condImmunities}
               resistances={monster.resistances}
               weaknesses={monster.weaknesses}
               languages={monster.languages}
@@ -285,7 +306,10 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterActions
-              monsterActions={monster.actions}
+              actions={monster.actions}
+              legenActions={monster.legenActions}
+              lairActions={monster.lairActions}
+              reactions={monster.reactions}
               addMonsterAction={updateMonsterActions}
               removeAction={removeAction}
             />

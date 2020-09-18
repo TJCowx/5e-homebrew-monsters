@@ -32,6 +32,7 @@ function MonsterProperties({
   immunities,
   resistances,
   weaknesses,
+  condImmunities,
   senses,
   languages,
   challengeRating,
@@ -42,6 +43,26 @@ function MonsterProperties({
    * A list of available damage types in 5e
    */
   const damageTypes: Array<string> = getDamageTypes();
+
+  /**
+   * A list of available conditions available in 5e
+   */
+  const conditionTypes: Array<string> = [
+    'Blinded',
+    'Charmed',
+    'Deafened',
+    'Frightened',
+    'Grappled',
+    'Incapacitated',
+    'Invisible',
+    'Paralyzed',
+    'Petrified',
+    'Poisoned',
+    'Prone',
+    'Restrained',
+    'Stunned',
+    'Unconscious',
+  ];
 
   /**
    * A list of available senses in 5e
@@ -78,8 +99,8 @@ function MonsterProperties({
   return (
     <div className={classes.descriptionRoot}>
       <Box display="flex" flexDirection="row">
-        <FormControl className={classes.inputField} style={{ width: '33%' }}>
-          <InputLabel id="immunities-label">Immunities</InputLabel>
+        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+          <InputLabel id="immunities-label">Damage Immunities</InputLabel>
           <Select
             name="immunities"
             multiple
@@ -94,7 +115,25 @@ function MonsterProperties({
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '33%' }}>
+        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+          <InputLabel id="condition-label">Condition Immunities</InputLabel>
+          <Select
+            name="condImmunities"
+            multiple
+            labelId="condition-label"
+            value={condImmunities}
+            onChange={handleChange}
+          >
+            {conditionTypes.map((condType: string) => (
+              <MenuItem key={condType} value={condType}>
+                {condType}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+      <Box display="flex" flexDirection="row">
+        <FormControl className={classes.inputField} style={{ width: '50%' }}>
           <InputLabel id="resistances-label">Resistances</InputLabel>
           <Select
             name="resistances"
@@ -110,7 +149,7 @@ function MonsterProperties({
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '33%' }}>
+        <FormControl className={classes.inputField} style={{ width: '50%' }}>
           <InputLabel id="weaknesses-label">Weaknesses</InputLabel>
           <Select
             name="weaknesses"
@@ -185,6 +224,7 @@ function MonsterProperties({
 
 MonsterProperties.propTypes = {
   immunities: PropTypes.array.isRequired,
+  condImmunities: PropTypes.array.isRequired,
   resistances: PropTypes.array.isRequired,
   weaknesses: PropTypes.array.isRequired,
   languages: PropTypes.array.isRequired,

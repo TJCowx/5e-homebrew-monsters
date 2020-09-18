@@ -15,7 +15,10 @@ const useStyles = () => ({
 });
 
 function MonsterActionsList({
-  monsterActions,
+  actions,
+  reactions,
+  legenActions,
+  lairActions,
   removeAction,
   editAction,
   classes,
@@ -23,7 +26,31 @@ function MonsterActionsList({
   return (
     <>
       <List className={classes.list}>
-        {monsterActions.map((action: MonsterAction) => (
+        {actions.map((action: MonsterAction) => (
+          <MonsterActionListItem
+            key={action.id}
+            action={action}
+            removeAction={removeAction}
+            editAction={editAction}
+          />
+        ))}
+        {reactions.map((action: MonsterAction) => (
+          <MonsterActionListItem
+            key={action.id}
+            action={action}
+            removeAction={removeAction}
+            editAction={editAction}
+          />
+        ))}
+        {legenActions.map((action: MonsterAction) => (
+          <MonsterActionListItem
+            key={action.id}
+            action={action}
+            removeAction={removeAction}
+            editAction={editAction}
+          />
+        ))}
+        {lairActions.map((action: MonsterAction) => (
           <MonsterActionListItem
             key={action.id}
             action={action}
@@ -37,7 +64,10 @@ function MonsterActionsList({
 }
 
 MonsterActionsList.propTypes = {
-  monsterActions: PropTypes.array.isRequired,
+  actions: PropTypes.array.isRequired,
+  reactions: PropTypes.array.isRequired,
+  legenActions: PropTypes.array.isRequired,
+  lairActions: PropTypes.array.isRequired,
   removeAction: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
   classes: PropTypes.any,
