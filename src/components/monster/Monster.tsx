@@ -211,6 +211,132 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     element.click();
   };
 
+  /**
+   * Generates an example monster based off the 5e lich which can be located
+   * https://roll20.net/compendium/dnd5e/Lich
+   */
+  const generateExample = () => {
+    setMonster(
+      new MonsterDefinition({
+        name: 'Lich',
+        size: 'Medium',
+        type: 'Undead',
+        alignment: 'Neutral Evil',
+        armourClass: '17',
+        hitPoints: '135',
+        hitDie: '18d8+54',
+        speed: '30',
+        str: '11',
+        dex: '16',
+        con: '16',
+        int: '20',
+        wis: '14',
+        chr: '16',
+        profBonus: '7',
+        challengeRating: '21',
+        rewardXP: '33000',
+        savingThrows: ['con', 'int', 'wis'],
+        proficiencies: ['arc', 'hst', 'ins', 'per'],
+        resistances: ['Cold', 'Lightning', 'Necrotic'],
+        immunities: ['Poison', 'Bludgeoning', 'Piercing', 'Slashing'],
+        condImmunities: [
+          'Charmed',
+          'Exhaustion',
+          'Frightenened',
+          'Paralyzed',
+          'Poisoned',
+        ],
+        senses: ['Truesight'],
+        languages: ['Common', 'Elvish', 'Celestial', 'Sylvan', 'Primordial'],
+        abilities: [
+          new MonsterAbility({
+            name: 'Legendary Resistance (3/Day)',
+            description:
+              'If the lich fails a saving throw, it can choose to succeed instead.',
+          }),
+          new MonsterAbility({
+            name: 'Rejuvenation',
+            description:
+              'If it has a phylactery, a destroyed lich gains a new body in 1d10 ' +
+              'days, regaining all its hit points and becoming active again. The ' +
+              'new body appears within 5 feet of the phylactery.',
+          }),
+          new MonsterAbility({
+            name: 'Spellcasting',
+            description:
+              'The lich is an 18th-level spellcaster. Its spellcasting ability is ' +
+              'Intelligence (spell save DC 20, +12 to hit with spell attacks). ' +
+              'The lich has the following wizard spells prepared: \n' +
+              'Cantrips (at will): mage hand, prestidigitation, ray of frost \n' +
+              ' 1st level (4 slots): detect magic, magic missile, shield, thunderwave \n' +
+              ' 2nd level (3 slots): detect thoughts, invisibility, acid arrow, mirror image \n' +
+              ' 3rd level (3 slots): animate dead, counterspell, dispel magic, fireball \n' +
+              ' 4th level (3 slots): blight, dimension door \n' +
+              ' 5th level (3 slots): cloudkill, scrying \n' +
+              ' 6th level (1 slot): disintegrate, globe of invulnerability \n' +
+              ' 7th level (1 slot): finger of death, plane shift \n' +
+              ' 8th level (1 slot): dominate monster, power word stun \n' +
+              ' 9th level (1 slot): power word kill',
+          }),
+          new MonsterAbility({
+            name: 'Turn Resistance',
+            description:
+              'The lich has advantage on saving throws against any effect that turns undead.',
+          }),
+        ],
+        actions: [
+          new MonsterAction({
+            name: 'Paralyzing Touch',
+            isAttack: true,
+            attackType: 'Melee Spell Attack',
+            toHit: '12',
+            reach: '5',
+            damage: '3d6',
+            damageType: 'Cold',
+            description:
+              'The target must succeed on a DC 18 Constitution saving ' +
+              'throw or be paralyzed for 1 minute. The target can repeat the ' +
+              'saving throw at the end of each of its turns, ending the effect on ' +
+              'itself on a success',
+          }),
+        ],
+        legenActions: [
+          new MonsterAction({
+            name: 'Cantrip',
+            isAttack: false,
+            description: 'The lich castrs a cantrip',
+          }),
+          new MonsterAction({
+            name: 'Paralyzing Touch (Costs 2 Actions)',
+            isAttack: false,
+            description: 'The lich uses its Paralyzing Touch.',
+          }),
+          new MonsterAction({
+            name: 'Frightening Gaze (Costs 2 Actions)',
+            isAttack: false,
+            description:
+              'The lich fixes its gaze on one creature it can see ' +
+              'within 10 feet of it. The target must succeed on a DC 18 Wisdom ' +
+              'saving throw against this magic or become frightened for 1 minute. ' +
+              'The frightened target can repeat the saving throw at the end of ' +
+              'each of its turns, ending the effect on itself on a success. ' +
+              "If a target's saving throw is successful or the effect ends for " +
+              "it, the target is immune to the lich's gaze for the next 24 hours.",
+          }),
+          new MonsterAction({
+            name: 'Disrupt Life (Costs 3 Actions)',
+            isAttack: false,
+            description:
+              'Each non-undead creature within 20 feet of the lich ' +
+              'must make a DC 18 Constitution saving throw against this magic, ' +
+              'taking 21 (6d6) necrotic damage on a failed save, or half as much ' +
+              'damage on a successful one.',
+          }),
+        ],
+      })
+    );
+  };
+
   return (
     <Box className={classes.root}>
       <Box className={classes.monsterContainer}>
@@ -315,29 +441,45 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
-
-        <Box justifyContent="flex-end" display="flex" marginTop="8px">
-          <input
-            onChange={importConfig}
-            accept="application/JSON"
-            style={{ display: 'none' }}
-            id="config-upload"
-            type="file"
-          />
-          <label htmlFor="config-upload">
-            <Button variant="contained" component="span" color="primary">
-              Import
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          flexDirection="row"
+          marginTop="8px"
+        >
+          <Box justifyContent="flex-start" display="flex">
+            <Button
+              color="primary"
+              variant="contained"
+              aria-label="Load Example"
+              onClick={generateExample}
+            >
+              Load Example
             </Button>
-          </label>
-          <Button
-            color="primary"
-            variant="contained"
-            aria-label="Export"
-            style={{ marginLeft: '8px' }}
-            onClick={exportConfig}
-          >
-            Export
-          </Button>
+          </Box>
+          <Box justifyContent="flex-end" display="flex">
+            <input
+              onChange={importConfig}
+              accept="application/JSON"
+              style={{ display: 'none' }}
+              id="config-upload"
+              type="file"
+            />
+            <label htmlFor="config-upload">
+              <Button variant="contained" component="span" color="primary">
+                Import
+              </Button>
+            </label>
+            <Button
+              color="primary"
+              variant="contained"
+              aria-label="Export"
+              style={{ marginLeft: '8px' }}
+              onClick={exportConfig}
+            >
+              Export
+            </Button>
+          </Box>
         </Box>
       </Box>
       <Box className={classes.statBlockContainer}>

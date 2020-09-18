@@ -66,6 +66,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       style={{
         paddingLeft: '16px',
         paddingRight: '16px',
+        whiteSpace: 'pre-wrap',
       }}
       className={classes.root}
     >
@@ -225,7 +226,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
         <div className={classes.singleItemList}>
           {monster.abilities.map((ability: MonsterAbility) => {
             return (
-              <div key={ability.id}>
+              <div key={ability.id} style={{ paddingBottom: '4px' }}>
                 <strong>{ability.name}</strong> {ability.description}
               </div>
             );
