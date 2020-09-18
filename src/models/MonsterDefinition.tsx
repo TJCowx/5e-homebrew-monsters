@@ -10,6 +10,7 @@ import MonsterAction from './MonsterAction';
  * in normal textfields which forces the types to have to be strings
  */
 export default class MonsterDefinition {
+  [key: string]: any;
   name: string = '';
   size: string = '';
   type: string = '';
@@ -30,12 +31,16 @@ export default class MonsterDefinition {
   proficiencies: Array<string> = new Array<string>();
   savingThrows: Array<string> = new Array<string>();
   immunities: Array<string> = new Array<string>();
+  condImmunities: Array<string> = new Array<string>();
   resistances: Array<string> = new Array<string>();
   weaknesses: Array<string> = new Array<string>();
   senses: Array<string> = new Array<string>();
   languages: Array<string> = new Array<string>();
   abilities: Array<MonsterAbility> = new Array<MonsterAbility>();
   actions: Array<MonsterAction> = new Array<MonsterAction>();
+  legenActions: Array<MonsterAction> = new Array<MonsterAction>();
+  reactions: Array<MonsterAction> = new Array<MonsterAction>();
+  lairActions: Array<MonsterAction> = new Array<MonsterAction>();
 
   constructor(init?: Partial<MonsterDefinition>) {
     // If the declaration isn't null, loop through the abilities and
@@ -50,6 +55,24 @@ export default class MonsterDefinition {
       if (init.actions != null && init.actions.length > 0) {
         for (let i: number = 0; i < init.actions.length; i++) {
           init.actions[i] = new MonsterAction(init.actions[i]);
+        }
+      }
+
+      if (init.reactions != null && init.reactions.length > 0) {
+        for (let i: number = 0; i < init.reactions.length; i++) {
+          init.reactions[i] = new MonsterAction(init.reactions[i]);
+        }
+      }
+
+      if (init.legenActions != null && init.legenActions.length > 0) {
+        for (let i: number = 0; i < init.legenActions.length; i++) {
+          init.legenActions[i] = new MonsterAction(init.legenActions[i]);
+        }
+      }
+
+      if (init.lairActions != null && init.lairActions.length > 0) {
+        for (let i: number = 0; i < init.lairActions.length; i++) {
+          init.lairActions[i] = new MonsterAction(init.lairActions[i]);
         }
       }
     }

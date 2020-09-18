@@ -9,7 +9,10 @@ import MonsterAction from '../../../models/MonsterAction';
 import PropTypes, { InferProps } from 'prop-types';
 
 function MonsterActions({
-  monsterActions,
+  actions,
+  legenActions,
+  reactions,
+  lairActions,
   addMonsterAction,
   removeAction,
 }: InferProps<typeof MonsterActions.propTypes>) {
@@ -32,7 +35,10 @@ function MonsterActions({
         editAction={edittingAction}
       />
       <MonsterActionsList
-        monsterActions={monsterActions}
+        actions={actions}
+        reactions={reactions}
+        legenActions={legenActions}
+        lairActions={lairActions}
         removeAction={removeAction}
         editAction={editAction}
       />
@@ -41,7 +47,10 @@ function MonsterActions({
 }
 
 MonsterActions.propTypes = {
-  monsterActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
+  actions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
+  reactions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
+  legenActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
+  lairActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
   addMonsterAction: PropTypes.func.isRequired,
   removeAction: PropTypes.func.isRequired,
 };

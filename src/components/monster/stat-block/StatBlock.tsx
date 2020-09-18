@@ -61,45 +61,6 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
-  const [regActions, setRegActions] = useState(new Array<MonsterAction>());
-  const [reactions, setReactions] = useState(new Array<MonsterAction>());
-  const [legenActions, setLegenActions] = useState(new Array<MonsterAction>());
-  const [lairActions, setLairActions] = useState(new Array<MonsterAction>());
-
-  /**
-   * An effect that takes changes to an action and sorts them
-   * into their related state array
-   */
-  useEffect(() => {
-    monster.actions.forEach((action: MonsterAction) => {
-      switch (action.actionType) {
-        case 'Action':
-          if (!regActions.some((el: MonsterAction) => el.id === action.id)) {
-            setRegActions([...regActions, action]);
-          }
-          break;
-        case 'Reaction':
-          if (!reactions.some((el: MonsterAction) => el.id === action.id)) {
-            setReactions([...reactions, action]);
-          }
-          break;
-        case 'Legendary':
-          if (!legenActions.some((el: MonsterAction) => el.id === action.id)) {
-            setLegenActions([...legenActions, action]);
-          }
-          break;
-        case 'Lair':
-          if (!lairActions.some((el: MonsterAction) => el.id === action.id)) {
-            setLairActions([...lairActions, action]);
-          }
-          break;
-        default:
-      }
-    });
-
-    return;
-  }, [monster.actions]);
-
   return (
     <div
       style={{
@@ -224,6 +185,14 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               </span>
             </div>
           )}
+          {monster.condImmunities.length > 0 && (
+            <div>
+              <span>
+                <strong>Condition Immunities</strong>{' '}
+                {monster.condImmunities.join(', ')}
+              </span>
+            </div>
+          )}
           {monster.weaknesses.length > 0 && (
             <div>
               <span>
@@ -262,46 +231,46 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             );
           })}
         </div>
-        {regActions.length > 0 && (
+        {monster.actions.length > 0 && (
           <>
             <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
               Actions
             </div>
             <hr className={classes.titleUnderline} />
-            {regActions.map((action: MonsterAction) => (
+            {monster.actions.map((action: MonsterAction) => (
               <FormattedAction key={`formatted-${action.id}`} action={action} />
             ))}
           </>
         )}
-        {reactions.length > 0 && (
+        {monster.reactions.length > 0 && (
           <>
             <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
               Reactions
             </div>
             <hr className={classes.titleUnderline} />
-            {reactions.map((action: MonsterAction) => (
+            {monster.reactions.map((action: MonsterAction) => (
               <FormattedAction key={`formatted-${action.id}`} action={action} />
             ))}
           </>
         )}
-        {legenActions.length > 0 && (
+        {monster.legenActions.length > 0 && (
           <>
             <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
               Legendary Actions
             </div>
             <hr className={classes.titleUnderline} />
-            {legenActions.map((action: MonsterAction) => (
+            {monster.legenActions.map((action: MonsterAction) => (
               <FormattedAction key={`formatted-${action.id}`} action={action} />
             ))}
           </>
         )}
-        {lairActions.length > 0 && (
+        {monster.lairActions.length > 0 && (
           <>
             <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
               Lair Actions
             </div>
             <hr className={classes.titleUnderline} />
-            {lairActions.map((action: MonsterAction) => (
+            {monster.lairActions.map((action: MonsterAction) => (
               <FormattedAction key={`formatted-${action.id}`} action={action} />
             ))}
           </>
