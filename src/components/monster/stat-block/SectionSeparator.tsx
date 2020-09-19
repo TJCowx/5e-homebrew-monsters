@@ -4,7 +4,8 @@ function SectionSeparator() {
   return (
     <>
       <svg
-        style={{ fill: '#99351f', stroke: '#99351f', height: '5px', width: '450px' }}
+        width="450px"
+        style={{ fill: '#99351f', stroke: '#99351f', height: '5px' }}
       >
         <polyline points="0,0 450,2.5 0,5" />
       </svg>

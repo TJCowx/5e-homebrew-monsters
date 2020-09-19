@@ -12,6 +12,7 @@
     "@types/jest": "^26.0.0",
     "@types/node": "^14.0.13",
     "@types/uuid": "^8.3.0",
+    "html2canvas": "^1.0.0-rc.7",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1",

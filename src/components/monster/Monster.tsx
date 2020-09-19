@@ -4,7 +4,7 @@
  * properties in an expansion panel.
  */
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
@@ -26,6 +26,8 @@ import MonsterAction from '../../models/MonsterAction';
 import MonsterDefinition from '../../models/MonsterDefinition';
 import StatBlock from './stat-block/StatBlock';
 import PropTypes, { InferProps } from 'prop-types';
+import ReactDOM from 'react-dom';
+import html2canvas from 'html2canvas';
 
 /** Setup the styles and theming for this component and children */
 const styles = (theme: Theme) => ({
@@ -53,6 +55,8 @@ const styles = (theme: Theme) => ({
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   const [monster, setMonster] = useState(new MonsterDefinition());
+
+  const componentRef = useRef();
 
   /**
    * Updates the state of the monster on a change.
@@ -209,6 +213,43 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     element.download = fileName;
     document.body.appendChild(element);
     element.click();
+  };
+
+  /**
+   * Export the stat block into an image
+   */
+  const exportImage = () => {
+    // The below needs to be here otherwise html2canvas can't handle svgs
+    // https://stackoverflow.com/questions/32481054/svg-not-displayed-when-using-html2canvas
+    var svgElements = document.body.querySelectorAll('svg');
+    svgElements.forEach(function (item) {
+      item.setAttribute('width', `${item.getBoundingClientRect().width}`);
+      item.setAttribute('height', `${item.getBoundingClientRect().height}`);
+      item.style.width = null;
+      item.style.height = null;
+    });
+
+    const element: any = ReactDOM.findDOMNode(componentRef.current);
+
+    return html2canvas(element, {
+      backgroundColor: null,
+      useCORS: true,
+    }).then((canvas) => {
+      const fileName: string = `${monster.name}.png`;
+      const uri: string = canvas.toDataURL('image/png', 1.0);
+
+      const link = document.createElement('a');
+
+      if (typeof link.download === 'string') {
+        link.href = uri;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        window.open(uri);
+      }
+    });
   };
 
   /**
@@ -479,12 +520,21 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             >
               Export
             </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              aria-label="Save as Image"
+              style={{ marginLeft: '8px' }}
+              onClick={exportImage}
+            >
+              Save as Image
+            </Button>
           </Box>
         </Box>
       </Box>
-      <Box className={classes.statBlockContainer}>
+      <div className={classes.statBlockContainer} ref={componentRef}>
         <StatBlock monster={monster} />
-      </Box>
+      </div>
     </Box>
   );
 }

@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "jsx": "react",
+    "allowJs": true,
     "module": "commonjs",
     "noImplicitAny": true,
     "outDir": "./build/",
@@ -10,5 +11,7 @@
     "target": "es5",
     "esModuleInterop": true
   },
-  "include": ["src/index.tsx"]
+  "include": ["src/index.tsx"],
+  "typeRoots": ["types/index.d.ts"],
+  "exclude": ["node_modules"]
 }
