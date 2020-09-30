@@ -5,6 +5,10 @@ Currently can be found at: https://tjcowx.github.io/5e-homebrew-monsters/
 
 ## VERSIONS
 
+### 0.2.1 (2020-09-29)
+- Added navigation bar to link to 5-homebrew-items
+- Added version number on the site to quick reference it
+
 ### 0.2.1 (2020-09-17)
 - Added the type field to the stat builder
 
