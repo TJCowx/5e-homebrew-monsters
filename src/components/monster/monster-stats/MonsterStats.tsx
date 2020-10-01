@@ -90,14 +90,6 @@ function MonsterStats({
           name="hitDie"
           onChange={handleChange}
         />
-        <TextField
-          style={{ width: '40%' }}
-          className={classes.inputField}
-          label="Speed"
-          value={speed}
-          name="speed"
-          onChange={handleChange}
-        />
       </Box>
 
       <Box display="flex" flexDirection="row">

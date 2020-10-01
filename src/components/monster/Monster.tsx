@@ -10,6 +10,7 @@ import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
 import MonsterAbilities from './monster-abilities/MonsterAbilities';
 import MonsterDescription from './monster-descriptions/MonsterDescription';
+import MonsterSpeed from './monster-speed/MonsterSpeed';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -401,6 +402,25 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Movement</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Types of Movement Speeds
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterSpeed
+              landSpeed={monster.landSpeed}
+              flySpeed={monster.flySpeed}
+              burrowSpeed={monster.burrowSpeed}
+              climbSpeed={monster.climbSpeed}
+              hoverSpeed={monster.hoverSpeed}
+              handleChange={handleChange}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Monster Stats</Typography>
             <Typography className={classes.secondaryHeading}>
               Stat-Summary
@@ -412,7 +432,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               armourClass={monster.armourClass}
               hitPoints={monster.hitPoints}
               hitDie={monster.hitDie}
-              speed={monster.speed}
               str={monster.str}
               dex={monster.dex}
               con={monster.con}
