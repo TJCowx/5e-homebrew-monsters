@@ -45,7 +45,6 @@ function MonsterStats({
   proficiencies,
   savingThrows,
   hitDie,
-  speed,
   handleChange,
 }: InferProps<typeof MonsterStats.propTypes>) {
   const availableProfs: object = getProficiencies();
@@ -199,7 +198,6 @@ MonsterStats.propTypes = {
   chr: PropTypes.string.isRequired,
   profBonus: PropTypes.string.isRequired,
   hitDie: PropTypes.string.isRequired,
-  speed: PropTypes.string.isRequired,
   proficiencies: PropTypes.array.isRequired,
   savingThrows: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,
