@@ -1,8 +1,14 @@
-import { PropertyDescriptorParsingType } from 'html2canvas/dist/types/css/IPropertyDescriptor';
 import React, { useState } from 'react';
 import propTypes, { InferProps } from 'prop-types';
 import NumericInput from 'material-ui-numeric-input';
-import { Box, FormControlLabel, Switch } from '@material-ui/core';
+import { Box, FormControlLabel, makeStyles, Switch, Theme } from '@material-ui/core';
+
+const useStyles = makeStyles(() => ({
+  speedToggle: {
+    minWidth: '108px',
+    paddingRight: '8px',
+  },
+}));
 
 function MonsterSpeed({
   landSpeed,
@@ -18,22 +24,70 @@ function MonsterSpeed({
   const [hasClimb, setHasClimb] = useState(climbSpeed != null);
   const [hasHover, setHasHover] = useState(hoverSpeed != null);
 
+  const classes = useStyles();
+
   const toggleSpeedShow = (speedType: string) => {
+    let newVal: number = 0;
     switch (speedType) {
       case 'land':
         setHasLand(!hasLand);
+
+        // Toggle speed to 0 or null depending on if there is the land speed property
+        newVal = hasLand ? newVal : null;
+        handleChange({
+          target: {
+            name: 'landSpeed',
+            value: newVal,
+          },
+        });
         break;
       case 'fly':
         setHasFly(!hasFly);
+
+        // Toggle speed to 0 or null depending on if there is the fly speed property
+        newVal = hasFly ? newVal : null;
+        handleChange({
+          target: {
+            name: 'flySpeed',
+            value: newVal,
+          },
+        });
         break;
       case 'burrow':
         setHasBurrow(!hasBurrow);
+
+        // Toggle speed to 0 or null depending on if there is the burrow speed property
+        newVal = hasBurrow ? newVal : null;
+        handleChange({
+          target: {
+            name: 'burrowSpeed',
+            value: newVal,
+          },
+        });
         break;
       case 'climb':
         setHasClimb(!hasClimb);
+
+        // Toggle speed to 0 or null depending on if there is the climb speed property
+        newVal = hasClimb ? newVal : null;
+        handleChange({
+          target: {
+            name: 'climbSpeed',
+            value: newVal,
+          },
+        });
         break;
       case 'hover':
         setHasHover(!hasHover);
+
+        // Toggle speed to 0 or null depending on if there is the hover speed property
+        newVal = hasHover ? newVal : null;
+        handleChange({
+          target: {
+            name: 'hoverSpeed',
+            value: newVal,
+          },
+        });
         break;
       default:
         console.error(`${speedType} isn't a speed`);
@@ -43,16 +97,18 @@ function MonsterSpeed({
   return (
     <Box width="100%">
       <Box display="flex" flexDirection="row">
-        <FormControlLabel
-          label="Land"
-          control={
-            <Switch
-              color="primary"
-              checked={hasLand}
-              onChange={() => toggleSpeedShow('land')}
-            />
-          }
-        />
+        <div className={classes.speedToggle}>
+          <FormControlLabel
+            label="Land"
+            control={
+              <Switch
+                color="primary"
+                checked={hasLand}
+                onChange={() => toggleSpeedShow('land')}
+              />
+            }
+          />
+        </div>
         {hasLand && (
           <NumericInput
             name="landSpeed"
@@ -66,16 +122,18 @@ function MonsterSpeed({
         )}
       </Box>
       <Box display="flex" flexDirection="row">
-        <FormControlLabel
-          label="Fly"
-          control={
-            <Switch
-              color="primary"
-              checked={hasFly}
-              onChange={() => toggleSpeedShow('fly')}
-            />
-          }
-        />
+        <div className={classes.speedToggle}>
+          <FormControlLabel
+            label="Fly"
+            control={
+              <Switch
+                color="primary"
+                checked={hasFly}
+                onChange={() => toggleSpeedShow('fly')}
+              />
+            }
+          />
+        </div>
         {hasFly && (
           <NumericInput
             name="flySpeed"
@@ -88,17 +146,20 @@ function MonsterSpeed({
           />
         )}
       </Box>
+
       <Box display="flex" flexDirection="row">
-        <FormControlLabel
-          label="Burrow"
-          control={
-            <Switch
-              color="primary"
-              checked={hasBurrow}
-              onChange={() => toggleSpeedShow('burrow')}
-            />
-          }
-        />
+        <div className={classes.speedToggle}>
+          <FormControlLabel
+            label="Burrow"
+            control={
+              <Switch
+                color="primary"
+                checked={hasBurrow}
+                onChange={() => toggleSpeedShow('burrow')}
+              />
+            }
+          />
+        </div>
         {hasBurrow && (
           <NumericInput
             name="burrowSpeed"
@@ -112,16 +173,18 @@ function MonsterSpeed({
         )}
       </Box>
       <Box display="flex" flexDirection="row">
-        <FormControlLabel
-          label="Climb"
-          control={
-            <Switch
-              color="primary"
-              checked={hasClimb}
-              onChange={() => toggleSpeedShow('climb')}
-            />
-          }
-        />
+        <div className={classes.speedToggle}>
+          <FormControlLabel
+            label="Climb"
+            control={
+              <Switch
+                color="primary"
+                checked={hasClimb}
+                onChange={() => toggleSpeedShow('climb')}
+              />
+            }
+          />
+        </div>
         {hasClimb && (
           <NumericInput
             name="climbSpeed"
@@ -135,16 +198,18 @@ function MonsterSpeed({
         )}
       </Box>
       <Box display="flex" flexDirection="row">
-        <FormControlLabel
-          label="Hover"
-          control={
-            <Switch
-              color="primary"
-              checked={hasHover}
-              onChange={() => toggleSpeedShow('hover')}
-            />
-          }
-        />
+        <div className={classes.speedToggle}>
+          <FormControlLabel
+            label="Hover"
+            control={
+              <Switch
+                color="primary"
+                checked={hasHover}
+                onChange={() => toggleSpeedShow('hover')}
+              />
+            }
+          />
+        </div>
         {hasHover && (
           <NumericInput
             name="hoverSpeed"
