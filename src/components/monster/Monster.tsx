@@ -220,6 +220,8 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
    * Export the stat block into an image
    */
   const exportImage = () => {
+    // This is a fix to the image not exporting properly
+    window.scroll(0, 0);
     // The below needs to be here otherwise html2canvas can't handle svgs
     // https://stackoverflow.com/questions/32481054/svg-not-displayed-when-using-html2canvas
     var svgElements = document.body.querySelectorAll('svg');
@@ -267,7 +269,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         armourClass: '17',
         hitPoints: '135',
         hitDie: '18d8+54',
-        speed: '30',
+        landSpeed: '30',
         str: '11',
         dex: '16',
         con: '16',
