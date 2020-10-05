@@ -29,6 +29,10 @@ export default class MonsterDefinition {
   int: string = '0';
   wis: string = '0';
   chr: string = '0';
+  blindsight: string = '';
+  darkvision: string = '';
+  tremorsense: string = '';
+  truesight: string = '';
   profBonus: string = '0';
   challengeRating: string = '';
   rewardXP: string = '';
@@ -38,7 +42,6 @@ export default class MonsterDefinition {
   condImmunities: Array<string> = new Array<string>();
   resistances: Array<string> = new Array<string>();
   weaknesses: Array<string> = new Array<string>();
-  senses: Array<string> = new Array<string>();
   languages: Array<string> = new Array<string>();
   abilities: Array<MonsterAbility> = new Array<MonsterAbility>();
   actions: Array<MonsterAction> = new Array<MonsterAction>();
