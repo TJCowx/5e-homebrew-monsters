@@ -34,6 +34,13 @@ function NavMenu({ open, closeDrawer }: InferProps<typeof NavMenu.propTypes>) {
         <ListItem
           button
           component="a"
+          href="https://roll20.net/compendium/dnd5e/Monsters#content"
+        >
+          <ListItemText primary="Roll20 Help" />
+        </ListItem>
+        <ListItem
+          button
+          component="a"
           href="https://github.com/TJCowx/5e-homebrew-monsters"
         >
           <ListItemText primary="View on Github" />

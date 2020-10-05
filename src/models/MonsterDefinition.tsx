@@ -18,7 +18,11 @@ export default class MonsterDefinition {
   armourClass: string = '';
   hitPoints: string = '';
   hitDie: string = '';
-  speed: string = '';
+  landSpeed: string = '';
+  flySpeed: string = '';
+  burrowSpeed: string = '';
+  climbSpeed: string = '';
+  hoverSpeed: string = '';
   str: string = '0';
   dex: string = '0';
   con: string = '0';

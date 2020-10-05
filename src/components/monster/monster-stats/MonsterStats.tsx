@@ -45,7 +45,6 @@ function MonsterStats({
   proficiencies,
   savingThrows,
   hitDie,
-  speed,
   handleChange,
 }: InferProps<typeof MonsterStats.propTypes>) {
   const availableProfs: object = getProficiencies();
@@ -88,14 +87,6 @@ function MonsterStats({
           label="Hit Die"
           value={hitDie}
           name="hitDie"
-          onChange={handleChange}
-        />
-        <TextField
-          style={{ width: '40%' }}
-          className={classes.inputField}
-          label="Speed"
-          value={speed}
-          name="speed"
           onChange={handleChange}
         />
       </Box>
@@ -207,7 +198,6 @@ MonsterStats.propTypes = {
   chr: PropTypes.string.isRequired,
   profBonus: PropTypes.string.isRequired,
   hitDie: PropTypes.string.isRequired,
-  speed: PropTypes.string.isRequired,
   proficiencies: PropTypes.array.isRequired,
   savingThrows: PropTypes.array.isRequired,
   handleChange: PropTypes.func.isRequired,
