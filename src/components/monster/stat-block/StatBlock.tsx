@@ -3,6 +3,7 @@ import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
+import SpeedFormat from './SpeedFormat';
 import { getDisplayModifier } from '../../../hooks/getModifier';
 import { getSavingThrowModifier } from '../../../hooks/getSavingThrowModifier';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
@@ -130,7 +131,14 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.hitDie.length > 0 && `(${monster.hitDie})`}
             </div>
             <div>
-              <span style={{ fontWeight: 'bold' }}>Speed</span> {monster.speed}
+              <span style={{ fontWeight: 'bold' }}>Speed</span>{' '}
+              <SpeedFormat
+                landSpeed={monster.landSpeed}
+                flySpeed={monster.flySpeed}
+                burrowSpeed={monster.burrowSpeed}
+                climbSpeed={monster.climbSpeed}
+                hoverSpeed={monster.hoverSpeed}
+              />
             </div>
           </div>
           <SectionSeparator />
