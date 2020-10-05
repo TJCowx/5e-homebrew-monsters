@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import propTypes, { InferProps } from 'prop-types';
-import NumericInput from 'material-ui-numeric-input';
-import { Box, FormControlLabel, makeStyles, Switch, Theme } from '@material-ui/core';
+import {
+  Box,
+  FormControlLabel,
+  makeStyles,
+  Switch,
+  TextField,
+} from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   speedToggle: {
@@ -18,79 +23,108 @@ function MonsterSpeed({
   hoverSpeed,
   handleChange,
 }: InferProps<typeof MonsterSpeed.propTypes>) {
-  const [hasLand, setHasLand] = useState(landSpeed != null);
-  const [hasFly, setHasFly] = useState(flySpeed != null);
-  const [hasBurrow, setHasBurrow] = useState(burrowSpeed != null);
-  const [hasClimb, setHasClimb] = useState(climbSpeed != null);
-  const [hasHover, setHasHover] = useState(hoverSpeed != null);
+  const [hasLand, setHasLand] = useState(landSpeed !== '');
+  const [hasFly, setHasFly] = useState(flySpeed !== '');
+  const [hasBurrow, setHasBurrow] = useState(burrowSpeed !== '');
+  const [hasClimb, setHasClimb] = useState(climbSpeed !== '');
+  const [hasHover, setHasHover] = useState(hoverSpeed !== '');
 
+  /** Classes for the component */
   const classes = useStyles();
 
+  // **************************************
+  //#region     EFFECT HOOKS
+  // **************************************
+
+  /** Setup the effect to toggle the requirements for land speed */
+  useEffect(() => {
+    handleChange({
+      target: {
+        name: 'landSpeed',
+        value: !hasLand ? '' : landSpeed,
+      },
+    });
+  }, [hasLand]);
+
+  /** Setup the effect to toggle the requirements for fly speed */
+  useEffect(() => {
+    handleChange({
+      target: {
+        name: 'flySpeed',
+        value: !hasFly ? '' : hasFly,
+      },
+    });
+  }, [hasFly]);
+
+  /** Setup the effect to toggle the requirements for burrow speed */
+  useEffect(() => {
+    handleChange({
+      target: {
+        name: 'burrowSpeed',
+        value: !hasBurrow ? '' : burrowSpeed,
+      },
+    });
+  }, [hasBurrow]);
+
+  /** Setup the effect to toggle the requirements for climb speed */
+  useEffect(() => {
+    handleChange({
+      target: {
+        name: 'climbSpeed',
+        value: !hasClimb ? '' : climbSpeed,
+      },
+    });
+  }, [hasClimb]);
+
+  /** Setup the effect to toggle the requirements for hover speed */
+  useEffect(() => {
+    handleChange({
+      target: {
+        name: 'hasHover',
+        value: !hasHover ? '' : hoverSpeed,
+      },
+    });
+  }, [hasHover]);
+
+  // **************************************
+  //#endregion   EFFECT HOOKS
+  // **************************************
+
+  /**
+   * Toggles if the speed type is being added or not
+   * @param speedType the type of speed to toggle
+   */
   const toggleSpeedShow = (speedType: string) => {
-    let newVal: number = 0;
     switch (speedType) {
       case 'land':
         setHasLand(!hasLand);
-
-        // Toggle speed to 0 or null depending on if there is the land speed property
-        newVal = hasLand ? newVal : null;
-        handleChange({
-          target: {
-            name: 'landSpeed',
-            value: newVal,
-          },
-        });
         break;
       case 'fly':
         setHasFly(!hasFly);
-
-        // Toggle speed to 0 or null depending on if there is the fly speed property
-        newVal = hasFly ? newVal : null;
-        handleChange({
-          target: {
-            name: 'flySpeed',
-            value: newVal,
-          },
-        });
         break;
       case 'burrow':
         setHasBurrow(!hasBurrow);
-
-        // Toggle speed to 0 or null depending on if there is the burrow speed property
-        newVal = hasBurrow ? newVal : null;
-        handleChange({
-          target: {
-            name: 'burrowSpeed',
-            value: newVal,
-          },
-        });
         break;
       case 'climb':
         setHasClimb(!hasClimb);
-
-        // Toggle speed to 0 or null depending on if there is the climb speed property
-        newVal = hasClimb ? newVal : null;
-        handleChange({
-          target: {
-            name: 'climbSpeed',
-            value: newVal,
-          },
-        });
         break;
       case 'hover':
         setHasHover(!hasHover);
-
-        // Toggle speed to 0 or null depending on if there is the hover speed property
-        newVal = hasHover ? newVal : null;
-        handleChange({
-          target: {
-            name: 'hoverSpeed',
-            value: newVal,
-          },
-        });
         break;
       default:
         console.error(`${speedType} isn't a speed`);
+    }
+  };
+
+  /**
+   * Takes an input event and checks to see if it was an integer input
+   * before trying to update the state
+   * @param event The event passed in from material UI onChange
+   */
+  const handleIntChange = (event: { target: { name: any; value: any } }) => {
+    // If it's null or a number value we will let it update the state in the parent
+    if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
+      handleChange(event);
     }
   };
 
@@ -110,13 +144,10 @@ function MonsterSpeed({
           />
         </div>
         {hasLand && (
-          <NumericInput
+          <TextField
             name="landSpeed"
-            precision="0"
-            decimalSeparator="."
-            thousandSeparator=","
             value={landSpeed}
-            onChange={handleChange}
+            onChange={handleIntChange}
             label="Speed"
           />
         )}
@@ -135,13 +166,10 @@ function MonsterSpeed({
           />
         </div>
         {hasFly && (
-          <NumericInput
+          <TextField
             name="flySpeed"
-            precision="0"
-            decimalSeparator="."
-            thousandSeparator=","
             value={flySpeed}
-            onChange={handleChange}
+            onChange={handleIntChange}
             label="Speed"
           />
         )}
@@ -161,13 +189,10 @@ function MonsterSpeed({
           />
         </div>
         {hasBurrow && (
-          <NumericInput
+          <TextField
             name="burrowSpeed"
-            precision="0"
-            decimalSeparator="."
-            thousandSeparator=","
             value={burrowSpeed}
-            onChange={handleChange}
+            onChange={handleIntChange}
             label="Speed"
           />
         )}
@@ -186,13 +211,10 @@ function MonsterSpeed({
           />
         </div>
         {hasClimb && (
-          <NumericInput
+          <TextField
             name="climbSpeed"
-            precision="0"
-            decimalSeparator="."
-            thousandSeparator=","
             value={climbSpeed}
-            onChange={handleChange}
+            onChange={handleIntChange}
             label="Speed"
           />
         )}
@@ -211,13 +233,10 @@ function MonsterSpeed({
           />
         </div>
         {hasHover && (
-          <NumericInput
+          <TextField
             name="hoverSpeed"
-            precision="0"
-            decimalSeparator="."
-            thousandSeparator=","
             value={hoverSpeed}
-            onChange={handleChange}
+            onChange={handleIntChange}
             label="Speed"
           />
         )}
@@ -227,12 +246,12 @@ function MonsterSpeed({
 }
 
 MonsterSpeed.propTypes = {
-  landSpeed: propTypes.number.isRequired,
-  flySpeed: propTypes.number.isRequired,
-  burrowSpeed: propTypes.number.isRequired,
-  climbSpeed: propTypes.number.isRequired,
-  hoverSpeed: propTypes.number.isRequired,
-  handleChange: propTypes.func.isRequired,
+  landSpeed: propTypes.string,
+  flySpeed: propTypes.string,
+  burrowSpeed: propTypes.string,
+  climbSpeed: propTypes.string,
+  hoverSpeed: propTypes.string,
+  handleChange: propTypes.func,
 };
 
 export default MonsterSpeed;
