@@ -10,8 +10,9 @@ import {
 
 const useStyles = makeStyles(() => ({
   speedToggle: {
-    minWidth: '108px',
+    minWidth: '116px',
     paddingRight: '8px',
+    marginTop: 'auto',
   },
 }));
 
