@@ -51,7 +51,7 @@ function MonsterSpeed({
     handleChange({
       target: {
         name: 'flySpeed',
-        value: !hasFly ? '' : hasFly,
+        value: !hasFly ? '' : flySpeed,
       },
     });
   }, [hasFly]);
