@@ -19,7 +19,7 @@ const useStyles = () =>
     },
     accentColour: { color: '#58170D' },
     column: {
-      width: '450px',
+      width: '600px',
       backgroundColor: '#fdf1dc',
       padding: '16px',
       marginLeft: '4px',
