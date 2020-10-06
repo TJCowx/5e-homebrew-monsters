@@ -62,6 +62,15 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
+  /**
+   * Calculates the passive perception. This is calculated from
+   * 10 + proficiency bonus + perception.
+   * https://roll20.net/compendium/dnd5e/Ability%20Scores#toc_8
+   */
+  const getPassiverPer = () => {
+    return 10 + getProfModifier('per', monster);
+  };
+
   const displaySenses = () => {
     if (
       !monster.blindsight.length &&
@@ -69,6 +78,16 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       !monster.tremorsense.length &&
       !monster.truesight.length
     ) {
+      // If we have a proficiency
+      if (monster.proficiencies.includes('per')) {
+        return (
+          <>
+            <strong>Senses:</strong> passive Perception {getPassiverPer()}
+          </>
+        );
+      }
+
+      // If we aren't proficient in perception return nothing for senses
       return <></>;
     }
 
@@ -86,6 +105,9 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             <>Tremorsense {monster.tremorsense}ft., </>
           )}
           {monster.truesight.length > 0 && <>Truesight {monster.truesight}ft., </>}
+          {monster.proficiencies.includes('per') && (
+            <>passive Perception {getPassiverPer()}</>
+          )}
         </span>
       </div>
     );
