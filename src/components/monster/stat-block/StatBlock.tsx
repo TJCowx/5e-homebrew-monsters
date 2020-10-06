@@ -264,13 +264,6 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               </div>
             )}
             {displaySenses()}
-            {/* {monster.senses.length > 0 && (
-              <div>
-                <span>
-                  <strong>Senses</strong> {monster.senses.join(', ')}
-                </span>
-              </div>
-            )} */}
             <div>
               <span>
                 <strong>Languages</strong>{' '}
@@ -325,6 +318,12 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 Legendary Actions
               </div>
               <hr className={classes.titleUnderline} />
+              <p style={{ fontSize: '13px' }}>
+                {monster.name} can take 3 Legendary Actions, choosing from the
+                options below. Only one legendary action can be used at a time, and
+                only at the end of another creature's turn. Spent legendary Actions
+                are regained at the start of each turn.
+              </p>
               {monster.legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
