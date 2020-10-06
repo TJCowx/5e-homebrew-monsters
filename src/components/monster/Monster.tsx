@@ -11,6 +11,7 @@ import MonsterActions from './monster-actions/MonsterActions';
 import MonsterAbilities from './monster-abilities/MonsterAbilities';
 import MonsterDescription from './monster-descriptions/MonsterDescription';
 import MonsterSpeed from './monster-speed/MonsterSpeed';
+import MonsterSenses from './monster-senses/MonsterSenses';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -443,6 +444,24 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               profBonus={monster.profBonus}
               proficiencies={monster.proficiencies}
               savingThrows={monster.savingThrows}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel>
+          <ExpansionPanelSummary>
+            <Typography className={classes.heading}>Senses</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Truesight, Tremorsense, ect..
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterSenses
+              blindsight={monster.blindsight}
+              darkvision={monster.darkvision}
+              tremorsense={monster.tremorsense}
+              truesight={monster.truesight}
+              handleChange={handleChange}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
