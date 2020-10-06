@@ -449,7 +449,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         </ExpansionPanel>
 
         <ExpansionPanel>
-          <ExpansionPanelSummary>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
             <Typography className={classes.heading}>Senses</Typography>
             <Typography className={classes.secondaryHeading}>
               Truesight, Tremorsense, ect..
@@ -480,7 +480,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               resistances={monster.resistances}
               weaknesses={monster.weaknesses}
               languages={monster.languages}
-              senses={monster.senses}
               challengeRating={monster.challengeRating}
               rewardXP={monster.rewardXP}
               handleChange={handleChange}
