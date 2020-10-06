@@ -33,7 +33,6 @@ function MonsterProperties({
   resistances,
   weaknesses,
   condImmunities,
-  senses,
   languages,
   challengeRating,
   rewardXP,
@@ -167,23 +166,7 @@ function MonsterProperties({
         </FormControl>
       </Box>
       <Box display="flex" flexDirection="row">
-        <FormControl className={classes.inputField} style={{ width: '25%' }}>
-          <InputLabel id="senses-label">Senses</InputLabel>
-          <Select
-            name="senses"
-            multiple
-            labelId="senses-label"
-            value={senses}
-            onChange={handleChange}
-          >
-            {availableSenses.map((sense: string) => (
-              <MenuItem key={sense} value={sense}>
-                {sense}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '25%' }}>
+        <FormControl className={classes.inputField} style={{ width: '33%' }}>
           <InputLabel id="languages-label">Languages</InputLabel>
           <Select
             name="languages"
@@ -201,7 +184,7 @@ function MonsterProperties({
         </FormControl>
         <TextField
           className={classes.inputField}
-          style={{ width: '25%' }}
+          style={{ width: '33%' }}
           id="standard-basic"
           label="Challenge Rating"
           name="challengeRating"
@@ -210,7 +193,7 @@ function MonsterProperties({
         />
         <TextField
           className={classes.inputField}
-          style={{ width: '25%' }}
+          style={{ width: '33%' }}
           id="standard-basic"
           label="Reward XP"
           name="rewardXP"
@@ -228,7 +211,6 @@ MonsterProperties.propTypes = {
   resistances: PropTypes.array.isRequired,
   weaknesses: PropTypes.array.isRequired,
   languages: PropTypes.array.isRequired,
-  senses: PropTypes.array.isRequired,
   challengeRating: PropTypes.string.isRequired,
   rewardXP: PropTypes.string.isRequired,
   handleChange: PropTypes.func.isRequired,

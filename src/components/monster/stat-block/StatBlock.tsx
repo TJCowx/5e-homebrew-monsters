@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
@@ -11,8 +11,6 @@ import { getProfModifier } from '../../../hooks/getProfModifier';
 import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
-import ReactDOM from 'react-dom';
-import html2canvas from 'html2canvas';
 
 const useStyles = () =>
   createStyles({
@@ -64,40 +62,58 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
-  const ref = useRef();
+  /**
+   * Calculates the passive perception. This is calculated from
+   * 10 + proficiency bonus + perception.
+   * https://roll20.net/compendium/dnd5e/Ability%20Scores#toc_8
+   */
+  const getPassiverPer = () => {
+    return 10 + getProfModifier('per', monster);
+  };
 
-  const exportImage = () => {
-    // The below needs to be here otherwise html2canvas can't handle svgs
-    // https://stackoverflow.com/questions/32481054/svg-not-displayed-when-using-html2canvas
-    var svgElements = document.body.querySelectorAll('svg');
-    svgElements.forEach(function (item) {
-      item.setAttribute('width', `${item.getBoundingClientRect().width}`);
-      item.setAttribute('height', `${item.getBoundingClientRect().height}`);
-      item.style.width = null;
-      item.style.height = null;
-    });
-
-    const element: any = ReactDOM.findDOMNode(ref.current);
-
-    return html2canvas(element, {
-      backgroundColor: null,
-      useCORS: true,
-    }).then((canvas) => {
-      const fileName: string = `${monster.name}.png`;
-      const uri: string = canvas.toDataURL('image/png', 1.0);
-
-      const link = document.createElement('a');
-
-      if (typeof link.download === 'string') {
-        link.href = uri;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        window.open(uri);
+  /**
+   * Handles displaying what senses are being outputted to the stat block
+   */
+  const displaySenses = () => {
+    if (
+      !monster.blindsight.length &&
+      !monster.darkvision.length &&
+      !monster.tremorsense.length &&
+      !monster.truesight.length
+    ) {
+      // If we have a proficiency
+      if (monster.proficiencies.includes('per')) {
+        return (
+          <>
+            <strong>Senses:</strong> passive Perception {getPassiverPer()}
+          </>
+        );
       }
-    });
+
+      // If we aren't proficient in perception return nothing for senses
+      return <></>;
+    }
+
+    return (
+      <div>
+        <span>
+          <strong>Senses:</strong>{' '}
+          {monster.blindsight.length > 0 && (
+            <>Blindsight {monster.blindsight}ft., </>
+          )}
+          {monster.darkvision.length > 0 && (
+            <>Darkvision {monster.darkvision}ft., </>
+          )}
+          {monster.tremorsense.length > 0 && (
+            <>Tremorsense {monster.tremorsense}ft., </>
+          )}
+          {monster.truesight.length > 0 && <>Truesight {monster.truesight}ft., </>}
+          {monster.proficiencies.includes('per') && (
+            <>passive Perception {getPassiverPer()}</>
+          )}
+        </span>
+      </div>
+    );
   };
 
   return (
@@ -109,7 +125,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       }}
       className={classes.root}
     >
-      <div ref={ref}>
+      <div>
         <StatBlockBorder />
         <div className={classes.column}>
           <div className={`${classes.name} ${classes.accentColour}`}>
@@ -250,13 +266,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 </span>
               </div>
             )}
-            {monster.senses.length > 0 && (
-              <div>
-                <span>
-                  <strong>Senses</strong> {monster.senses.join(', ')}
-                </span>
-              </div>
-            )}
+            {displaySenses()}
             <div>
               <span>
                 <strong>Languages</strong>{' '}
@@ -311,6 +321,12 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 Legendary Actions
               </div>
               <hr className={classes.titleUnderline} />
+              <p style={{ fontSize: '13px' }}>
+                {monster.name} can take 3 Legendary Actions, choosing from the
+                options below. Only one legendary action can be used at a time, and
+                only at the end of another creature's turn. Spent legendary Actions
+                are regained at the start of each turn.
+              </p>
               {monster.legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}

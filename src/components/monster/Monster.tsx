@@ -11,6 +11,7 @@ import MonsterActions from './monster-actions/MonsterActions';
 import MonsterAbilities from './monster-abilities/MonsterAbilities';
 import MonsterDescription from './monster-descriptions/MonsterDescription';
 import MonsterSpeed from './monster-speed/MonsterSpeed';
+import MonsterSenses from './monster-senses/MonsterSenses';
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -220,6 +221,8 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
    * Export the stat block into an image
    */
   const exportImage = () => {
+    // This is a fix to the image not exporting properly
+    window.scroll(0, 0);
     // The below needs to be here otherwise html2canvas can't handle svgs
     // https://stackoverflow.com/questions/32481054/svg-not-displayed-when-using-html2canvas
     var svgElements = document.body.querySelectorAll('svg');
@@ -267,7 +270,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         armourClass: '17',
         hitPoints: '135',
         hitDie: '18d8+54',
-        speed: '30',
+        landSpeed: '30',
         str: '11',
         dex: '16',
         con: '16',
@@ -288,7 +291,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           'Paralyzed',
           'Poisoned',
         ],
-        senses: ['Truesight'],
+        truesight: '120',
         languages: ['Common', 'Elvish', 'Celestial', 'Sylvan', 'Primordial'],
         abilities: [
           new MonsterAbility({
@@ -384,9 +387,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
       <Box className={classes.monsterContainer}>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Description</Typography>
+            <Typography className={classes.heading}>Description</Typography>
             <Typography className={classes.secondaryHeading}>
-              {monster.name}
+              Name, Type, Size, Alignment
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -421,9 +424,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Stats</Typography>
+            <Typography className={classes.heading}>Stats</Typography>
             <Typography className={classes.secondaryHeading}>
-              Stat-Summary
+              Stats, AC, HP, Proficiencies, Saving Throws
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -447,9 +450,27 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Properties</Typography>
+            <Typography className={classes.heading}>Senses</Typography>
             <Typography className={classes.secondaryHeading}>
-              Property Summary
+              Truesight, Tremorsense, ect..
+            </Typography>
+          </ExpansionPanelSummary>
+          <ExpansionPanelDetails>
+            <MonsterSenses
+              blindsight={monster.blindsight}
+              darkvision={monster.darkvision}
+              tremorsense={monster.tremorsense}
+              truesight={monster.truesight}
+              handleChange={handleChange}
+            />
+          </ExpansionPanelDetails>
+        </ExpansionPanel>
+
+        <ExpansionPanel>
+          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+            <Typography className={classes.heading}>Properties</Typography>
+            <Typography className={classes.secondaryHeading}>
+              Immunities, Resistances, Weaknesses, Languages, CR
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -459,7 +480,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               resistances={monster.resistances}
               weaknesses={monster.weaknesses}
               languages={monster.languages}
-              senses={monster.senses}
               challengeRating={monster.challengeRating}
               rewardXP={monster.rewardXP}
               handleChange={handleChange}
@@ -469,9 +489,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Abilities</Typography>
+            <Typography className={classes.heading}>Abilities</Typography>
             <Typography className={classes.secondaryHeading}>
-              Ability Summary
+              Passive abilities for the monster
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -485,9 +505,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Actions</Typography>
+            <Typography className={classes.heading}>Actions</Typography>
             <Typography className={classes.secondaryHeading}>
-              Action Summary
+              Actions, Legendary Actions, Reactions, Lair Actions
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>

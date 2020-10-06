@@ -175,7 +175,6 @@ function MonsterSpeed({
           />
         )}
       </Box>
-
       <Box display="flex" flexDirection="row">
         <div className={classes.speedToggle}>
           <FormControlLabel
