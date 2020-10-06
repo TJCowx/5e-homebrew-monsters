@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MutableRefObject } from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
@@ -16,17 +16,25 @@ const useStyles = () =>
   createStyles({
     root: {
       fontFamily: 'Arial, Helvetica, sans-serif',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      whiteSpace: 'pre-wrap',
+      '@media (max-width: 1024px)': {
+        padding: '16px 0',
+      },
     },
     accentColour: { color: '#58170D' },
     oneColumn: {
-      width: '600px',
       backgroundColor: '#fdf1dc',
       padding: '16px',
       marginLeft: '4px',
       marginRight: '4px',
+      margin: '0 auto',
+    },
+    wrapOneCol: {
+      width: '632px',
     },
     twoColumns: {
-      width: '1200px',
       columnGap: '32px',
       WebkitColumnCount: 2,
       MozColumnCount: 2,
@@ -35,6 +43,10 @@ const useStyles = () =>
       padding: '16px',
       marginLeft: '4px',
       marginRight: '4px',
+    },
+    wrapTwoCol: {
+      width: '1232px',
+      margin: '0 auto',
     },
     name: {
       fontFamily: 'Georgia, Serif',
@@ -79,6 +91,7 @@ const useStyles = () =>
 function StatBlock({
   monster,
   twoColumns,
+  saveRef,
   classes,
 }: InferProps<typeof StatBlock.propTypes>) {
   /**
@@ -136,15 +149,11 @@ function StatBlock({
   };
 
   return (
-    <div
-      style={{
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        whiteSpace: 'pre-wrap',
-      }}
-      className={classes.root}
-    >
-      <div>
+    <div className={classes.root}>
+      <div
+        ref={saveRef}
+        className={`${twoColumns ? classes.wrapTwoCol : classes.wrapOneCol}`}
+      >
         <StatBlockBorder />
         <div className={`${twoColumns ? classes.twoColumns : classes.oneColumn}`}>
           <div className={`${classes.name} ${classes.accentColour}`}>
@@ -372,6 +381,7 @@ function StatBlock({
 StatBlock.propTypes = {
   monster: PropTypes.any.isRequired,
   twoColumns: PropTypes.bool.isRequired,
+  saveRef: PropTypes.any,
   classes: PropTypes.any,
 };
 

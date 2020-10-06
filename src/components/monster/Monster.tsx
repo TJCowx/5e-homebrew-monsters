@@ -4,7 +4,7 @@
  * properties in an expansion panel.
  */
 
-import React, { useRef, useState } from 'react';
+import React, { MutableRefObject, useRef, useState } from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
@@ -54,13 +54,14 @@ const styles = (theme: Theme) => ({
   monsterContainer: {
     width: '100%',
     '@media (min-width: 1024px)': {
-      backgroundColor: 'red',
       minWidth: '50%',
+      maxWidth: '50%',
     },
     paddingRight: theme.spacing(1),
   },
   statBlockContainer: {
     paddingLeft: theme.spacing(1),
+    'overflow-x': 'auto',
   },
 });
 
@@ -593,8 +594,8 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </Button>
         </Box>
       </Box>
-      <div className={classes.statBlockContainer} ref={componentRef}>
-        <StatBlock monster={monster} twoColumns={twoCols} />
+      <div className={classes.statBlockContainer}>
+        <StatBlock monster={monster} twoColumns={twoCols} saveRef={componentRef} />
       </div>
     </Box>
   );
