@@ -387,9 +387,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
       <Box className={classes.monsterContainer}>
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Description</Typography>
+            <Typography className={classes.heading}>Description</Typography>
             <Typography className={classes.secondaryHeading}>
-              {monster.name}
+              Name, Type, Size, Alignment
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -424,9 +424,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Stats</Typography>
+            <Typography className={classes.heading}>Stats</Typography>
             <Typography className={classes.secondaryHeading}>
-              Stat-Summary
+              Stats, AC, HP, Proficiencies, Saving Throws
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -468,9 +468,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Properties</Typography>
+            <Typography className={classes.heading}>Properties</Typography>
             <Typography className={classes.secondaryHeading}>
-              Property Summary
+              Immunities, Resistances, Weaknesses, Languages, CR
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -489,9 +489,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Abilities</Typography>
+            <Typography className={classes.heading}>Abilities</Typography>
             <Typography className={classes.secondaryHeading}>
-              Ability Summary
+              Passive abilities for the monster
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
@@ -505,9 +505,9 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
 
         <ExpansionPanel>
           <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Monster Actions</Typography>
+            <Typography className={classes.heading}>Actions</Typography>
             <Typography className={classes.secondaryHeading}>
-              Action Summary
+              Actions, Legendary Actions, Reactions, Lair Actions
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
