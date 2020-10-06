@@ -250,13 +250,13 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 </span>
               </div>
             )}
-            {monster.senses.length > 0 && (
+            {/* {monster.senses.length > 0 && (
               <div>
                 <span>
                   <strong>Senses</strong> {monster.senses.join(', ')}
                 </span>
               </div>
-            )}
+            )} */}
             <div>
               <span>
                 <strong>Languages</strong>{' '}
