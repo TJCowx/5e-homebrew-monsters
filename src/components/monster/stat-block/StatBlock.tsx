@@ -71,6 +71,9 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
     return 10 + getProfModifier('per', monster);
   };
 
+  /**
+   * Handles displaying what senses are being outputted to the stat block
+   */
   const displaySenses = () => {
     if (
       !monster.blindsight.length &&
