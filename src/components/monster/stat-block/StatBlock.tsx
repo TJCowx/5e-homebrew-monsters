@@ -18,8 +18,19 @@ const useStyles = () =>
       fontFamily: 'Arial, Helvetica, sans-serif',
     },
     accentColour: { color: '#58170D' },
-    column: {
+    oneColumn: {
       width: '600px',
+      backgroundColor: '#fdf1dc',
+      padding: '16px',
+      marginLeft: '4px',
+      marginRight: '4px',
+    },
+    twoColumns: {
+      width: '1200px',
+      columnGap: '32px',
+      WebkitColumnCount: 2,
+      MozColumnCount: 2,
+      columnCount: 2,
       backgroundColor: '#fdf1dc',
       padding: '16px',
       marginLeft: '4px',
@@ -39,6 +50,10 @@ const useStyles = () =>
     singleItemList: {
       fontSize: '14px',
       padding: '4px 0px',
+      display: 'inline-block',
+    },
+    actionContainer: {
+      display: 'inline-block',
     },
     stats: {
       fontSize: '15px',
@@ -61,7 +76,11 @@ const useStyles = () =>
     },
   });
 
-function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
+function StatBlock({
+  monster,
+  twoColumns,
+  classes,
+}: InferProps<typeof StatBlock.propTypes>) {
   /**
    * Calculates the passive perception. This is calculated from
    * 10 + proficiency bonus + perception.
@@ -127,7 +146,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
     >
       <div>
         <StatBlockBorder />
-        <div className={classes.column}>
+        <div className={`${twoColumns ? classes.twoColumns : classes.oneColumn}`}>
           <div className={`${classes.name} ${classes.accentColour}`}>
             {monster.name}
           </div>
@@ -294,7 +313,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             })}
           </div>
           {monster.actions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Actions
               </div>
@@ -302,7 +321,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.actions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.reactions.length > 0 && (
             <>
@@ -352,6 +371,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
 
 StatBlock.propTypes = {
   monster: PropTypes.any.isRequired,
+  twoColumns: PropTypes.bool.isRequired,
   classes: PropTypes.any,
 };
 

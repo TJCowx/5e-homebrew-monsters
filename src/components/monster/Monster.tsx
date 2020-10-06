@@ -21,6 +21,8 @@ import {
   withStyles,
   Button,
   Box,
+  FormControlLabel,
+  Switch,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
@@ -57,6 +59,7 @@ const styles = (theme: Theme) => ({
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   const [monster, setMonster] = useState(new MonsterDefinition());
+  const [twoCols, setTwoCols] = useState(false);
 
   const componentRef = useRef();
 
@@ -536,6 +539,16 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             >
               Load Example
             </Button>
+            <FormControlLabel
+              label="Two Columns"
+              control={
+                <Switch
+                  color="primary"
+                  checked={twoCols}
+                  onChange={() => setTwoCols(!twoCols)}
+                />
+              }
+            />
           </Box>
           <Box justifyContent="flex-end" display="flex">
             <input
@@ -572,7 +585,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         </Box>
       </Box>
       <div className={classes.statBlockContainer} ref={componentRef}>
-        <StatBlock monster={monster} />
+        <StatBlock monster={monster} twoColumns={twoCols} />
       </div>
     </Box>
   );
