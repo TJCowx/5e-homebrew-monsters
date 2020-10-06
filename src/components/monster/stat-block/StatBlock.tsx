@@ -333,7 +333,7 @@ function StatBlock({
             </div>
           )}
           {monster.reactions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Reactions
               </div>
@@ -341,10 +341,10 @@ function StatBlock({
               {monster.reactions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.legenActions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Legendary Actions
               </div>
@@ -358,10 +358,10 @@ function StatBlock({
               {monster.legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.lairActions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Lair Actions
               </div>
@@ -369,7 +369,7 @@ function StatBlock({
               {monster.lairActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
         </div>
         <StatBlockBorder />
