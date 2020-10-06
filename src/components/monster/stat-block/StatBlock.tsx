@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
@@ -11,8 +11,6 @@ import { getProfModifier } from '../../../hooks/getProfModifier';
 import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
-import ReactDOM from 'react-dom';
-import html2canvas from 'html2canvas';
 
 const useStyles = () =>
   createStyles({
@@ -64,6 +62,35 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
+  const displaySenses = () => {
+    if (
+      !monster.blindsight.length &&
+      !monster.darkvision.length &&
+      !monster.tremorsense.length &&
+      !monster.truesight.length
+    ) {
+      return <></>;
+    }
+
+    return (
+      <div>
+        <span>
+          <strong>Senses:</strong>{' '}
+          {monster.blindsight.length > 0 && (
+            <>Blindsight {monster.blindsight}ft., </>
+          )}
+          {monster.darkvision.length > 0 && (
+            <>Darkvision {monster.darkvision}ft., </>
+          )}
+          {monster.tremorsense.length > 0 && (
+            <>Tremorsense {monster.tremorsense}ft., </>
+          )}
+          {monster.truesight.length > 0 && <>Truesight {monster.truesight}ft., </>}
+        </span>
+      </div>
+    );
+  };
+
   return (
     <div
       style={{
@@ -214,6 +241,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
                 </span>
               </div>
             )}
+            {displaySenses()}
             {/* {monster.senses.length > 0 && (
               <div>
                 <span>
