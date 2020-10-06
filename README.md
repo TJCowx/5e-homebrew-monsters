@@ -5,14 +5,27 @@ Currently can be found at: https://tjcowx.github.io/5e-homebrew-monsters/
 
 ## VERSIONS
 
+### 0.3.0 (2020-10-06)
+
+- Added Passive perception into the stat block. This only shows up if the monster is proficient in perception
+- Speed is now moved from a text input into it's own set of fields which have the speeds setup via their own property
+- Senses have moved from a multi-select into it's own set of fields where you can put the range of the sense
+- Added Roll20 monster help guide to the navigation menu
+- Fixed an issue where the image may be cut off. This requires the page to scroll to the top to work functionally before it exports now
+- Updated expansion panel headers to describe what is inside it better.
+- Added standard legendary action summary to the Legendary Actions section of the stat block
+
 ### 0.2.2 (2020-09-29)
+
 - Added navigation bar to link to 5-homebrew-items
 - Added version number on the site to quick reference it
 
 ### 0.2.1 (2020-09-17)
+
 - Added the type field to the stat builder
 
 ### 0.2.0 (2020-09-16)
+
 - Added the stat block generator. Image generation is still yet to come
 
 ### 0.1.0
