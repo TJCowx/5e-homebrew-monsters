@@ -64,42 +64,6 @@ const useStyles = () =>
   });
 
 function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
-  const ref = useRef();
-
-  const exportImage = () => {
-    // The below needs to be here otherwise html2canvas can't handle svgs
-    // https://stackoverflow.com/questions/32481054/svg-not-displayed-when-using-html2canvas
-    var svgElements = document.body.querySelectorAll('svg');
-    svgElements.forEach(function (item) {
-      item.setAttribute('width', `${item.getBoundingClientRect().width}`);
-      item.setAttribute('height', `${item.getBoundingClientRect().height}`);
-      item.style.width = null;
-      item.style.height = null;
-    });
-
-    const element: any = ReactDOM.findDOMNode(ref.current);
-
-    return html2canvas(element, {
-      backgroundColor: null,
-      useCORS: true,
-    }).then((canvas) => {
-      const fileName: string = `${monster.name}.png`;
-      const uri: string = canvas.toDataURL('image/png', 1.0);
-
-      const link = document.createElement('a');
-
-      if (typeof link.download === 'string') {
-        link.href = uri;
-        link.download = fileName;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      } else {
-        window.open(uri);
-      }
-    });
-  };
-
   return (
     <div
       style={{
@@ -109,7 +73,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
       }}
       className={classes.root}
     >
-      <div ref={ref}>
+      <div>
         <StatBlockBorder />
         <div className={classes.column}>
           <div className={`${classes.name} ${classes.accentColour}`}>
