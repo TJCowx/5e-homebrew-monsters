@@ -37,7 +37,10 @@ import html2canvas from 'html2canvas';
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    display: 'flex',
+    display: 'inline-block',
+    '@media (min-width: 1024px)': {
+      display: 'flex',
+    },
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -49,7 +52,11 @@ const styles = (theme: Theme) => ({
     color: theme.palette.text.secondary,
   },
   monsterContainer: {
-    width: '50%',
+    width: '100%',
+    '@media (min-width: 1024px)': {
+      backgroundColor: 'red',
+      minWidth: '50%',
+    },
     paddingRight: theme.spacing(1),
   },
   statBlockContainer: {
@@ -537,10 +544,12 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               aria-label="Load Example"
               onClick={generateExample}
             >
-              Load Example
+              Example
             </Button>
+          </Box>
+          <Box justifyContent="flex-end" display="flex">
             <FormControlLabel
-              label="Two Columns"
+              label="Toggle Columns"
               control={
                 <Switch
                   color="primary"
@@ -549,29 +558,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
                 />
               }
             />
-          </Box>
-          <Box justifyContent="flex-end" display="flex">
-            <input
-              onChange={importConfig}
-              accept="application/JSON"
-              style={{ display: 'none' }}
-              id="config-upload"
-              type="file"
-            />
-            <label htmlFor="config-upload">
-              <Button variant="contained" component="span" color="primary">
-                Import
-              </Button>
-            </label>
-            <Button
-              color="primary"
-              variant="contained"
-              aria-label="Export"
-              style={{ marginLeft: '8px' }}
-              onClick={exportConfig}
-            >
-              Export
-            </Button>
             <Button
               color="primary"
               variant="contained"
@@ -579,9 +565,32 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               style={{ marginLeft: '8px' }}
               onClick={exportImage}
             >
-              Save as Image
+              Save Image
             </Button>
           </Box>
+        </Box>
+        <Box style={{ paddingTop: '8px' }}>
+          <input
+            onChange={importConfig}
+            accept="application/JSON"
+            style={{ display: 'none' }}
+            id="config-upload"
+            type="file"
+          />
+          <label htmlFor="config-upload">
+            <Button variant="contained" component="span" color="primary">
+              Import
+            </Button>
+          </label>
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Export"
+            style={{ marginLeft: '8px' }}
+            onClick={exportConfig}
+          >
+            Export
+          </Button>
         </Box>
       </Box>
       <div className={classes.statBlockContainer} ref={componentRef}>
