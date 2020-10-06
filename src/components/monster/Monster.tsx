@@ -291,7 +291,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           'Paralyzed',
           'Poisoned',
         ],
-        senses: ['Truesight'],
+        truesight: '120',
         languages: ['Common', 'Elvish', 'Celestial', 'Sylvan', 'Primordial'],
         abilities: [
           new MonsterAbility({
