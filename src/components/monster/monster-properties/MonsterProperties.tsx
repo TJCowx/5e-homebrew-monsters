@@ -64,16 +64,6 @@ function MonsterProperties({
   ];
 
   /**
-   * A list of available senses in 5e
-   */
-  const availableSenses: Array<string> = [
-    'Blindsight',
-    'Darkvision',
-    'Tremorsense',
-    'Truesight',
-  ];
-
-  /**
    * A list of available languages in 5e
    */
   const availableLanguages: Array<string> = [
