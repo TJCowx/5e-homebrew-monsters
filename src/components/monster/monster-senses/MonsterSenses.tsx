@@ -10,7 +10,7 @@ import React, { useEffect, useState } from 'react';
 
 const useStyles = makeStyles(() => ({
   senseToggle: {
-    minWidth: '170px',
+    minWidth: '160px',
     paddingRight: '8px',
     marginTop: 'auto',
   },
