@@ -24,7 +24,8 @@ function MonsterActions({
    * an existing one
    * @param action the action we are editting
    */
-  const editAction = (action: MonsterAction) => {
+  const editAction = (action: MonsterAction, actionType: string) => {
+    action.actionType = actionType;
     setEdittingAction(action);
   };
 
