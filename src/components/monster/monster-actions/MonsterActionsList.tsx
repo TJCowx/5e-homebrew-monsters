@@ -30,6 +30,7 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Action'}
             removeAction={removeAction}
             editAction={editAction}
           />
@@ -38,6 +39,7 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Reaction'}
             removeAction={removeAction}
             editAction={editAction}
           />
@@ -46,6 +48,7 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Legendary Action'}
             removeAction={removeAction}
             editAction={editAction}
           />
@@ -54,6 +57,7 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Lair Action'}
             removeAction={removeAction}
             editAction={editAction}
           />

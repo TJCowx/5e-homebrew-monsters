@@ -13,13 +13,14 @@ import PropTypes, { InferProps } from 'prop-types';
 
 function MonsterActionListItem({
   action,
+  actionType,
   removeAction,
   editAction,
 }: InferProps<typeof MonsterActionListItem.propTypes>) {
   const [actionSummary, setActionSummary] = useState('');
 
   useEffect(() => {
-    let summary: string = `${action.actionType} -`;
+    let summary: string = `${actionType} -`;
     if (action.attackType != null) {
       summary += ` ${action.attackType} Attack: ${action.toHit} to hit, reach ${action.reach}`;
       summary += `, Hit: ${action.damage} ${action.damageType} damage`;
@@ -60,6 +61,7 @@ function MonsterActionListItem({
 
 MonsterActionListItem.propTypes = {
   action: PropTypes.instanceOf(MonsterAction).isRequired,
+  actionType: PropTypes.string.isRequired,
   removeAction: PropTypes.func.isRequired,
   editAction: PropTypes.func.isRequired,
 };
