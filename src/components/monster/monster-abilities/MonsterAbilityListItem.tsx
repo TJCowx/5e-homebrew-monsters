@@ -20,6 +20,7 @@ export default function MonsterAbilityListItem({
     <>
       <ListItem>
         <ListItemText
+          style={{ paddingRight: '96px' }}
           primary={ability.name}
           secondary={ability.description}
         ></ListItemText>
