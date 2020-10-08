@@ -5,6 +5,11 @@ Currently can be found at: https://tjcowx.github.io/5e-homebrew-monsters/
 
 ## VERSIONS
 
+### 0.3.1 (2020-10-8)
+
+- Added a new feature. This allows the stat block to be toggled with two columns if 1 is too long for you
+- The app is now mobile responsive. This means it is no longer hard to use on a smaller screen.
+
 ### 0.3.0 (2020-10-06)
 
 - Added Passive perception into the stat block. This only shows up if the monster is proficient in perception

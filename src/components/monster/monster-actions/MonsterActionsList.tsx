@@ -30,32 +30,36 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Action'}
             removeAction={removeAction}
-            editAction={editAction}
+            editAction={editAction.bind(this, action, 'Action')}
           />
         ))}
         {reactions.map((action: MonsterAction) => (
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Reaction'}
             removeAction={removeAction}
-            editAction={editAction}
+            editAction={editAction.bind(this, action, 'Reaction')}
           />
         ))}
         {legenActions.map((action: MonsterAction) => (
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Legendary Action'}
             removeAction={removeAction}
-            editAction={editAction}
+            editAction={editAction.bind(this, action, 'Legendary')}
           />
         ))}
         {lairActions.map((action: MonsterAction) => (
           <MonsterActionListItem
             key={action.id}
             action={action}
+            actionType={'Lair Action'}
             removeAction={removeAction}
-            editAction={editAction}
+            editAction={editAction.bind(this, action, 'Lair')}
           />
         ))}
       </List>

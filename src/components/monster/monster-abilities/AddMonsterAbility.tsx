@@ -8,12 +8,43 @@ import PropTypes, { InferProps } from 'prop-types';
 import MonsterAbility from '../../../models/MonsterAbility';
 
 const useStyles = (theme: Theme) => ({
+  root: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '100%',
+    justifyContent: 'space-between',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
   inputField: {
     display: 'flex',
     margin: theme.spacing(1),
   },
+  nameWrapper: {
+    width: '40%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  descriptionWrapper: {
+    width: '65%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  actionWrapper: {
+    width: '15%',
+    minWidth: '150px',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
   saveButton: {
     marginLeft: 'auto',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
   },
 });
 
@@ -74,13 +105,8 @@ function AddMonsterAbility({
 
   return (
     <>
-      <Box
-        display="flex"
-        flexDirection="row"
-        width="100%"
-        justifyContent="space-between"
-      >
-        <Box width="25%">
+      <Box className={classes.root}>
+        <Box className={classes.nameWrapper} width="25%">
           <TextField
             label="Name"
             aria-label="Ability Name"
@@ -90,7 +116,7 @@ function AddMonsterAbility({
             className={classes.inputField}
           />
         </Box>
-        <Box width="60%">
+        <Box className={classes.descriptionWrapper} width="60%">
           <TextField
             multiline
             label="Description"
@@ -102,7 +128,7 @@ function AddMonsterAbility({
           />
         </Box>
         <Box
-          width="15%"
+          className={classes.actionWrapper}
           justifyContent="flex-end"
           display="flex"
           alignItems="center"

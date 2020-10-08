@@ -21,6 +21,8 @@ import {
   withStyles,
   Button,
   Box,
+  FormControlLabel,
+  Switch,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
@@ -35,7 +37,10 @@ import html2canvas from 'html2canvas';
 const styles = (theme: Theme) => ({
   root: {
     width: '100%',
-    display: 'flex',
+    display: 'inline-block',
+    '@media (min-width: 1024px)': {
+      display: 'flex',
+    },
   },
   heading: {
     fontSize: theme.typography.pxToRem(15),
@@ -47,16 +52,40 @@ const styles = (theme: Theme) => ({
     color: theme.palette.text.secondary,
   },
   monsterContainer: {
-    width: '50%',
+    width: '100%',
+    '@media (min-width: 1024px)': {
+      minWidth: '50%',
+      maxWidth: '50%',
+    },
     paddingRight: theme.spacing(1),
   },
   statBlockContainer: {
     paddingLeft: theme.spacing(1),
+    'overflow-x': 'auto',
+  },
+  actionContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    'flex-direction': 'row',
+    marginTop: '8px',
+    '@media (max-width: 600px)': {
+      display: 'inline-block',
+    },
+  },
+  statBlockActionContainer: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    '@media (max-width: 600px)': {
+      justifyContent: 'space-between',
+      width: '100%',
+    },
   },
 });
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   const [monster, setMonster] = useState(new MonsterDefinition());
+  const [twoCols, setTwoCols] = useState(false);
 
   const componentRef = useRef();
 
@@ -521,12 +550,8 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          flexDirection="row"
-          marginTop="8px"
-        >
+
+        <Box className={classes.actionContainer}>
           <Box justifyContent="flex-start" display="flex">
             <Button
               color="primary"
@@ -534,31 +559,20 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               aria-label="Load Example"
               onClick={generateExample}
             >
-              Load Example
+              Example
             </Button>
           </Box>
-          <Box justifyContent="flex-end" display="flex">
-            <input
-              onChange={importConfig}
-              accept="application/JSON"
-              style={{ display: 'none' }}
-              id="config-upload"
-              type="file"
+          <Box className={classes.statBlockActionContainer}>
+            <FormControlLabel
+              label="Toggle Columns"
+              control={
+                <Switch
+                  color="primary"
+                  checked={twoCols}
+                  onChange={() => setTwoCols(!twoCols)}
+                />
+              }
             />
-            <label htmlFor="config-upload">
-              <Button variant="contained" component="span" color="primary">
-                Import
-              </Button>
-            </label>
-            <Button
-              color="primary"
-              variant="contained"
-              aria-label="Export"
-              style={{ marginLeft: '8px' }}
-              onClick={exportConfig}
-            >
-              Export
-            </Button>
             <Button
               color="primary"
               variant="contained"
@@ -566,13 +580,36 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               style={{ marginLeft: '8px' }}
               onClick={exportImage}
             >
-              Save as Image
+              Save Image
             </Button>
           </Box>
         </Box>
+        <Box style={{ paddingTop: '8px' }}>
+          <input
+            onChange={importConfig}
+            accept="application/JSON"
+            style={{ display: 'none' }}
+            id="config-upload"
+            type="file"
+          />
+          <label htmlFor="config-upload">
+            <Button variant="contained" component="span" color="primary">
+              Import
+            </Button>
+          </label>
+          <Button
+            color="primary"
+            variant="contained"
+            aria-label="Export"
+            style={{ marginLeft: '8px' }}
+            onClick={exportConfig}
+          >
+            Export
+          </Button>
+        </Box>
       </Box>
-      <div className={classes.statBlockContainer} ref={componentRef}>
-        <StatBlock monster={monster} />
+      <div className={classes.statBlockContainer}>
+        <StatBlock monster={monster} twoColumns={twoCols} saveRef={componentRef} />
       </div>
     </Box>
   );

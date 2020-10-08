@@ -25,6 +25,34 @@ const useStyles = (theme: Theme) => ({
     display: 'flex',
     margin: theme.spacing(1),
   },
+  crWrapper: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '66%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  rowWrapper: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '100%',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  twoItemRow: {
+    width: '50%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  langField: {
+    width: '33%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
 });
 
 function MonsterProperties({
@@ -64,16 +92,6 @@ function MonsterProperties({
   ];
 
   /**
-   * A list of available senses in 5e
-   */
-  const availableSenses: Array<string> = [
-    'Blindsight',
-    'Darkvision',
-    'Tremorsense',
-    'Truesight',
-  ];
-
-  /**
    * A list of available languages in 5e
    */
   const availableLanguages: Array<string> = [
@@ -97,8 +115,8 @@ function MonsterProperties({
 
   return (
     <div className={classes.descriptionRoot}>
-      <Box display="flex" flexDirection="row">
-        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+      <Box className={classes.rowWrapper}>
+        <FormControl className={`${classes.inputField} ${classes.twoItemRow}`}>
           <InputLabel id="immunities-label">Damage Immunities</InputLabel>
           <Select
             name="immunities"
@@ -114,7 +132,7 @@ function MonsterProperties({
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+        <FormControl className={`${classes.inputField} ${classes.twoItemRow}`}>
           <InputLabel id="condition-label">Condition Immunities</InputLabel>
           <Select
             name="condImmunities"
@@ -131,8 +149,8 @@ function MonsterProperties({
           </Select>
         </FormControl>
       </Box>
-      <Box display="flex" flexDirection="row">
-        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+      <Box className={classes.rowWrapper}>
+        <FormControl className={`${classes.inputField} ${classes.twoItemRow}`}>
           <InputLabel id="resistances-label">Resistances</InputLabel>
           <Select
             name="resistances"
@@ -148,7 +166,7 @@ function MonsterProperties({
             ))}
           </Select>
         </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '50%' }}>
+        <FormControl className={`${classes.inputField} ${classes.twoItemRow}`}>
           <InputLabel id="weaknesses-label">Weaknesses</InputLabel>
           <Select
             name="weaknesses"
@@ -165,8 +183,8 @@ function MonsterProperties({
           </Select>
         </FormControl>
       </Box>
-      <Box display="flex" flexDirection="row">
-        <FormControl className={classes.inputField} style={{ width: '33%' }}>
+      <Box className={classes.rowWrapper}>
+        <FormControl className={`${classes.inputField} ${classes.langField}`}>
           <InputLabel id="languages-label">Languages</InputLabel>
           <Select
             name="languages"
@@ -182,24 +200,26 @@ function MonsterProperties({
             ))}
           </Select>
         </FormControl>
-        <TextField
-          className={classes.inputField}
-          style={{ width: '33%' }}
-          id="standard-basic"
-          label="Challenge Rating"
-          name="challengeRating"
-          value={challengeRating}
-          onChange={handleChange}
-        />
-        <TextField
-          className={classes.inputField}
-          style={{ width: '33%' }}
-          id="standard-basic"
-          label="Reward XP"
-          name="rewardXP"
-          value={rewardXP}
-          onChange={handleChange}
-        />
+        <Box className={classes.crWrapper}>
+          <TextField
+            className={classes.inputField}
+            style={{ width: '50%' }}
+            id="standard-basic"
+            label="Challenge Rating"
+            name="challengeRating"
+            value={challengeRating}
+            onChange={handleChange}
+          />
+          <TextField
+            className={classes.inputField}
+            style={{ width: '50%' }}
+            id="standard-basic"
+            label="Reward XP"
+            name="rewardXP"
+            value={rewardXP}
+            onChange={handleChange}
+          />
+        </Box>
       </Box>
     </div>
   );

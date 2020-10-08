@@ -23,6 +23,77 @@ import { getDamageTypes } from '../../../hooks/getDamageTypes';
 
 const useStyles = (theme: Theme) => ({
   inputField: { display: 'flex', margin: theme.spacing(1) },
+  topRowContainer: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '100%',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  nameTypeContainer: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '66%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  isAttack: {
+    width: '33%',
+    margin: theme.spacing(1),
+    '@media (max-width: 767px)': {
+      width: '100%',
+      margin: '0',
+      marginTop: '8px',
+    },
+  },
+  attackRowContainer: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '100%',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  attackTypeWrapper: {
+    width: '33%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  attackStatContainer: {
+    display: 'flex',
+    width: '66%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  bottomRowContainer: {
+    display: 'flex',
+    'flex-direction': 'row',
+    width: '100%',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  descriptionWrapper: {
+    width: '85%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  actionContainer: {
+    width: '15%',
+    minWidth: '150px',
+    justifyContent: 'flex-end',
+    display: 'flex',
+    alignItems: 'center',
+    '@media (max-width: 767px)': {
+      marginTop: '8px',
+      width: '100%',
+    },
+  },
 });
 
 function AddMonsterAction({
@@ -125,33 +196,35 @@ function AddMonsterAction({
 
   return (
     <>
-      <Box display="flex" flexDirection="row" width="100%">
-        <TextField
-          label="Name"
-          aria-label="Action Name"
-          name="name"
-          className={classes.inputField}
-          value={action.name}
-          style={{ width: '33%' }}
-          onChange={handleChange}
-        />
-        <FormControl className={classes.inputField} style={{ width: '33%' }}>
-          <InputLabel id="action-type-label" aria-label="Action Type">
-            Type
-          </InputLabel>
-          <Select
-            name="actionType"
-            labelId="action-type-label"
-            value={action.actionType}
+      <Box className={classes.topRowContainer}>
+        <Box className={classes.nameTypeContainer}>
+          <TextField
+            label="Name"
+            aria-label="Action Name"
+            name="name"
+            className={classes.inputField}
+            value={action.name}
+            style={{ width: '50%' }}
             onChange={handleChange}
-          >
-            {actionTypes.map((actionType: string) => (
-              <MenuItem key={actionType} value={actionType}>
-                {actionType}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+          />
+          <FormControl className={classes.inputField} style={{ width: '50%' }}>
+            <InputLabel id="action-type-label" aria-label="Action Type">
+              Type
+            </InputLabel>
+            <Select
+              name="actionType"
+              labelId="action-type-label"
+              value={action.actionType}
+              onChange={handleChange}
+            >
+              {actionTypes.map((actionType: string) => (
+                <MenuItem key={actionType} value={actionType}>
+                  {actionType}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Box>
         <FormControlLabel
           label="Is Attack"
           aria-label="Is Attack Action"
@@ -163,48 +236,51 @@ function AddMonsterAction({
               color="primary"
             />
           }
-          className={classes.inputField}
-          style={{ width: '33%' }}
+          className={`${classes.inputField} ${classes.isAttack}`}
         />
       </Box>
       {action.isAttack && (
         <>
-          <Box display="flex" flexDirection="row" width="100%">
-            <FormControl className={classes.inputField} style={{ width: '33%' }}>
-              <InputLabel id="attack-type-label" aria-label="Attack Type">
-                Attack Type
-              </InputLabel>
-              <Select
-                name="attackType"
-                labelId="attack-type-label"
-                value={action.attackType}
+          <Box className={classes.attackRowContainer}>
+            <Box className={classes.attackTypeWrapper}>
+              <FormControl className={classes.inputField}>
+                <InputLabel id="attack-type-label" aria-label="Attack Type">
+                  Attack Type
+                </InputLabel>
+                <Select
+                  name="attackType"
+                  labelId="attack-type-label"
+                  value={action.attackType}
+                  onChange={handleChange}
+                >
+                  {attackTypes.map((attackType: string) => (
+                    <MenuItem key={attackType} value={attackType}>
+                      {attackType}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+            <Box className={classes.attackStatContainer}>
+              <TextField
+                name="reach"
+                label="Reach"
+                aria-label="React"
+                value={action.reach}
                 onChange={handleChange}
-              >
-                {attackTypes.map((attackType: string) => (
-                  <MenuItem key={attackType} value={attackType}>
-                    {attackType}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <TextField
-              name="reach"
-              label="Reach"
-              aria-label="React"
-              value={action.reach}
-              onChange={handleChange}
-              className={classes.inputField}
-              style={{ width: '33%' }}
-            />
-            <TextField
-              name="toHit"
-              label="To Hit"
-              aria-label="To Hit"
-              value={action.toHit}
-              onChange={handleChange}
-              className={classes.inputField}
-              style={{ width: '33%' }}
-            />
+                className={classes.inputField}
+                style={{ width: '50%' }}
+              />
+              <TextField
+                name="toHit"
+                label="To Hit"
+                aria-label="To Hit"
+                value={action.toHit}
+                onChange={handleChange}
+                className={classes.inputField}
+                style={{ width: '50%' }}
+              />
+            </Box>
           </Box>
           <Box display="flex" flexDirection="row" width="100%">
             <TextField
@@ -236,22 +312,19 @@ function AddMonsterAction({
           </Box>
         </>
       )}
-      <Box display="flex" flexDirection="row" width="100%">
-        <TextField
-          className={classes.inputField}
-          style={{ width: '85%' }}
-          label="Description"
-          aria-label="Action Description"
-          name="description"
-          value={action.description}
-          onChange={handleChange}
-        />
-        <Box
-          width="15%"
-          justifyContent="flex-end"
-          display="flex"
-          alignItems="center"
-        >
+      <Box className={classes.bottomRowContainer}>
+        <Box className={classes.descriptionWrapper}>
+          <TextField
+            multiline
+            className={classes.inputField}
+            label="Description"
+            aria-label="Action Description"
+            name="description"
+            value={action.description}
+            onChange={handleChange}
+          />
+        </Box>
+        <Box className={classes.actionContainer}>
           <Button
             color="primary"
             variant="contained"

@@ -29,6 +29,57 @@ const useStyles = (theme: Theme) => ({
     display: 'flex',
     margin: theme.spacing(1),
   },
+  acField: {
+    width: '33%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  hpField: {
+    width: '50%',
+  },
+  hpWrapper: {
+    width: '66%',
+    display: 'flex',
+    'flex-direction': 'row',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  baseStatWrapper: {
+    width: '100%',
+    display: 'flex',
+    'flex-direction': 'row',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  statField: {
+    width: '50%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  rowWrapper: {
+    width: '100%',
+    display: 'flex',
+    'flex-direction': 'row',
+    '@media (max-width: 767px)': {
+      display: 'inline-block',
+    },
+  },
+  profBonus: {
+    width: '20%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
+  bottomRowSelects: {
+    width: '40%',
+    '@media (max-width: 767px)': {
+      width: '100%',
+    },
+  },
 });
 
 function MonsterStats({
@@ -64,88 +115,92 @@ function MonsterStats({
 
   return (
     <div className={classes.descriptionRoot}>
-      <Box display="flex" flexDirection="row">
+      <Box className={classes.rowWrapper}>
         <TextField
-          style={{ width: '20%' }}
-          className={classes.inputField}
+          className={`${classes.inputField} ${classes.acField}`}
           value={armourClass}
           name="armourClass"
           label="Armour Class"
           onChange={handleIntChange}
         />
-        <TextField
-          style={{ width: '20%' }}
-          className={classes.inputField}
-          label="Hit Points"
-          value={hitPoints}
-          name="hitPoints"
-          onChange={handleIntChange}
-        />
-        <TextField
-          style={{ width: '20%' }}
-          className={classes.inputField}
-          label="Hit Die"
-          value={hitDie}
-          name="hitDie"
-          onChange={handleChange}
-        />
+        <Box className={classes.hpWrapper}>
+          <TextField
+            className={`${classes.inputField} ${classes.hpField}`}
+            label="Hit Points"
+            value={hitPoints}
+            name="hitPoints"
+            onChange={handleIntChange}
+          />
+          <TextField
+            className={`${classes.inputField} ${classes.hpField}`}
+            label="Hit Die"
+            value={hitDie}
+            name="hitDie"
+            onChange={handleChange}
+          />
+        </Box>
       </Box>
 
-      <Box display="flex" flexDirection="row">
-        <TextField
-          className={classes.inputField}
-          label="Strength"
-          value={str}
-          name="str"
-          onChange={handleIntChange}
-        />
-        <TextField
-          className={classes.inputField}
-          label="Dexerity"
-          value={dex}
-          name="dex"
-          onChange={handleIntChange}
-        />
-        <TextField
-          className={classes.inputField}
-          label="Constitution"
-          value={con}
-          name="con"
-          onChange={handleIntChange}
-        />
-        <TextField
-          className={classes.inputField}
-          label="Intelligence"
-          value={int}
-          name="int"
-          onChange={handleIntChange}
-        />
-        <TextField
-          className={classes.inputField}
-          label="Wisdom"
-          value={wis}
-          name="wis"
-          onChange={handleIntChange}
-        />
-        <TextField
-          className={classes.inputField}
-          label="Charisma"
-          value={chr}
-          name="chr"
-          onChange={handleIntChange}
-        />
+      <Box className={classes.baseStatWrapper}>
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Strength"
+            value={str}
+            name="str"
+            onChange={handleIntChange}
+          />
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Dexerity"
+            value={dex}
+            name="dex"
+            onChange={handleIntChange}
+          />
+        </Box>
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Constitution"
+            value={con}
+            name="con"
+            onChange={handleIntChange}
+          />
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Intelligence"
+            value={int}
+            name="int"
+            onChange={handleIntChange}
+          />
+        </Box>
+        <Box display="flex" flexDirection="row">
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Wisdom"
+            value={wis}
+            name="wis"
+            onChange={handleIntChange}
+          />
+          <TextField
+            className={`${classes.inputField} ${classes.statField}`}
+            label="Charisma"
+            value={chr}
+            name="chr"
+            onChange={handleIntChange}
+          />
+        </Box>
       </Box>
 
-      <Box display="flex" flexDirection="row">
+      <Box className={classes.rowWrapper}>
         <TextField
-          className={classes.inputField}
+          className={`${classes.profBonus} ${classes.inputField}`}
           label="Proficiency Bonus"
           value={profBonus}
           name="profBonus"
           onChange={handleIntChange}
-          style={{ width: '20%' }}
         />
-        <FormControl className={classes.inputField} style={{ width: '40%' }}>
+        <FormControl className={`${classes.bottomRowSelects} ${classes.inputField}`}>
           <InputLabel id="skillProf-label">Skill Proficiencies</InputLabel>
           <Select
             name="proficiencies"
@@ -164,7 +219,7 @@ function MonsterStats({
             })}
           </Select>
         </FormControl>
-        <FormControl className={classes.inputField} style={{ width: '40%' }}>
+        <FormControl className={`${classes.bottomRowSelects} ${classes.inputField}`}>
           <InputLabel id="savingThrows-label">Saving Throws</InputLabel>
           <Select
             name="savingThrows"

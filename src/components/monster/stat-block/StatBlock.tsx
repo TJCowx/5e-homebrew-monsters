@@ -16,14 +16,37 @@ const useStyles = () =>
   createStyles({
     root: {
       fontFamily: 'Arial, Helvetica, sans-serif',
+      paddingLeft: '16px',
+      paddingRight: '16px',
+      whiteSpace: 'pre-wrap',
+      '@media (max-width: 1024px)': {
+        padding: '16px 0',
+      },
     },
     accentColour: { color: '#58170D' },
-    column: {
-      width: '450px',
+    oneColumn: {
       backgroundColor: '#fdf1dc',
       padding: '16px',
       marginLeft: '4px',
       marginRight: '4px',
+      margin: '0 auto',
+    },
+    wrapOneCol: {
+      width: '632px',
+    },
+    twoColumns: {
+      columnGap: '32px',
+      WebkitColumnCount: 2,
+      MozColumnCount: 2,
+      columnCount: 2,
+      backgroundColor: '#fdf1dc',
+      padding: '16px',
+      marginLeft: '4px',
+      marginRight: '4px',
+    },
+    wrapTwoCol: {
+      width: '1232px',
+      margin: '0 auto',
     },
     name: {
       fontFamily: 'Georgia, Serif',
@@ -39,6 +62,10 @@ const useStyles = () =>
     singleItemList: {
       fontSize: '14px',
       padding: '4px 0px',
+      display: 'inline-block',
+    },
+    actionContainer: {
+      display: 'inline-block',
     },
     stats: {
       fontSize: '15px',
@@ -61,7 +88,12 @@ const useStyles = () =>
     },
   });
 
-function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>) {
+function StatBlock({
+  monster,
+  twoColumns,
+  saveRef,
+  classes,
+}: InferProps<typeof StatBlock.propTypes>) {
   /**
    * Calculates the passive perception. This is calculated from
    * 10 + proficiency bonus + perception.
@@ -117,17 +149,13 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
   };
 
   return (
-    <div
-      style={{
-        paddingLeft: '16px',
-        paddingRight: '16px',
-        whiteSpace: 'pre-wrap',
-      }}
-      className={classes.root}
-    >
-      <div>
+    <div className={classes.root}>
+      <div
+        ref={saveRef}
+        className={`${twoColumns ? classes.wrapTwoCol : classes.wrapOneCol}`}
+      >
         <StatBlockBorder />
-        <div className={classes.column}>
+        <div className={`${twoColumns ? classes.twoColumns : classes.oneColumn}`}>
           <div className={`${classes.name} ${classes.accentColour}`}>
             {monster.name}
           </div>
@@ -294,7 +322,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
             })}
           </div>
           {monster.actions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Actions
               </div>
@@ -302,10 +330,10 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.actions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.reactions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Reactions
               </div>
@@ -313,10 +341,10 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.reactions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.legenActions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Legendary Actions
               </div>
@@ -330,10 +358,10 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
           {monster.lairActions.length > 0 && (
-            <>
+            <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Lair Actions
               </div>
@@ -341,7 +369,7 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
               {monster.lairActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
-            </>
+            </div>
           )}
         </div>
         <StatBlockBorder />
@@ -352,6 +380,8 @@ function StatBlock({ monster, classes }: InferProps<typeof StatBlock.propTypes>)
 
 StatBlock.propTypes = {
   monster: PropTypes.any.isRequired,
+  twoColumns: PropTypes.bool.isRequired,
+  saveRef: PropTypes.any,
   classes: PropTypes.any,
 };
 
