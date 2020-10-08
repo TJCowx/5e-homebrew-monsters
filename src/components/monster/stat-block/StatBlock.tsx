@@ -1,4 +1,4 @@
-import React, { MutableRefObject } from 'react';
+import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
 import { withStyles, createStyles, Box } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';

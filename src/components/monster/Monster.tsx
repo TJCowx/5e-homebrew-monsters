@@ -4,7 +4,7 @@
  * properties in an expansion panel.
  */
 
-import React, { MutableRefObject, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
