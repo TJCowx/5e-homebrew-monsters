@@ -45,7 +45,7 @@ const useStyles = () =>
       marginRight: '4px',
     },
     wrapTwoCol: {
-      width: '1232px',
+      width: '1264px',
       margin: '0 auto',
     },
     name: {
@@ -86,6 +86,9 @@ const useStyles = () =>
     titleUnderline: {
       border: '1px solid #99351f',
     },
+    firstSectionContainer: {
+      display:'inline-block'
+    }
   });
 
 function StatBlock({
@@ -156,162 +159,165 @@ function StatBlock({
       >
         <StatBlockBorder />
         <div className={`${twoColumns ? classes.twoColumns : classes.oneColumn}`}>
-          <div className={`${classes.name} ${classes.accentColour}`}>
-            {monster.name}
+          <div className={classes.firstSectionContainer}>
+            <div className={`${classes.name} ${classes.accentColour}`}>
+              {monster.name}
+            </div>
+            <div className={classes.type}>
+              {monster.size} {monster.type}
+              {monster.alignment.length > 0 && <>, {monster.alignment}</>}
+            </div>
+            <SectionSeparator />
+            <div className={`${classes.singleItemList} ${classes.accentColour}`}>
+              <div>
+                <span style={{ fontWeight: 'bold' }}>Armour Class</span>{' '}
+                {monster.armourClass}
+              </div>
+              <div>
+                <span style={{ fontWeight: 'bold' }}>Hit Points</span>{' '}
+                {monster.hitPoints}{' '}
+                {monster.hitDie.length > 0 && `(${monster.hitDie})`}
+              </div>
+              <div>
+                <span style={{ fontWeight: 'bold' }}>Speed</span>{' '}
+                <SpeedFormat
+                  landSpeed={monster.landSpeed}
+                  flySpeed={monster.flySpeed}
+                  burrowSpeed={monster.burrowSpeed}
+                  climbSpeed={monster.climbSpeed}
+                  hoverSpeed={monster.hoverSpeed}
+                />
+              </div>
+            </div>
+            <SectionSeparator />
+            <Box
+              display="flex"
+              flexDirection="row"
+              justifyContent="space-between"
+              textAlign="center"
+              className={`${classes.stats} ${classes.accentColour}`}
+            >
+              <Box>
+                <div className={classes.statHeader}>STR</div>
+                <div>
+                  {monster.str} ({getDisplayModifier(monster.str)})
+                </div>
+              </Box>
+              <Box>
+                <div className={classes.statHeader}>DEX</div>
+                <div>
+                  {monster.dex} ({getDisplayModifier(monster.dex)})
+                </div>
+              </Box>
+              <Box>
+                <div className={classes.statHeader}>CON</div>
+                <div>
+                  {monster.con} ({getDisplayModifier(monster.con)})
+                </div>
+              </Box>
+              <Box>
+                <div className={classes.statHeader}>INT</div>
+                <div>
+                  {monster.int} ({getDisplayModifier(monster.int)})
+                </div>
+              </Box>
+              <Box>
+                <div className={classes.statHeader}>WIS</div>
+                <div>
+                  {monster.wis} ({getDisplayModifier(monster.wis)})
+                </div>
+              </Box>
+              <Box>
+                <div className={classes.statHeader}>CHA</div>
+                <div>
+                  {monster.chr} ({getDisplayModifier(monster.chr)})
+                </div>
+              </Box>
+            </Box>
+            <SectionSeparator />
+          
+            <div className={`${classes.singleItemList} ${classes.accentColour}`}>
+              {monster.savingThrows.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Saving Throws</strong>{' '}
+                    {monster.savingThrows
+                      .map(
+                        (savingThrow: string) =>
+                          `${getStats()[savingThrow]} +${getSavingThrowModifier(
+                            monster[savingThrow],
+                            monster.profBonus
+                          )}`
+                      )
+                      .join(', ')}
+                  </span>
+                </div>
+              )}
+              {monster.proficiencies.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Skills</strong>{' '}
+                    {monster.proficiencies
+                      .map(
+                        (prof: string) =>
+                          `${getProficiencies()[prof]} +${getProfModifier(
+                            prof,
+                            monster
+                          )}`
+                      )
+                      .join(', ')}
+                  </span>
+                </div>
+              )}
+              {monster.resistances.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Damages Resistance</strong>{' '}
+                    {monster.resistances.join(', ')}
+                  </span>
+                </div>
+              )}
+              {monster.immunities.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Damages Immunities</strong> {monster.immunities.join(', ')}
+                  </span>
+                </div>
+              )}
+              {monster.condImmunities.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Condition Immunities</strong>{' '}
+                    {monster.condImmunities.join(', ')}
+                  </span>
+                </div>
+              )}
+              {monster.weaknesses.length > 0 && (
+                <div>
+                  <span>
+                    <strong>Damages Weaknesses</strong> {monster.weaknesses.join(', ')}
+                  </span>
+                </div>
+              )}
+              {displaySenses()}
+              <div>
+                <span>
+                  <strong>Languages</strong>{' '}
+                  {monster.languages.length === 0
+                    ? '--'
+                    : monster.languages.join(', ')}
+                </span>
+              </div>
+              <div>
+                <span>
+                  <strong>Challenge</strong>{' '}
+                  {monster.challengeRating.length > 0 ? monster.challengeRating : '--'}
+                  {monster.rewardXP.length > 0 && ` (${monster.rewardXP} XP)`}
+                </span>
+              </div>
+            </div>
+            <SectionSeparator />
           </div>
-          <div className={classes.type}>
-            {monster.size} {monster.type}
-            {monster.alignment.length > 0 && <>, {monster.alignment}</>}
-          </div>
-          <SectionSeparator />
-          <div className={`${classes.singleItemList} ${classes.accentColour}`}>
-            <div>
-              <span style={{ fontWeight: 'bold' }}>Armour Class</span>{' '}
-              {monster.armourClass}
-            </div>
-            <div>
-              <span style={{ fontWeight: 'bold' }}>Hit Points</span>{' '}
-              {monster.hitPoints}{' '}
-              {monster.hitDie.length > 0 && `(${monster.hitDie})`}
-            </div>
-            <div>
-              <span style={{ fontWeight: 'bold' }}>Speed</span>{' '}
-              <SpeedFormat
-                landSpeed={monster.landSpeed}
-                flySpeed={monster.flySpeed}
-                burrowSpeed={monster.burrowSpeed}
-                climbSpeed={monster.climbSpeed}
-                hoverSpeed={monster.hoverSpeed}
-              />
-            </div>
-          </div>
-          <SectionSeparator />
-          <Box
-            display="flex"
-            flexDirection="row"
-            justifyContent="space-between"
-            textAlign="center"
-            className={`${classes.stats} ${classes.accentColour}`}
-          >
-            <Box>
-              <div className={classes.statHeader}>STR</div>
-              <div>
-                {monster.str} ({getDisplayModifier(monster.str)})
-              </div>
-            </Box>
-            <Box>
-              <div className={classes.statHeader}>DEX</div>
-              <div>
-                {monster.dex} ({getDisplayModifier(monster.dex)})
-              </div>
-            </Box>
-            <Box>
-              <div className={classes.statHeader}>CON</div>
-              <div>
-                {monster.con} ({getDisplayModifier(monster.con)})
-              </div>
-            </Box>
-            <Box>
-              <div className={classes.statHeader}>INT</div>
-              <div>
-                {monster.int} ({getDisplayModifier(monster.int)})
-              </div>
-            </Box>
-            <Box>
-              <div className={classes.statHeader}>WIS</div>
-              <div>
-                {monster.wis} ({getDisplayModifier(monster.wis)})
-              </div>
-            </Box>
-            <Box>
-              <div className={classes.statHeader}>CHA</div>
-              <div>
-                {monster.chr} ({getDisplayModifier(monster.chr)})
-              </div>
-            </Box>
-          </Box>
-          <SectionSeparator />
-          <div className={`${classes.singleItemList} ${classes.accentColour}`}>
-            {monster.savingThrows.length > 0 && (
-              <div>
-                <span>
-                  <strong>Saving Throws</strong>{' '}
-                  {monster.savingThrows
-                    .map(
-                      (savingThrow: string) =>
-                        `${getStats()[savingThrow]} +${getSavingThrowModifier(
-                          monster[savingThrow],
-                          monster.profBonus
-                        )}`
-                    )
-                    .join(', ')}
-                </span>
-              </div>
-            )}
-            {monster.proficiencies.length > 0 && (
-              <div>
-                <span>
-                  <strong>Skills</strong>{' '}
-                  {monster.proficiencies
-                    .map(
-                      (prof: string) =>
-                        `${getProficiencies()[prof]} +${getProfModifier(
-                          prof,
-                          monster
-                        )}`
-                    )
-                    .join(', ')}
-                </span>
-              </div>
-            )}
-            {monster.resistances.length > 0 && (
-              <div>
-                <span>
-                  <strong>Damages Resistance</strong>{' '}
-                  {monster.resistances.join(', ')}
-                </span>
-              </div>
-            )}
-            {monster.immunities.length > 0 && (
-              <div>
-                <span>
-                  <strong>Damages Immunities</strong> {monster.immunities.join(', ')}
-                </span>
-              </div>
-            )}
-            {monster.condImmunities.length > 0 && (
-              <div>
-                <span>
-                  <strong>Condition Immunities</strong>{' '}
-                  {monster.condImmunities.join(', ')}
-                </span>
-              </div>
-            )}
-            {monster.weaknesses.length > 0 && (
-              <div>
-                <span>
-                  <strong>Damages Weaknesses</strong> {monster.weaknesses.join(', ')}
-                </span>
-              </div>
-            )}
-            {displaySenses()}
-            <div>
-              <span>
-                <strong>Languages</strong>{' '}
-                {monster.languages.length === 0
-                  ? '--'
-                  : monster.languages.join(', ')}
-              </span>
-            </div>
-            <div>
-              <span>
-                <strong>Challenge</strong>{' '}
-                {monster.challengeRating.length > 0 ? monster.challengeRating : '--'}
-                {monster.rewardXP.length > 0 && ` (${monster.rewardXP} XP)`}
-              </span>
-            </div>
-          </div>
-          <SectionSeparator />
           <div className={classes.singleItemList}>
             {monster.abilities.map((ability: MonsterAbility) => {
               return (
