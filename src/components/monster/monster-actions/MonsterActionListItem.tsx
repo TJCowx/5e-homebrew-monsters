@@ -33,7 +33,11 @@ function MonsterActionListItem({
   return (
     <>
       <ListItem>
-        <ListItemText primary={action.name} secondary={actionSummary}></ListItemText>
+        <ListItemText
+          primary={action.name}
+          secondary={actionSummary}
+          style={{ paddingRight: '96px' }}
+        ></ListItemText>
         <ListItemSecondaryAction>
           <IconButton
             aria-label="edit ability"
