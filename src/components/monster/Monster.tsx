@@ -63,6 +63,24 @@ const styles = (theme: Theme) => ({
     paddingLeft: theme.spacing(1),
     'overflow-x': 'auto',
   },
+  actionContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    'flex-direction': 'row',
+    marginTop: '8px',
+    '@media (max-width: 600px)': {
+      display: 'inline-block',
+    },
+  },
+  statBlockActionContainer: {
+    justifyContent: 'flex-end',
+    display: 'flex',
+    '@media (max-width: 600px)': {
+      justifyContent: 'space-between',
+      width: '100%',
+    },
+  },
 });
 
 function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
@@ -532,12 +550,8 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          flexDirection="row"
-          marginTop="8px"
-        >
+
+        <Box className={classes.actionContainer}>
           <Box justifyContent="flex-start" display="flex">
             <Button
               color="primary"
@@ -548,7 +562,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               Example
             </Button>
           </Box>
-          <Box justifyContent="flex-end" display="flex">
+          <Box className={classes.statBlockActionContainer}>
             <FormControlLabel
               label="Toggle Columns"
               control={
