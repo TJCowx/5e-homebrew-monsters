@@ -1,5 +1,12 @@
 import React from 'react';
-import propTypes, { InferProps } from 'prop-types';
+
+type Props = {
+  landSpeed: string;
+  flySpeed: string;
+  burrowSpeed: string;
+  climbSpeed: string;
+  hoverSpeed: string;
+}
 
 function SpeedFormat({
   landSpeed,
@@ -7,7 +14,7 @@ function SpeedFormat({
   burrowSpeed,
   climbSpeed,
   hoverSpeed,
-}: InferProps<typeof SpeedFormat.propTypes>) {
+}: Props) {
   return (
     <span>
       {landSpeed && parseInt(landSpeed) > 0 && <>{landSpeed}ft. </>}
@@ -19,12 +26,5 @@ function SpeedFormat({
   );
 }
 
-SpeedFormat.propTypes = {
-  landSpeed: propTypes.string,
-  flySpeed: propTypes.string,
-  burrowSpeed: propTypes.string,
-  climbSpeed: propTypes.string,
-  hoverSpeed: propTypes.string,
-};
 
 export default SpeedFormat;

@@ -18,7 +18,6 @@ import {
   ExpansionPanelDetails,
   Typography,
   Theme,
-  withStyles,
   Button,
   Box,
   FormControlLabel,

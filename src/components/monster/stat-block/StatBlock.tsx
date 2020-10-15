@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
-import { withStyles, createStyles, Box, StyleRules, makeStyles, Theme } from '@material-ui/core';
+import { createStyles, Box, makeStyles } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import SpeedFormat from './SpeedFormat';
