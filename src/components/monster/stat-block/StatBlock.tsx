@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes, { InferProps } from 'prop-types';
-import { withStyles, createStyles, Box } from '@material-ui/core';
+import { withStyles, createStyles, Box, StyleRules, makeStyles, Theme } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import SpeedFormat from './SpeedFormat';
@@ -11,9 +11,9 @@ import { getProfModifier } from '../../../hooks/getProfModifier';
 import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
+import MonsterDefinition from '../../../models/MonsterDefinition';
 
-const useStyles = () =>
-  createStyles({
+const useStyles = makeStyles(() => createStyles({
     root: {
       fontFamily: 'Arial, Helvetica, sans-serif',
       paddingLeft: '16px',
@@ -89,14 +89,22 @@ const useStyles = () =>
     firstSectionContainer: {
       display:'inline-block'
     }
-  });
+  }));
+
+type Props = {
+  monster: MonsterDefinition;
+  twoColumns: boolean;
+  saveRef: React.MutableRefObject<undefined>;
+};
 
 function StatBlock({
   monster,
   twoColumns,
   saveRef,
-  classes,
-}: InferProps<typeof StatBlock.propTypes>) {
+}: Props) {
+
+  const classes = useStyles();
+
   /**
    * Calculates the passive perception. This is calculated from
    * 10 + proficiency bonus + perception.
@@ -384,11 +392,4 @@ function StatBlock({
   );
 }
 
-StatBlock.propTypes = {
-  monster: PropTypes.any.isRequired,
-  twoColumns: PropTypes.bool.isRequired,
-  saveRef: PropTypes.any,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(StatBlock);
+export default StatBlock;
