@@ -5,8 +5,7 @@ import {
   Switch,
   TextField,
 } from '@material-ui/core';
-import propTypes, { InferProps } from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 
 const useStyles = makeStyles(() => ({
   senseToggle: {
@@ -16,13 +15,21 @@ const useStyles = makeStyles(() => ({
   },
 }));
 
+type Props = {
+  blindsight: string;
+  darkvision: string;
+  tremorsense: string;
+  truesight: string;
+  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
+
 function MonsterSenses({
   blindsight,
   darkvision,
   tremorsense,
   truesight,
   handleChange,
-}: InferProps<typeof MonsterSenses.propTypes>) {
+}: Props) {
   const [hasBlind, setHasBlind] = useState(blindsight !== '');
   const [hasDark, setHasDark] = useState(darkvision !== '');
   const [hasTremor, setHasTremor] = useState(tremorsense != '');
@@ -37,42 +44,42 @@ function MonsterSenses({
 
   /** Setup the effect to toggle if blindsight is available or not */
   useEffect(() => {
-    handleChange({
-      target: {
-        name: 'blindsight',
-        value: !hasBlind ? '' : blindsight,
-      },
-    });
+    // handleChange({
+    //   target: {
+    //     name: 'blindsight',
+    //     value: !hasBlind ? '' : blindsight,
+    //   },
+    // });
   }, [hasBlind]);
 
   /** Setup the effect to toggle if darkvision is available or not */
   useEffect(() => {
-    handleChange({
-      target: {
-        name: 'darkvision',
-        value: !hasDark ? '' : darkvision,
-      },
-    });
+    // handleChange({
+    //   target: {
+    //     name: 'darkvision',
+    //     value: !hasDark ? '' : darkvision,
+    //   },
+    // });
   }, [hasDark]);
 
   /** Setup the effect to toggle if tremorsense is available or not */
   useEffect(() => {
-    handleChange({
-      target: {
-        name: 'tremorsense',
-        value: !hasTremor ? '' : tremorsense,
-      },
-    });
+    // handleChange({
+    //   target: {
+    //     name: 'tremorsense',
+    //     value: !hasTremor ? '' : tremorsense,
+    //   },
+    // });
   }, [hasTremor]);
 
   /** Setup the effect to toggle if truesight is available or not */
   useEffect(() => {
-    handleChange({
-      target: {
-        name: 'truesight',
-        value: !hasTruesight ? '' : truesight,
-      },
-    });
+    // handleChange({
+    //   target: {
+    //     name: 'truesight',
+    //     value: !hasTruesight ? '' : truesight,
+    //   },
+    // });
   }, [hasTruesight]);
 
   // **************************************
@@ -104,7 +111,7 @@ function MonsterSenses({
    * before trying to update the state
    * @param event The event passed in from material UI onChange
    */
-  const handleIntChange = (event: { target: { name: any; value: any } }) => {
+  const handleIntChange = (event:ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
       handleChange(event);
@@ -204,13 +211,5 @@ function MonsterSenses({
     </Box>
   );
 }
-
-MonsterSenses.propTypes = {
-  blindsight: propTypes.string,
-  darkvision: propTypes.string,
-  tremorsense: propTypes.string,
-  truesight: propTypes.string,
-  handleChange: propTypes.func,
-};
 
 export default MonsterSenses;
