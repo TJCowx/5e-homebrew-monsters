@@ -23,18 +23,19 @@ import {
   Box,
   FormControlLabel,
   Switch,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MonsterAbility from '../../models/MonsterAbility';
 import MonsterAction from '../../models/MonsterAction';
 import MonsterDefinition from '../../models/MonsterDefinition';
 import StatBlock from './stat-block/StatBlock';
-import PropTypes, { InferProps } from 'prop-types';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
 
 /** Setup the styles and theming for this component and children */
-const styles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     width: '100%',
     display: 'inline-block',
@@ -81,13 +82,15 @@ const styles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
-function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
+function Monster() {
   const [monster, setMonster] = useState(new MonsterDefinition());
   const [twoCols, setTwoCols] = useState(false);
 
   const componentRef = useRef();
+  
+  const classes = useStyles();
 
   /**
    * Updates the state of the monster on a change.
@@ -615,8 +618,4 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
   );
 }
 
-Monster.propTypes = {
-  classes: PropTypes.any,
-};
-
-export default withStyles(styles, { withTheme: true })(Monster);
+export default Monster;
