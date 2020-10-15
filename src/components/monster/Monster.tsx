@@ -4,7 +4,7 @@
  * properties in an expansion panel.
  */
 
-import React, { useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
@@ -95,9 +95,7 @@ function Monster() {
    * Updates the state of the monster on a change.
    * @param event The material UI event
    */
-  const handleChange = (event: {
-    target: { name: any; value: any; valueAsNumber: boolean };
-  }) => {
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     setMonster({
       ...monster,
       [event.target.name]: event.target.value,

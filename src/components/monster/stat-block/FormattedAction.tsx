@@ -1,8 +1,11 @@
 import React from 'react';
 import MonsterAction from '../../../models/MonsterAction';
-import PropTypes, { InferProps } from 'prop-types';
 
-function FormattedAction({ action }: InferProps<typeof FormattedAction.propTypes>) {
+type Props = {
+  action: MonsterAction
+}
+
+function FormattedAction({ action }: Props) {
   return (
     <div style={{ fontSize: '13px', paddingBottom: '4px' }}>
       <strong>{action.name}.</strong>{' '}
@@ -16,9 +19,5 @@ function FormattedAction({ action }: InferProps<typeof FormattedAction.propTypes
     </div>
   );
 }
-
-FormattedAction.propTypes = {
-  action: PropTypes.instanceOf(MonsterAction).isRequired,
-};
 
 export default FormattedAction;
