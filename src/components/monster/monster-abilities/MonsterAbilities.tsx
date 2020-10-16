@@ -6,13 +6,18 @@ import React, { useState } from 'react';
 import AddMonsterAbility from './AddMonsterAbility';
 import MonsterAbilitiesList from './MonsterAbilitiesList';
 import MonsterAbility from '../../../models/MonsterAbility';
-import PropTypes, { InferProps } from 'prop-types';
+
+type Props = {
+  monsterAbilities: Array<MonsterAbility>;
+  addMonsterAbility: () => unknown;
+  removeAbility: () => unknown;
+}
 
 function MonsterAbilities({
   monsterAbilities,
   addMonsterAbility,
   removeAbility,
-}: InferProps<typeof MonsterAbilities.propTypes>) {
+}: Props) {
   const [edittingAbility, setEdittingAbility] = useState(null);
 
   /**
@@ -39,12 +44,5 @@ function MonsterAbilities({
     </div>
   );
 }
-
-MonsterAbilities.propTypes = {
-  monsterAbilities: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAbility))
-    .isRequired,
-  addMonsterAbility: PropTypes.func.isRequired,
-  removeAbility: PropTypes.func.isRequired,
-};
 
 export default MonsterAbilities;

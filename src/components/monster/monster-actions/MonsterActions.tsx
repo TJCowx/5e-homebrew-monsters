@@ -6,8 +6,15 @@ import React, { useState } from 'react';
 import AddMonsterAction from './AddMonsterAction';
 import MonsterActionsList from './MonsterActionsList';
 import MonsterAction from '../../../models/MonsterAction';
-import PropTypes, { InferProps } from 'prop-types';
 
+type Props = {
+  actions: Array<MonsterAction>;
+  legenActions: Array<MonsterAction>;
+  reactions: Array<MonsterAction>;
+  lairActions: Array<MonsterAction>;
+  addMonsterAction: () => unknown;
+  removeAction: () => unknown;
+}
 function MonsterActions({
   actions,
   legenActions,
@@ -15,7 +22,7 @@ function MonsterActions({
   lairActions,
   addMonsterAction,
   removeAction,
-}: InferProps<typeof MonsterActions.propTypes>) {
+}: Props) {
   const [edittingAction, setEdittingAction] = useState(null);
 
   /**
@@ -46,14 +53,5 @@ function MonsterActions({
     </div>
   );
 }
-
-MonsterActions.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  reactions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  legenActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  lairActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  addMonsterAction: PropTypes.func.isRequired,
-  removeAction: PropTypes.func.isRequired,
-};
 
 export default MonsterActions;

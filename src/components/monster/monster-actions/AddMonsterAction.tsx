@@ -16,12 +16,13 @@ import {
   Theme,
   withStyles,
   Button,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
 import MonsterAction from '../../../models/MonsterAction';
 import { getDamageTypes } from '../../../hooks/getDamageTypes';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   inputField: { display: 'flex', margin: theme.spacing(1) },
   topRowContainer: {
     display: 'flex',
@@ -94,15 +95,20 @@ const useStyles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
+type Props = {
+  addMonsterAction: (action: MonsterAction) => unknown;
+  editAction: MonsterAction;
+}
 function AddMonsterAction({
   addMonsterAction,
-  editAction,
-  classes,
-}: InferProps<typeof AddMonsterAction.propTypes>) {
+  editAction
+}: Props) {
   const [action, setAction] = useState(new MonsterAction({}));
   const [isNew, setIsNew] = useState(true);
+
+  const classes = useStyles();
 
   /** List of action types available in 5e */
   const actionTypes: Array<string> = ['Action', 'Reaction', 'Legendary', 'Lair'];
@@ -350,10 +356,4 @@ function AddMonsterAction({
   );
 }
 
-AddMonsterAction.propTypes = {
-  addMonsterAction: PropTypes.func.isRequired,
-  editAction: PropTypes.instanceOf(MonsterAction),
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(AddMonsterAction);
+export default AddMonsterAction;

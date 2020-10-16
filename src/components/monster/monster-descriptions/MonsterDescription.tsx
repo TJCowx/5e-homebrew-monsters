@@ -7,7 +7,7 @@
  *             Good/Evil scale
  */
 
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   TextField,
   Theme,
@@ -17,11 +17,13 @@ import {
   MenuItem,
   FormControl,
   withStyles,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
 import PropTypes, { InferProps } from 'prop-types';
 
 /** Setup the styling for the inputs */
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   descriptionRoot: {
     width: '100%',
   },
@@ -30,7 +32,15 @@ const useStyles = (theme: Theme) => ({
     width: '50%',
     margin: theme.spacing(1),
   },
-});
+}));
+
+type Props = {
+  name: string;
+  size: string;
+  type: string;
+  alignment: string;
+  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
 
 function MonsterDescription({
   name,
@@ -38,8 +48,10 @@ function MonsterDescription({
   type,
   alignment,
   handleChange,
-  classes,
-}: InferProps<typeof MonsterDescription.propTypes>) {
+}: Props) {
+
+  const classes = useStyles();
+
   /**
    * A list of available sizes based on the 5e sizes chart
    */
@@ -166,13 +178,4 @@ function MonsterDescription({
   );
 }
 
-MonsterDescription.propTypes = {
-  name: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  alignment: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterDescription);
+export default MonsterDescription;

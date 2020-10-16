@@ -3,16 +3,24 @@
  * Lists all the monster actions
  */
 import React from 'react';
-import { List, withStyles } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import { createStyles, List, makeStyles } from '@material-ui/core';
 import MonsterAction from '../../../models/MonsterAction';
 import MonsterActionListItem from './MonsterActionListItem';
 
-const useStyles = () => ({
+const useStyles = makeStyles(() => createStyles({
   list: {
     width: '100%',
   },
-});
+}));
+
+type Props = {
+  actions: Array<MonsterAction>;
+  reactions: Array<MonsterAction>;
+  legenActions: Array<MonsterAction>;
+  lairActions: Array<MonsterAction>;
+  removeAction: (id: string, actionType: string) => unknown;
+  editAction: (action: MonsterAction, actionType: string) => unknown;
+}
 
 function MonsterActionsList({
   actions,
@@ -21,8 +29,9 @@ function MonsterActionsList({
   lairActions,
   removeAction,
   editAction,
-  classes,
-}: InferProps<typeof MonsterActionsList.propTypes>) {
+}: Props) {
+  const classes = useStyles();
+
   return (
     <>
       <List className={classes.list}>
@@ -31,7 +40,7 @@ function MonsterActionsList({
             key={action.id}
             action={action}
             actionType={'Action'}
-            removeAction={removeAction}
+            removeAction={removeAction.bind(this, action, 'Action')}
             editAction={editAction.bind(this, action, 'Action')}
           />
         ))}
@@ -40,7 +49,7 @@ function MonsterActionsList({
             key={action.id}
             action={action}
             actionType={'Reaction'}
-            removeAction={removeAction}
+            removeAction={removeAction.bind(this, action, 'Reaction')}
             editAction={editAction.bind(this, action, 'Reaction')}
           />
         ))}
@@ -49,7 +58,7 @@ function MonsterActionsList({
             key={action.id}
             action={action}
             actionType={'Legendary Action'}
-            removeAction={removeAction}
+            removeAction={removeAction.bind(this, action, 'Legendary')}
             editAction={editAction.bind(this, action, 'Legendary')}
           />
         ))}
@@ -58,7 +67,7 @@ function MonsterActionsList({
             key={action.id}
             action={action}
             actionType={'Lair Action'}
-            removeAction={removeAction}
+            removeAction={removeAction.bind(this, action, 'Lair')}
             editAction={editAction.bind(this, action, 'Lair')}
           />
         ))}
@@ -67,14 +76,4 @@ function MonsterActionsList({
   );
 }
 
-MonsterActionsList.propTypes = {
-  actions: PropTypes.array.isRequired,
-  reactions: PropTypes.array.isRequired,
-  legenActions: PropTypes.array.isRequired,
-  lairActions: PropTypes.array.isRequired,
-  removeAction: PropTypes.func.isRequired,
-  editAction: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterActionsList);
+export default MonsterActionsList;

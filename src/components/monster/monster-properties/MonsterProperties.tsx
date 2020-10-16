@@ -2,7 +2,7 @@
  * MonsterProperties.tsx
  * Handles the monster's properties.
  */
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   TextField,
   withStyles,
@@ -12,12 +12,14 @@ import {
   Select,
   MenuItem,
   Box,
+  createStyles,
+  makeStyles,
 } from '@material-ui/core';
 import PropTypes, { InferProps } from 'prop-types';
 import { getDamageTypes } from '../../../hooks/getDamageTypes';
 
 /** Setup the styling for these inputs */
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   descriptionRoot: {
     width: '100%',
   },
@@ -53,10 +55,20 @@ const useStyles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
+
+type Props = {
+  immunities: Array<string>;
+  resistances: Array<string>;
+  weaknesses: Array<string>;
+  condImmunities: Array<string>;
+  languages: Array<string>;
+  challengeRating: string;
+  rewardXP: string;
+  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+}
 
 function MonsterProperties({
-  classes,
   immunities,
   resistances,
   weaknesses,
@@ -65,7 +77,10 @@ function MonsterProperties({
   challengeRating,
   rewardXP,
   handleChange,
-}: InferProps<typeof MonsterProperties.propTypes>) {
+}: Props) {
+
+  const classes = useStyles();
+
   /**
    * A list of available damage types in 5e
    */
@@ -225,16 +240,4 @@ function MonsterProperties({
   );
 }
 
-MonsterProperties.propTypes = {
-  immunities: PropTypes.array.isRequired,
-  condImmunities: PropTypes.array.isRequired,
-  resistances: PropTypes.array.isRequired,
-  weaknesses: PropTypes.array.isRequired,
-  languages: PropTypes.array.isRequired,
-  challengeRating: PropTypes.string.isRequired,
-  rewardXP: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterProperties);
+export default MonsterProperties;

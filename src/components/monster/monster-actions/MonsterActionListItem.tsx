@@ -9,14 +9,20 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MonsterAction from '../../../models/MonsterAction';
-import PropTypes, { InferProps } from 'prop-types';
+
+type Props = {
+  action: MonsterAction;
+  actionType: string;
+  removeAction: () => unknown;
+  editAction: () => unknown;
+}
 
 function MonsterActionListItem({
   action,
   actionType,
   removeAction,
   editAction,
-}: InferProps<typeof MonsterActionListItem.propTypes>) {
+}: Props) {
   const [actionSummary, setActionSummary] = useState('');
 
   useEffect(() => {
@@ -58,12 +64,5 @@ function MonsterActionListItem({
     </>
   );
 }
-
-MonsterActionListItem.propTypes = {
-  action: PropTypes.instanceOf(MonsterAction).isRequired,
-  actionType: PropTypes.string.isRequired,
-  removeAction: PropTypes.func.isRequired,
-  editAction: PropTypes.func.isRequired,
-};
 
 export default MonsterActionListItem;

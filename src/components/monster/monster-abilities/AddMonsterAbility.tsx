@@ -3,11 +3,10 @@
  * Handles adding an individual monster property with the title and description
  */
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box, Theme, withStyles } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import { TextField, Button, Box, makeStyles, createStyles, Theme } from '@material-ui/core';
 import MonsterAbility from '../../../models/MonsterAbility';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     display: 'flex',
     'flex-direction': 'row',
@@ -46,15 +45,21 @@ const useStyles = (theme: Theme) => ({
       display: 'inline-block',
     },
   },
-});
+}));
+
+type Props = {
+  addMonsterAbility: (ability: MonsterAbility) => unknown;
+  editAbility: MonsterAbility;
+}
 
 function AddMonsterAbility({
   addMonsterAbility,
   editAbility,
-  classes,
-}: InferProps<typeof AddMonsterAbility.propTypes>) {
+}: Props) {
   const [ability, setAbility] = useState(new MonsterAbility({}));
   const [isNew, setIsNew] = useState(true);
+
+  const classes = useStyles();
 
   /**
    * An effect that checks if the editAbility prop has been change
@@ -158,10 +163,4 @@ function AddMonsterAbility({
   );
 }
 
-AddMonsterAbility.propTypes = {
-  addMonsterAbility: PropTypes.func.isRequired,
-  editAbility: PropTypes.instanceOf(MonsterAbility),
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(AddMonsterAbility);
+export default AddMonsterAbility;

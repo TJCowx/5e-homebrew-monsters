@@ -195,7 +195,7 @@ function Monster() {
    * Removes an action from the state that has the matching id
    * @param id the id of the ability to remove
    */
-  const removeAction = (id: string) => {
+  const removeAction = (id: string, actionType: string) => {
     setMonster({
       ...monster,
       actions: [
