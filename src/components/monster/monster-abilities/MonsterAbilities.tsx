@@ -14,7 +14,8 @@ import monster from '../../../reducers/monsterReducer';
 
 type Props = {
   abilities: Array<MonsterAbility>;
-  addAbility: (updatedAbility: MonsterAbility) => unknown;
+  addAbility: (ability: MonsterAbility) => unknown;
+  updateAbility: (ability: MonsterAbility) => unknown;
   removeAbility: (id: string) => unknown;
 }
 
@@ -24,15 +25,14 @@ const mapState = (state: AppState) => ({
 });
 
 const mapDispatch = (dispatch: Dispatch) => ({
-  // addMonsterAbility: (ability: MonsterAbility) => dispatch(monster.actions.addAbility(ability)),
   addAbility: (ability: MonsterAbility) => dispatch(monster.actions.addAbility(ability)),
-
-  // displayItem: (item: Item) => dispatch(items.actions.displayItem(item))
+  updateAbility: (ability: MonsterAbility) => dispatch(monster.actions.updateAbility(ability)),
 });
 
 const MonsterAbilities = connect(mapState, mapDispatch)(({
   abilities,
   addAbility,
+  updateAbility,
   removeAbility,
 }: Props) => {
   const [edittingAbility, setEdittingAbility] = useState(null);
@@ -51,6 +51,7 @@ const MonsterAbilities = connect(mapState, mapDispatch)(({
     <div style={{ width: '100%' }}>
       <AddMonsterAbility
         addMonsterAbility={addAbility}
+        updateMonsterAbility={updateAbility}
         editAbility={edittingAbility}
       />
       <MonsterAbilitiesList

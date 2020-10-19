@@ -49,11 +49,13 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 type Props = {
   addMonsterAbility: (ability: MonsterAbility) => unknown;
+  updateMonsterAbility: (ability: MonsterAbility) => unknown;
   editAbility: MonsterAbility;
 }
 
 function AddMonsterAbility({
   addMonsterAbility,
+  updateMonsterAbility,
   editAbility,
 }: Props) {
   const [ability, setAbility] = useState({ name: '', description: ''} as MonsterAbility);
@@ -92,21 +94,26 @@ function AddMonsterAbility({
     } as MonsterAbility);
   };
 
+  /** Sets the state to the default new ability state */
+  const newAbilityState = () => {
+    setAbility({name: '', description: ''} as MonsterAbility);
+    setIsNew(true);
+  }
+
   /**
    * Add or edit a monster ability by passing it up to the parent
    * and then reset the state
    */
   const addAbility = () => {
     addMonsterAbility(ability);
-    setAbility({name: '', description: ''} as MonsterAbility);
-    setIsNew(true);
+    newAbilityState();
   };
 
-  /** Cancels editting a monster ability */
-  const cancelEdit = () => {
-    setAbility({name: '', description: ''} as MonsterAbility);
-    setIsNew(true);
-  };
+  /** Updates the monster ability that has been passed in */
+  const updateAbility = () => {
+    updateMonsterAbility(ability);
+    newAbilityState();
+  }
 
   return (
     <>
@@ -142,7 +149,7 @@ function AddMonsterAbility({
             color="primary"
             variant="contained"
             aria-label="Save Ability"
-            onClick={addAbility}
+            onClick={isNew ? addAbility : updateAbility}
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
@@ -152,7 +159,7 @@ function AddMonsterAbility({
               variant="contained"
               aria-label="Cancel Edit"
               style={{ marginLeft: '8px' }}
-              onClick={cancelEdit}
+              onClick={newAbilityState}
             >
               Cancel
             </Button>

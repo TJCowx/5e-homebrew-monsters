@@ -25,7 +25,10 @@ export default createSlice({
     },
     /** Updates the passed in ability */
     updateAbility(state, action: PayloadAction<MonsterAbility>) {
+      const updateIndex: number = state.abilities.findIndex(
+        (ability: MonsterAbility) => ability.id === action.payload.id);
 
+      state.abilities[updateIndex] = action.payload;
     },
     /** Adds the action to the state of normal actions */
     addAction(state, payload: PayloadAction<MonsterAction>) {
