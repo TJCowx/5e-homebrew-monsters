@@ -11,6 +11,9 @@ import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
 import MonsterDefinition from '../../../models/MonsterDefinition';
+import { monsterSelector } from '../../../selectors/monsterSelector';
+import { connect } from 'react-redux';
+import { AppState } from '../../../store/store';
 
 const useStyles = makeStyles(() => createStyles({
     root: {
@@ -96,11 +99,15 @@ type Props = {
   saveRef: React.MutableRefObject<undefined>;
 };
 
-function StatBlock({
+const mapState = (state: AppState) => ({
+  monster: monsterSelector(state),
+});
+
+const StatBlock = connect(mapState)(({
   monster,
   twoColumns,
   saveRef,
-}: Props) {
+}: Props) => {
 
   const classes = useStyles();
 
@@ -389,6 +396,6 @@ function StatBlock({
       </div>
     </div>
   );
-}
+})
 
 export default StatBlock;

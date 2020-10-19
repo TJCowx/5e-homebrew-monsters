@@ -12,8 +12,8 @@ type Props = {
   legenActions: Array<MonsterAction>;
   reactions: Array<MonsterAction>;
   lairActions: Array<MonsterAction>;
-  addMonsterAction: () => unknown;
-  removeAction: () => unknown;
+  addMonsterAction: (updatedAbility: MonsterAction) => unknown;
+  removeAction: (id: string, actionType: string) => unknown;
 }
 function MonsterActions({
   actions,

@@ -5,7 +5,7 @@
 import React from 'react';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAbilityListItem from './MonsterAbilityListItem';
-import { createStyles, List, makeStyles, withStyles } from '@material-ui/core';
+import { createStyles, List, makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => createStyles({
   list: {
@@ -15,15 +15,15 @@ const useStyles = makeStyles(() => createStyles({
 
 type Props = {
   monsterAbilities: Array<MonsterAbility>;
-  removeAbility: () => unknown;
+  removeAbility: (id: string) => unknown;
   editAbility: (ability: MonsterAbility) => unknown;
 }
 
-function MonsterAbilitiesList({
+const MonsterAbilitiesList = (({
   monsterAbilities,
   removeAbility,
   editAbility,
-}: Props) {
+}: Props) => {
   const classes = useStyles();
 
   return (
@@ -40,6 +40,6 @@ function MonsterAbilitiesList({
       </List>
     </>
   );
-}
+});
 
 export default MonsterAbilitiesList;

@@ -56,7 +56,7 @@ function AddMonsterAbility({
   addMonsterAbility,
   editAbility,
 }: Props) {
-  const [ability, setAbility] = useState(new MonsterAbility({}));
+  const [ability, setAbility] = useState({ name: '', description: ''} as MonsterAbility);
   const [isNew, setIsNew] = useState(true);
 
   const classes = useStyles();
@@ -70,14 +70,14 @@ function AddMonsterAbility({
   useEffect(() => {
     if (editAbility == null) {
       setIsNew(true);
-      setAbility(new MonsterAbility({}));
+      setAbility({name: '', description: ''} as MonsterAbility);
     } else {
       setIsNew(false);
       setAbility(editAbility);
     }
 
     return () => {
-      setAbility(new MonsterAbility({}));
+      setAbility({name: '', description: ''} as MonsterAbility);
     };
   }, [editAbility]);
 
@@ -98,13 +98,13 @@ function AddMonsterAbility({
    */
   const addAbility = () => {
     addMonsterAbility(ability);
-    setAbility(new MonsterAbility());
+    setAbility({name: '', description: ''} as MonsterAbility);
     setIsNew(true);
   };
 
   /** Cancels editting a monster ability */
   const cancelEdit = () => {
-    setAbility(new MonsterAbility());
+    setAbility({name: '', description: ''} as MonsterAbility);
     setIsNew(true);
   };
 
