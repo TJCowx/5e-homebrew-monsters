@@ -10,10 +10,10 @@ import { getProfModifier } from '../../../hooks/getProfModifier';
 import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
-import MonsterDefinition from '../../../models/MonsterDefinition';
 import { lairActionsSelector, legenActionsSelector, monsterSelector, normActionsSelector, reactionsSelector } from '../../../selectors/monsterSelector';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store/store';
+import { MonsterType } from '../../../models/MonsterDefinition';
 
 const useStyles = makeStyles(() => createStyles({
     root: {
@@ -95,7 +95,7 @@ const useStyles = makeStyles(() => createStyles({
   }));
 
 type Props = {
-  monster: MonsterDefinition;
+  monster: MonsterType;
   actions: Array<MonsterAction>;
   reactions: Array<MonsterAction>;
   legenActions: Array<MonsterAction>;

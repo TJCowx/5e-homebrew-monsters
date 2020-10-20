@@ -13,6 +13,9 @@ export default createSlice({
     /** Resets the monster to the initial state */
     reset: () => initialState,
     loadExample: () => exampleMonster(),
+    setMonsterFromObject(state, action: PayloadAction<MonsterType>) {
+      state = action.payload;
+    },
     updateProperty(state, action: PayloadAction<{property: string, value: string | boolean}>) {
       state[action.payload.property] = action.payload.value;
     },

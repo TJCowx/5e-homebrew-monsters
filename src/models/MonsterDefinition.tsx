@@ -169,138 +169,81 @@ export const exampleMonster = (): MonsterType => ({
         'The lich has advantage on saving throws against any effect that turns undead.',
     },
   ],
-  actions: [],
-  // actions: [
-  //   new MonsterAction({
-  //     id: v4(),
-  //     name: 'Paralyzing Touch',
-  //     isAttack: true,
-  //     attackType: 'Melee Spell Attack',
-  //     toHit: '12',
-  //     reach: '5',
-  //     damage: '3d6',
-  //     damageType: 'Cold',
-  //     description:
-  //       'The target must succeed on a DC 18 Constitution saving ' +
-  //       'throw or be paralyzed for 1 minute. The target can repeat the ' +
-  //       'saving throw at the end of each of its turns, ending the effect on ' +
-  //       'itself on a success',
-  //   }),
-  // ],
-  // legenActions: [
-  //   new MonsterAction({
-  //     id: v4(),
-  //     name: 'Cantrip',
-  //     isAttack: false,
-  //     description: 'The lich castrs a cantrip',
-  //   }),
-  //   new MonsterAction({
-  //     id: v4(),
-  //     name: 'Paralyzing Touch (Costs 2 Actions)',
-  //     isAttack: false,
-  //     description: 'The lich uses its Paralyzing Touch.',
-  //   }),
-  //   new MonsterAction({
-  //     id: v4(),
-  //     name: 'Frightening Gaze (Costs 2 Actions)',
-  //     isAttack: false,
-  //     description:
-  //       'The lich fixes its gaze on one creature it can see ' +
-  //       'within 10 feet of it. The target must succeed on a DC 18 Wisdom ' +
-  //       'saving throw against this magic or become frightened for 1 minute. ' +
-  //       'The frightened target can repeat the saving throw at the end of ' +
-  //       'each of its turns, ending the effect on itself on a success. ' +
-  //       "If a target's saving throw is successful or the effect ends for " +
-  //       "it, the target is immune to the lich's gaze for the next 24 hours.",
-  //   }),
-  //   new MonsterAction({
-  //     id: v4(),
-  //     name: 'Disrupt Life (Costs 3 Actions)',
-  //     isAttack: false,
-  //     description:
-  //       'Each non-undead creature within 20 feet of the lich ' +
-  //       'must make a DC 18 Constitution saving throw against this magic, ' +
-  //       'taking 21 (6d6) necrotic damage on a failed save, or half as much ' +
-  //       'damage on a successful one.',
-  //   }),
-  // ],
+  actions: [
+    {
+      id: v4(),
+      actionType: 'Action',
+      name: 'Paralyzing Touch',
+      isAttack: true,
+      attackType: 'Melee Spell Attack',
+      toHit: '12',
+      reach: '5',
+      damage: '3d6',
+      damageType: 'Cold',
+      description:
+        'The target must succeed on a DC 18 Constitution saving ' +
+        'throw or be paralyzed for 1 minute. The target can repeat the ' +
+        'saving throw at the end of each of its turns, ending the effect on ' +
+        'itself on a success',
+    },
+    {
+      id: v4(),
+      name: 'Cantrip',
+      actionType: 'Legendary',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      reach: '',
+      damage: '',
+      damageType: '',
+      description: 'The lich castrs a cantrip',
+    },
+    {
+      id: v4(),
+      name: 'Paralyzing Touch (Costs 2 Actions)',
+      actionType: 'Legendary',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      reach: '',
+      damage: '',
+      damageType: '',
+      description: 'The lich uses its Paralyzing Touch.',
+    },
+    {
+      id: v4(),
+      name: 'Frightening Gaze (Costs 2 Actions)',
+      actionType: 'Legendary',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      reach: '',
+      damage: '',
+      damageType: '',
+      description:
+        'The lich fixes its gaze on one creature it can see ' +
+        'within 10 feet of it. The target must succeed on a DC 18 Wisdom ' +
+        'saving throw against this magic or become frightened for 1 minute. ' +
+        'The frightened target can repeat the saving throw at the end of ' +
+        'each of its turns, ending the effect on itself on a success. ' +
+        "If a target's saving throw is successful or the effect ends for " +
+        "it, the target is immune to the lich's gaze for the next 24 hours.",
+    },
+    {
+      id: v4(),
+      name: 'Disrupt Life (Costs 3 Actions)',
+      actionType: 'Legendary',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      reach: '',
+      damage: '',
+      damageType: '',
+      description:
+        'Each non-undead creature within 20 feet of the lich ' +
+        'must make a DC 18 Constitution saving throw against this magic, ' +
+        'taking 21 (6d6) necrotic damage on a failed save, or half as much ' +
+        'damage on a successful one.',
+    },
+  ],
 })
-
-export default class MonsterDefinition {
-  [key: string]: any;
-  name: string = '';
-  size: string = '';
-  type: string = '';
-  alignment: string = '';
-  armourClass: string = '';
-  hitPoints: string = '';
-  hitDie: string = '';
-  landSpeed: string = '';
-  flySpeed: string = '';
-  burrowSpeed: string = '';
-  climbSpeed: string = '';
-  hoverSpeed: string = '';
-  str: string = '0';
-  dex: string = '0';
-  con: string = '0';
-  int: string = '0';
-  wis: string = '0';
-  chr: string = '0';
-  blindsight: string = '';
-  darkvision: string = '';
-  tremorsense: string = '';
-  truesight: string = '';
-  profBonus: string = '0';
-  challengeRating: string = '';
-  rewardXP: string = '';
-  proficiencies: Array<string> = new Array<string>();
-  savingThrows: Array<string> = new Array<string>();
-  immunities: Array<string> = new Array<string>();
-  condImmunities: Array<string> = new Array<string>();
-  resistances: Array<string> = new Array<string>();
-  weaknesses: Array<string> = new Array<string>();
-  languages: Array<string> = new Array<string>();
-  abilities: Array<MonsterAbility> = new Array<MonsterAbility>();
-  actions: Array<MonsterAction> = new Array<MonsterAction>();
-  legenActions: Array<MonsterAction> = new Array<MonsterAction>();
-  reactions: Array<MonsterAction> = new Array<MonsterAction>();
-  lairActions: Array<MonsterAction> = new Array<MonsterAction>();
-
-  constructor(init?: Partial<MonsterDefinition>) {
-    // If the declaration isn't null, loop through the abilities and
-    // the actions making sure they are clean.
-    // if (init != null) {
-    //   if (init.abilities != null && init.abilities.length > 0) {
-    //     for (let i: number = 0; i < init.abilities.length; i++) {
-    //       // init.abilities[i] = new MonsterAbility(init.abilities[i]);
-    //     }
-    //   }
-
-    //   if (init.actions != null && init.actions.length > 0) {
-    //     for (let i: number = 0; i < init.actions.length; i++) {
-    //       // init.actions[i] = new MonsterAction(init.actions[i]);
-    //     }
-    //   }
-
-    //   if (init.reactions != null && init.reactions.length > 0) {
-    //     for (let i: number = 0; i < init.reactions.length; i++) {
-    //       init.reactions[i] = new MonsterAction(init.reactions[i]);
-    //     }
-    //   }
-
-    //   if (init.legenActions != null && init.legenActions.length > 0) {
-    //     for (let i: number = 0; i < init.legenActions.length; i++) {
-    //       init.legenActions[i] = new MonsterAction(init.legenActions[i]);
-    //     }
-    //   }
-
-    //   if (init.lairActions != null && init.lairActions.length > 0) {
-    //     for (let i: number = 0; i < init.lairActions.length; i++) {
-    //       init.lairActions[i] = new MonsterAction(init.lairActions[i]);
-    //     }
-    //   }
-    // }
-
-    // Object.assign(this, init);
-  }
-}

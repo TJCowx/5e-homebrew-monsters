@@ -27,9 +27,7 @@ import {
   createStyles,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MonsterAbility from '../../models/MonsterAbility';
-import MonsterAction from '../../models/MonsterAction';
-import MonsterDefinition, { MonsterType } from '../../models/MonsterDefinition';
+import { MonsterType } from '../../models/MonsterDefinition';
 import StatBlock from './stat-block/StatBlock';
 import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
@@ -91,7 +89,8 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 type Props = {
   custMonster: MonsterType,
-  loadExample: () => unknown
+  loadExample: () => unknown,
+  setMonsterFromObject: (newMonster: MonsterType) => unknown,
 }
 
 const mapState = (state: AppState) => ({
@@ -100,9 +99,10 @@ const mapState = (state: AppState) => ({
 
 const mapDispatch = (dispatch: Dispatch) => ({
   loadExample: () => dispatch(monster.actions.loadExample()),
+  setMonsterFromObject: (newMonster: MonsterType) => dispatch(monster.actions.setMonsterFromObject(newMonster)),
 })
 
-const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Props) => {
+const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample, setMonsterFromObject}: Props) => {
   const [twoCols, setTwoCols] = useState(false);
 
   const componentRef = useRef();
@@ -110,136 +110,22 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
   const classes = useStyles();
 
   /**
-   * Updates the state of the monster on a change.
-   * @param event The material UI event
-   */
-  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
-    // setMonster({
-    //   ...monster,
-    //   [event.target.name]: event.target.value,
-    // });
-  };
-
-  /**
-   * Updates an ability item if its id is already existing.
-   * If the id doesn't exist it will append the ability to the end
-   * @param updatedAbility The ability item to update or add
-   */
-  const updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
-    // Check to see if we have an already existing ability item
-    const existingIndex: number = custMonster.abilities.findIndex(
-      (ability: MonsterAbility) => ability.id === updatedAbility.id
-    );
-
-    if (existingIndex > -1) {
-      // Copy the array so we don't have a chance to manipulate it before wanted
-      const abilities = [...custMonster.abilities];
-      // abilities[existingIndex] = new MonsterAbility(updatedAbility);
-
-      // setMonster({
-      //   ...monster,
-      //   abilities,
-      // });
-    } else {
-      // setMonster({
-      //   ...monster,
-      //   abilities: [...monster.abilities, new MonsterAbility(updatedAbility)],
-      // });
-    }
-  };
-
-  /**
-   * Removes an ability from the state that has the matching id
-   * @param id the id of the ability to remove
-   */
-  const removeAbility = (id: string) => {
-    // setMonster({
-    //   ...monster,
-    //   abilities: [
-    //     ...monster.abilities.filter((ability: MonsterAbility) => ability.id !== id),
-    //   ],
-    // });
-  };
-
-  /**
-   * Updates an action item if its id is already existing.
-   * If the id doesn't exist it will append the action to the end
-   * @param updatedActopm The action item to update or add
-   */
-  const updateMonsterActions = (updatedAction: MonsterAction) => {
-    // let actionsProperty: string = '';
-
-    // switch (updatedAction.actionType) {
-    //   case 'Action':
-    //     actionsProperty = 'actions';
-    //     break;
-    //   case 'Reaction':
-    //     actionsProperty = 'reactions';
-    //     break;
-    //   case 'Legendary':
-    //     actionsProperty = 'legenActions';
-    //     break;
-    //   case 'lair':
-    //     actionsProperty = 'lairActions';
-    //     break;
-    // }
-
-    // // Check to see if we have an already existing ability item
-    // const existingIndex: number = monster[`${actionsProperty}`].findIndex(
-    //   (action: MonsterAction) => action.id === updatedAction.id
-    // );
-
-    // if (existingIndex > -1) {
-    //   // Copy the array so we don't have a chance to manipulate it before wanted
-    //   const actions = [...monster[`${actionsProperty}`]];
-    //   actions[existingIndex] = new MonsterAction(updatedAction);
-
-    //   setMonster({
-    //     ...monster,
-    //     actions,
-    //   });
-    // } else {
-    //   setMonster({
-    //     ...monster,
-    //     [actionsProperty]: [
-    //       ...monster[`${actionsProperty}`],
-    //       new MonsterAction(updatedAction),
-    //     ],
-    //   });
-    // }
-  };
-
-  /**
-   * Removes an action from the state that has the matching id
-   * @param id the id of the ability to remove
-   */
-  const removeAction = (id: string, actionType: string) => {
-    // setMonster({
-    //   ...monster,
-    //   actions: [
-    //     ...monster.actions.filter((action: MonsterAction) => action.id !== id),
-    //   ],
-    // });
-  };
-
-  /**
    * Reads the file selected from the input, tries to make sure it's json
    * and sets it to the monster type
    */
-  const importConfig = ({ target }: any) => {
-    // const fileReader: FileReader = new FileReader();
+  const importConfig = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileReader: FileReader = new FileReader();
 
-    // fileReader.onload = (e) => {
-    //   try {
-    //     const importedObject: object = JSON.parse(e.target.result as string);
-    //     setMonster(new MonsterDefinition(importedObject));
-    //     alert('Monster Has Been Uploaded');
-    //   } catch (e) {
-    //     alert('Error parsing file');
-    //     console.error(e);
-    //   }
-    // };
-    // fileReader.readAsText(target.files[0]);
+    fileReader.onload = (e) => {
+      try {
+        setMonsterFromObject(JSON.parse(e.target.result as string) as MonsterType);
+        alert('Monster Has Been Uploaded');
+      } catch (e) {
+        alert('Error parsing file');
+        console.error(e);
+      }
+    };
+    fileReader.readAsText(event.target.files[0]);
   };
 
   /**
