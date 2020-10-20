@@ -11,6 +11,7 @@ import MonsterAction from './MonsterAction';
  * in normal textfields which forces the types to have to be strings
  */
 export type MonsterType = {
+  [key: string]: any;
   name: string;
   size: string;
   type: string;

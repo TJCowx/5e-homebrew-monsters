@@ -319,7 +319,6 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
               size={custMonster.size}
               type={custMonster.type}
               alignment={custMonster.alignment}
-              handleChange={handleChange}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>

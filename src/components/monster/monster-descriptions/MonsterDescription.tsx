@@ -8,6 +8,8 @@
  */
 
 import React, { ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   TextField,
   Theme,
@@ -16,11 +18,10 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  withStyles,
   makeStyles,
   createStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import monster from '../../../reducers/monsterReducer';
 
 /** Setup the styling for the inputs */
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -39,16 +40,20 @@ type Props = {
   size: string;
   type: string;
   alignment: string;
-  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  updateProperty: (property: string, value: string) => unknown;
 }
 
-function MonsterDescription({
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+const MonsterDescription = connect(null, mapDispatch)(({
   name,
   size,
   type,
   alignment,
-  handleChange,
-}: Props) {
+  updateProperty,
+}: Props) => {
 
   const classes = useStyles();
 
@@ -98,6 +103,11 @@ function MonsterDescription({
     'Plant',
     'Undead',
   ];
+
+  /** Update the property when there is a change */
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   return (
     <div className={classes.descriptionRoot}>
@@ -176,6 +186,6 @@ function MonsterDescription({
       </Box>
     </div>
   );
-}
+})
 
 export default MonsterDescription;

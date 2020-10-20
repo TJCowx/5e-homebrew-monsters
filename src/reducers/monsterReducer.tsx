@@ -13,6 +13,16 @@ export default createSlice({
     /** Resets the monster to the initial state */
     reset: () => initialState,
     loadExample: () => exampleMonster(),
+    updateProperty(state, action: PayloadAction<{property: string, value: string | boolean}>) {
+      state[action.payload.property] = action.payload.value;
+    },
+    addToCollection(state, action: PayloadAction<{property: string, value: string}>) {
+      state[action.payload.property].push(action.payload.value);
+    },
+    removeFromCollection(state, action: PayloadAction<{property: string, value: string}>) {
+      const {property, value} = action.payload;
+      state[property] = state[property].filter((item: string) => item !== value);
+    },
     /** 
      * Adds the action to the state of normal actions
      * @param action the payload of the monster ability to add
