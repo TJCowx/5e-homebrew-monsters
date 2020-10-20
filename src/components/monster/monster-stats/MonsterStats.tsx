@@ -6,22 +6,25 @@
  * like, so I made a work around making it so only numbers can be put
  * in normal textfields which forces the types to have to be strings
  */
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import {
   TextField,
   Box,
   Theme,
-  withStyles,
   FormControl,
   InputLabel,
   Select,
   MenuItem,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
-import PropTypes, { InferProps } from 'prop-types';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import monster from '../../../reducers/monsterReducer';
 
 /** Setup the styling for these inputs */
-const useStyles = (theme: Theme) => ({
+const useStyles =  makeStyles((theme: Theme) => createStyles({
   descriptionRoot: {
     width: '100%',
   },
@@ -80,10 +83,30 @@ const useStyles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
-function MonsterStats({
-  classes,
+type Props = {
+  armourClass: string;
+  hitPoints: string;
+  str: string;
+  dex: string;
+  con: string;
+  int: string;
+  wis: string;
+  chr: string;
+  profBonus: string;
+  proficiencies: Array<string>;
+  savingThrows: Array<string>;
+  hitDie: string;
+  updateProperty: (property: string, value: string) => unknown;
+};
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+
+const MonsterStats = connect(null, mapDispatch)(({
   armourClass,
   hitPoints,
   str,
@@ -96,20 +119,30 @@ function MonsterStats({
   proficiencies,
   savingThrows,
   hitDie,
-  handleChange,
-}: InferProps<typeof MonsterStats.propTypes>) {
+  updateProperty,
+}: Props) => {
+  const classes = useStyles();
+
   const availableProfs: object = getProficiencies();
   const availableSavingThrows: object = getStats();
+
+  /** 
+   * Handles the basic change of an input change 
+   * @param event the event passed in from the material UI onChange event
+   */
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   /**
    * Takes an input event and checks to see if it was an integer input
    * before trying to update the state
    * @param event The event passed in from material UI onChange
    */
-  const handleIntChange = (event: { target: { name: any; value: any } }) => {
+  const handleIntChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
-      handleChange(event);
+      updateProperty(event.target.name, event.target.value);
     }
   };
 
@@ -240,23 +273,6 @@ function MonsterStats({
       </Box>
     </div>
   );
-}
+});
 
-MonsterStats.propTypes = {
-  armourClass: PropTypes.string.isRequired,
-  hitPoints: PropTypes.string.isRequired,
-  str: PropTypes.string.isRequired,
-  dex: PropTypes.string.isRequired,
-  con: PropTypes.string.isRequired,
-  int: PropTypes.string.isRequired,
-  wis: PropTypes.string.isRequired,
-  chr: PropTypes.string.isRequired,
-  profBonus: PropTypes.string.isRequired,
-  hitDie: PropTypes.string.isRequired,
-  proficiencies: PropTypes.array.isRequired,
-  savingThrows: PropTypes.array.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterStats);
+export default MonsterStats;

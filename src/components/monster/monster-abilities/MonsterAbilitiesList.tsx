@@ -3,23 +3,29 @@
  * Displays a list of abilities that a monster may have.
  */
 import React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAbilityListItem from './MonsterAbilityListItem';
-import { List, withStyles } from '@material-ui/core';
+import { createStyles, List, makeStyles } from '@material-ui/core';
 
-const useStyles = () => ({
+const useStyles = makeStyles(() => createStyles({
   list: {
     width: '100%',
   },
-});
+}));
 
-function MonsterAbilitiesList({
+type Props = {
+  monsterAbilities: Array<MonsterAbility>;
+  removeAbility: (id: string) => unknown;
+  editAbility: (ability: MonsterAbility) => unknown;
+}
+
+const MonsterAbilitiesList = (({
   monsterAbilities,
   removeAbility,
   editAbility,
-  classes,
-}: InferProps<typeof MonsterAbilitiesList.propTypes>) {
+}: Props) => {
+  const classes = useStyles();
+
   return (
     <>
       <List className={classes.list}>
@@ -34,13 +40,6 @@ function MonsterAbilitiesList({
       </List>
     </>
   );
-}
+});
 
-MonsterAbilitiesList.propTypes = {
-  monsterAbilities: PropTypes.array.isRequired,
-  removeAbility: PropTypes.func.isRequired,
-  editAbility: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterAbilitiesList);
+export default MonsterAbilitiesList;

@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
 import {
   ListItem,
   ListItemText,
@@ -11,11 +10,17 @@ import MonsterAbility from '../../../models/MonsterAbility';
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 
+type Props = {
+  ability: MonsterAbility;
+  removeAbility: (id: string) => unknown;
+  editAbility: (ability: MonsterAbility) => unknown;
+}
+
 export default function MonsterAbilityListItem({
   ability,
   removeAbility,
   editAbility,
-}: InferProps<typeof MonsterAbilityListItem.propTypes>) {
+}: Props) {
   return (
     <>
       <ListItem>
@@ -27,13 +32,13 @@ export default function MonsterAbilityListItem({
         <ListItemSecondaryAction>
           <IconButton
             aria-label="edit ability"
-            onClick={editAbility.bind(this, ability)}
+            onClick={() => editAbility(ability)}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             aria-label="delete ability"
-            onClick={removeAbility.bind(this, ability.id)}
+            onClick={() => removeAbility(ability.id)}
           >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>
@@ -43,9 +48,3 @@ export default function MonsterAbilityListItem({
     </>
   );
 }
-
-MonsterAbilityListItem.propTypes = {
-  ability: PropTypes.instanceOf(MonsterAbility).isRequired,
-  removeAbility: PropTypes.func.isRequired,
-  editAbility: PropTypes.func.isRequired,
-};

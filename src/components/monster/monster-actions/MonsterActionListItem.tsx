@@ -9,20 +9,24 @@ import {
 import DeleteIcon from '@material-ui/icons/Delete';
 import EditIcon from '@material-ui/icons/Edit';
 import MonsterAction from '../../../models/MonsterAction';
-import PropTypes, { InferProps } from 'prop-types';
+
+type Props = {
+  action: MonsterAction;
+  removeAction: (id: string) => unknown;
+  editAction: (action: MonsterAction) => unknown;
+}
 
 function MonsterActionListItem({
   action,
-  actionType,
   removeAction,
   editAction,
-}: InferProps<typeof MonsterActionListItem.propTypes>) {
+}: Props) {
   const [actionSummary, setActionSummary] = useState('');
 
   useEffect(() => {
-    let summary: string = `${actionType} -`;
-    if (action.attackType != null) {
-      summary += ` ${action.attackType} Attack: ${action.toHit} to hit, reach ${action.reach}`;
+    let summary: string = `${action.actionType} -`;
+    if (action.isAttack && action.attackType !== '') {
+      summary += ` ${action.attackType}: ${action.toHit} to hit, reach ${action.reach}`;
       summary += `, Hit: ${action.damage} ${action.damageType} damage`;
     }
 
@@ -42,13 +46,13 @@ function MonsterActionListItem({
         <ListItemSecondaryAction>
           <IconButton
             aria-label="edit ability"
-            onClick={editAction.bind(this, action)}
+            onClick={() => editAction(action)}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             aria-label="delete ability"
-            onClick={removeAction.bind(this, action.id)}
+            onClick={() => removeAction(action.id)}
           >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>
@@ -58,12 +62,5 @@ function MonsterActionListItem({
     </>
   );
 }
-
-MonsterActionListItem.propTypes = {
-  action: PropTypes.instanceOf(MonsterAction).isRequired,
-  actionType: PropTypes.string.isRequired,
-  removeAction: PropTypes.func.isRequired,
-  editAction: PropTypes.func.isRequired,
-};
 
 export default MonsterActionListItem;

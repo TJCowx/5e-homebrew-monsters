@@ -6,16 +6,28 @@ import React, { useState } from 'react';
 import AddMonsterAction from './AddMonsterAction';
 import MonsterActionsList from './MonsterActionsList';
 import MonsterAction from '../../../models/MonsterAction';
-import PropTypes, { InferProps } from 'prop-types';
+import { Dispatch } from 'redux';
+import monster from '../../../reducers/monsterReducer';
+import { connect } from 'react-redux';
 
-function MonsterActions({
-  actions,
-  legenActions,
-  reactions,
-  lairActions,
-  addMonsterAction,
+
+type Props = {
+  addAction: (action: MonsterAction) => unknown;
+  updateAction: (action: MonsterAction) => unknown;
+  removeAction: (id: string) => unknown;
+}
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  addAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
+  updateAction: (action: MonsterAction) => dispatch(monster.actions.updateAction(action)),
+  removeAction: (id: string) => dispatch(monster.actions.removeAction(id)),
+})
+
+const MonsterActions = connect(null, mapDispatch)(({
+  addAction,
+  updateAction,
   removeAction,
-}: InferProps<typeof MonsterActions.propTypes>) {
+}: Props) => {
   const [edittingAction, setEdittingAction] = useState(null);
 
   /**
@@ -24,36 +36,23 @@ function MonsterActions({
    * an existing one
    * @param action the action we are editting
    */
-  const editAction = (action: MonsterAction, actionType: string) => {
-    action.actionType = actionType;
+  const editAction = (action: MonsterAction) => {
     setEdittingAction(action);
   };
 
   return (
     <div style={{ width: '100%' }}>
       <AddMonsterAction
-        addMonsterAction={addMonsterAction}
+        addMonsterAction={addAction}
+        updateMonsterAction={updateAction}
         editAction={edittingAction}
       />
       <MonsterActionsList
-        actions={actions}
-        reactions={reactions}
-        legenActions={legenActions}
-        lairActions={lairActions}
         removeAction={removeAction}
         editAction={editAction}
       />
     </div>
   );
-}
-
-MonsterActions.propTypes = {
-  actions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  reactions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  legenActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  lairActions: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAction)).isRequired,
-  addMonsterAction: PropTypes.func.isRequired,
-  removeAction: PropTypes.func.isRequired,
-};
+});
 
 export default MonsterActions;

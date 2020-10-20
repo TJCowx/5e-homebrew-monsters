@@ -4,15 +4,38 @@
  */
 import React, { useState } from 'react';
 import AddMonsterAbility from './AddMonsterAbility';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import MonsterAbilitiesList from './MonsterAbilitiesList';
 import MonsterAbility from '../../../models/MonsterAbility';
-import PropTypes, { InferProps } from 'prop-types';
+import { abilitiesSelector } from '../../../selectors/monsterSelector';
+import { AppState } from '../../../store/store';
+import monster from '../../../reducers/monsterReducer';
 
-function MonsterAbilities({
-  monsterAbilities,
-  addMonsterAbility,
+type Props = {
+  abilities: Array<MonsterAbility>;
+  addAbility: (ability: MonsterAbility) => unknown;
+  updateAbility: (ability: MonsterAbility) => unknown;
+  removeAbility: (id: string) => unknown;
+}
+
+/** Setup the abilities state */
+const mapState = (state: AppState) => ({
+  abilities: abilitiesSelector(state),
+});
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  addAbility: (ability: MonsterAbility) => dispatch(monster.actions.addAbility(ability)),
+  updateAbility: (ability: MonsterAbility) => dispatch(monster.actions.updateAbility(ability)),
+  removeAbility: (id: string) => dispatch(monster.actions.removeAbility(id)),
+});
+
+const MonsterAbilities = connect(mapState, mapDispatch)(({
+  abilities,
+  addAbility,
+  updateAbility,
   removeAbility,
-}: InferProps<typeof MonsterAbilities.propTypes>) {
+}: Props) => {
   const [edittingAbility, setEdittingAbility] = useState(null);
 
   /**
@@ -28,23 +51,17 @@ function MonsterAbilities({
   return (
     <div style={{ width: '100%' }}>
       <AddMonsterAbility
-        addMonsterAbility={addMonsterAbility}
+        addMonsterAbility={addAbility}
+        updateMonsterAbility={updateAbility}
         editAbility={edittingAbility}
       />
       <MonsterAbilitiesList
-        monsterAbilities={monsterAbilities}
+        monsterAbilities={abilities}
         removeAbility={removeAbility}
         editAbility={editAbility}
       />
     </div>
   );
-}
-
-MonsterAbilities.propTypes = {
-  monsterAbilities: PropTypes.arrayOf(PropTypes.instanceOf(MonsterAbility))
-    .isRequired,
-  addMonsterAbility: PropTypes.func.isRequired,
-  removeAbility: PropTypes.func.isRequired,
-};
+})
 
 export default MonsterAbilities;

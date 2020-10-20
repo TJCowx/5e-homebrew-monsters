@@ -7,7 +7,9 @@
  *             Good/Evil scale
  */
 
-import React from 'react';
+import React, { ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   TextField,
   Theme,
@@ -16,12 +18,13 @@ import {
   InputLabel,
   MenuItem,
   FormControl,
-  withStyles,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import monster from '../../../reducers/monsterReducer';
 
 /** Setup the styling for the inputs */
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   descriptionRoot: {
     width: '100%',
   },
@@ -30,16 +33,30 @@ const useStyles = (theme: Theme) => ({
     width: '50%',
     margin: theme.spacing(1),
   },
-});
+}));
 
-function MonsterDescription({
+type Props = {
+  name: string;
+  size: string;
+  type: string;
+  alignment: string;
+  updateProperty: (property: string, value: string) => unknown;
+}
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+const MonsterDescription = connect(null, mapDispatch)(({
   name,
   size,
   type,
   alignment,
-  handleChange,
-  classes,
-}: InferProps<typeof MonsterDescription.propTypes>) {
+  updateProperty,
+}: Props) => {
+
+  const classes = useStyles();
+
   /**
    * A list of available sizes based on the 5e sizes chart
    */
@@ -86,6 +103,11 @@ function MonsterDescription({
     'Plant',
     'Undead',
   ];
+
+  /** Update the property when there is a change */
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   return (
     <div className={classes.descriptionRoot}>
@@ -164,15 +186,6 @@ function MonsterDescription({
       </Box>
     </div>
   );
-}
+})
 
-MonsterDescription.propTypes = {
-  name: PropTypes.string.isRequired,
-  size: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  alignment: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterDescription);
+export default MonsterDescription;

@@ -2,22 +2,26 @@
  * MonsterProperties.tsx
  * Handles the monster's properties.
  */
-import React from 'react';
+import React, { ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   TextField,
-  withStyles,
   Theme,
   InputLabel,
   FormControl,
   Select,
   MenuItem,
   Box,
+  createStyles,
+  makeStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
 import { getDamageTypes } from '../../../hooks/getDamageTypes';
+import monster from '../../../reducers/monsterReducer';
+
 
 /** Setup the styling for these inputs */
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   descriptionRoot: {
     width: '100%',
   },
@@ -53,10 +57,25 @@ const useStyles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
-function MonsterProperties({
-  classes,
+type Props = {
+  immunities: Array<string>;
+  resistances: Array<string>;
+  weaknesses: Array<string>;
+  condImmunities: Array<string>;
+  languages: Array<string>;
+  challengeRating: string;
+  rewardXP: string;
+  updateProperty: (property: string, value: string) => unknown;
+}
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+
+const MonsterProperties = connect(null, mapDispatch)(({
   immunities,
   resistances,
   weaknesses,
@@ -64,8 +83,11 @@ function MonsterProperties({
   languages,
   challengeRating,
   rewardXP,
-  handleChange,
-}: InferProps<typeof MonsterProperties.propTypes>) {
+  updateProperty,
+}: Props) => {
+
+  const classes = useStyles();
+
   /**
    * A list of available damage types in 5e
    */
@@ -112,6 +134,10 @@ function MonsterProperties({
     'Sylvan',
     'Undercommon',
   ];
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   return (
     <div className={classes.descriptionRoot}>
@@ -223,18 +249,6 @@ function MonsterProperties({
       </Box>
     </div>
   );
-}
+});
 
-MonsterProperties.propTypes = {
-  immunities: PropTypes.array.isRequired,
-  condImmunities: PropTypes.array.isRequired,
-  resistances: PropTypes.array.isRequired,
-  weaknesses: PropTypes.array.isRequired,
-  languages: PropTypes.array.isRequired,
-  challengeRating: PropTypes.string.isRequired,
-  rewardXP: PropTypes.string.isRequired,
-  handleChange: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterProperties);
+export default MonsterProperties;

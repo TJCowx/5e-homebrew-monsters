@@ -4,7 +4,8 @@
  * properties in an expansion panel.
  */
 
-import React, { useRef, useState } from 'react';
+import React, { ChangeEvent, useRef, useState } from 'react';
+import { Dispatch } from 'redux';
 import MonsterStats from './monster-stats/MonsterStats';
 import MonsterProperties from './monster-properties/MonsterProperties';
 import MonsterActions from './monster-actions/MonsterActions';
@@ -18,23 +19,26 @@ import {
   ExpansionPanelDetails,
   Typography,
   Theme,
-  withStyles,
   Button,
   Box,
   FormControlLabel,
   Switch,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import MonsterAbility from '../../models/MonsterAbility';
-import MonsterAction from '../../models/MonsterAction';
-import MonsterDefinition from '../../models/MonsterDefinition';
+import { MonsterType } from '../../models/MonsterDefinition';
 import StatBlock from './stat-block/StatBlock';
-import PropTypes, { InferProps } from 'prop-types';
+import { connect } from 'react-redux';
 import ReactDOM from 'react-dom';
 import html2canvas from 'html2canvas';
+import { AppState } from '../../store/store';
+import { monsterSelector } from '../../selectors/monsterSelector';
+import monster from '../../reducers/monsterReducer';
+
 
 /** Setup the styles and theming for this component and children */
-const styles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     width: '100%',
     display: 'inline-block',
@@ -81,147 +85,47 @@ const styles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
-function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
-  const [monster, setMonster] = useState(new MonsterDefinition());
+type Props = {
+  custMonster: MonsterType,
+  loadExample: () => unknown,
+  setMonsterFromObject: (newMonster: MonsterType) => unknown,
+}
+
+const mapState = (state: AppState) => ({
+  custMonster: monsterSelector(state),
+})
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  loadExample: () => dispatch(monster.actions.loadExample()),
+  setMonsterFromObject: (newMonster: MonsterType) => dispatch(monster.actions.setMonsterFromObject(newMonster)),
+})
+
+const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample, setMonsterFromObject}: Props) => {
   const [twoCols, setTwoCols] = useState(false);
 
   const componentRef = useRef();
-
-  /**
-   * Updates the state of the monster on a change.
-   * @param event The material UI event
-   */
-  const handleChange = (event: {
-    target: { name: any; value: any; valueAsNumber: boolean };
-  }) => {
-    setMonster({
-      ...monster,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  /**
-   * Updates an ability item if its id is already existing.
-   * If the id doesn't exist it will append the ability to the end
-   * @param updatedAbility The ability item to update or add
-   */
-  const updateMonsterAbilities = (updatedAbility: MonsterAbility) => {
-    // Check to see if we have an already existing ability item
-    const existingIndex: number = monster.abilities.findIndex(
-      (ability: MonsterAbility) => ability.id === updatedAbility.id
-    );
-
-    if (existingIndex > -1) {
-      // Copy the array so we don't have a chance to manipulate it before wanted
-      const abilities = [...monster.abilities];
-      abilities[existingIndex] = new MonsterAbility(updatedAbility);
-
-      setMonster({
-        ...monster,
-        abilities,
-      });
-    } else {
-      setMonster({
-        ...monster,
-        abilities: [...monster.abilities, new MonsterAbility(updatedAbility)],
-      });
-    }
-  };
-
-  /**
-   * Removes an ability from the state that has the matching id
-   * @param id the id of the ability to remove
-   */
-  const removeAbility = (id: string) => {
-    setMonster({
-      ...monster,
-      abilities: [
-        ...monster.abilities.filter((ability: MonsterAbility) => ability.id !== id),
-      ],
-    });
-  };
-
-  /**
-   * Updates an action item if its id is already existing.
-   * If the id doesn't exist it will append the action to the end
-   * @param updatedActopm The action item to update or add
-   */
-  const updateMonsterActions = (updatedAction: MonsterAction) => {
-    let actionsProperty: string = '';
-
-    switch (updatedAction.actionType) {
-      case 'Action':
-        actionsProperty = 'actions';
-        break;
-      case 'Reaction':
-        actionsProperty = 'reactions';
-        break;
-      case 'Legendary':
-        actionsProperty = 'legenActions';
-        break;
-      case 'lair':
-        actionsProperty = 'lairActions';
-        break;
-    }
-
-    // Check to see if we have an already existing ability item
-    const existingIndex: number = monster[`${actionsProperty}`].findIndex(
-      (action: MonsterAction) => action.id === updatedAction.id
-    );
-
-    if (existingIndex > -1) {
-      // Copy the array so we don't have a chance to manipulate it before wanted
-      const actions = [...monster[`${actionsProperty}`]];
-      actions[existingIndex] = new MonsterAction(updatedAction);
-
-      setMonster({
-        ...monster,
-        actions,
-      });
-    } else {
-      setMonster({
-        ...monster,
-        [actionsProperty]: [
-          ...monster[`${actionsProperty}`],
-          new MonsterAction(updatedAction),
-        ],
-      });
-    }
-  };
-
-  /**
-   * Removes an action from the state that has the matching id
-   * @param id the id of the ability to remove
-   */
-  const removeAction = (id: string) => {
-    setMonster({
-      ...monster,
-      actions: [
-        ...monster.actions.filter((action: MonsterAction) => action.id !== id),
-      ],
-    });
-  };
+  
+  const classes = useStyles();
 
   /**
    * Reads the file selected from the input, tries to make sure it's json
    * and sets it to the monster type
    */
-  const importConfig = ({ target }: any) => {
+  const importConfig = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileReader: FileReader = new FileReader();
 
     fileReader.onload = (e) => {
       try {
-        const importedObject: object = JSON.parse(e.target.result as string);
-        setMonster(new MonsterDefinition(importedObject));
+        setMonsterFromObject(JSON.parse(e.target.result as string) as MonsterType);
         alert('Monster Has Been Uploaded');
       } catch (e) {
         alert('Error parsing file');
         console.error(e);
       }
     };
-    fileReader.readAsText(target.files[0]);
+    fileReader.readAsText(event.target.files[0]);
   };
 
   /**
@@ -285,132 +189,6 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
     });
   };
 
-  /**
-   * Generates an example monster based off the 5e lich which can be located
-   * https://roll20.net/compendium/dnd5e/Lich
-   */
-  const generateExample = () => {
-    setMonster(
-      new MonsterDefinition({
-        name: 'Lich',
-        size: 'Medium',
-        type: 'Undead',
-        alignment: 'Neutral Evil',
-        armourClass: '17',
-        hitPoints: '135',
-        hitDie: '18d8+54',
-        landSpeed: '30',
-        str: '11',
-        dex: '16',
-        con: '16',
-        int: '20',
-        wis: '14',
-        chr: '16',
-        profBonus: '7',
-        challengeRating: '21',
-        rewardXP: '33000',
-        savingThrows: ['con', 'int', 'wis'],
-        proficiencies: ['arc', 'hst', 'ins', 'per'],
-        resistances: ['Cold', 'Lightning', 'Necrotic'],
-        immunities: ['Poison', 'Bludgeoning', 'Piercing', 'Slashing'],
-        condImmunities: [
-          'Charmed',
-          'Exhaustion',
-          'Frightenened',
-          'Paralyzed',
-          'Poisoned',
-        ],
-        truesight: '120',
-        languages: ['Common', 'Elvish', 'Celestial', 'Sylvan', 'Primordial'],
-        abilities: [
-          new MonsterAbility({
-            name: 'Legendary Resistance (3/Day)',
-            description:
-              'If the lich fails a saving throw, it can choose to succeed instead.',
-          }),
-          new MonsterAbility({
-            name: 'Rejuvenation',
-            description:
-              'If it has a phylactery, a destroyed lich gains a new body in 1d10 ' +
-              'days, regaining all its hit points and becoming active again. The ' +
-              'new body appears within 5 feet of the phylactery.',
-          }),
-          new MonsterAbility({
-            name: 'Spellcasting',
-            description:
-              'The lich is an 18th-level spellcaster. Its spellcasting ability is ' +
-              'Intelligence (spell save DC 20, +12 to hit with spell attacks). ' +
-              'The lich has the following wizard spells prepared: \n' +
-              'Cantrips (at will): mage hand, prestidigitation, ray of frost \n' +
-              ' 1st level (4 slots): detect magic, magic missile, shield, thunderwave \n' +
-              ' 2nd level (3 slots): detect thoughts, invisibility, acid arrow, mirror image \n' +
-              ' 3rd level (3 slots): animate dead, counterspell, dispel magic, fireball \n' +
-              ' 4th level (3 slots): blight, dimension door \n' +
-              ' 5th level (3 slots): cloudkill, scrying \n' +
-              ' 6th level (1 slot): disintegrate, globe of invulnerability \n' +
-              ' 7th level (1 slot): finger of death, plane shift \n' +
-              ' 8th level (1 slot): dominate monster, power word stun \n' +
-              ' 9th level (1 slot): power word kill',
-          }),
-          new MonsterAbility({
-            name: 'Turn Resistance',
-            description:
-              'The lich has advantage on saving throws against any effect that turns undead.',
-          }),
-        ],
-        actions: [
-          new MonsterAction({
-            name: 'Paralyzing Touch',
-            isAttack: true,
-            attackType: 'Melee Spell Attack',
-            toHit: '12',
-            reach: '5',
-            damage: '3d6',
-            damageType: 'Cold',
-            description:
-              'The target must succeed on a DC 18 Constitution saving ' +
-              'throw or be paralyzed for 1 minute. The target can repeat the ' +
-              'saving throw at the end of each of its turns, ending the effect on ' +
-              'itself on a success',
-          }),
-        ],
-        legenActions: [
-          new MonsterAction({
-            name: 'Cantrip',
-            isAttack: false,
-            description: 'The lich castrs a cantrip',
-          }),
-          new MonsterAction({
-            name: 'Paralyzing Touch (Costs 2 Actions)',
-            isAttack: false,
-            description: 'The lich uses its Paralyzing Touch.',
-          }),
-          new MonsterAction({
-            name: 'Frightening Gaze (Costs 2 Actions)',
-            isAttack: false,
-            description:
-              'The lich fixes its gaze on one creature it can see ' +
-              'within 10 feet of it. The target must succeed on a DC 18 Wisdom ' +
-              'saving throw against this magic or become frightened for 1 minute. ' +
-              'The frightened target can repeat the saving throw at the end of ' +
-              'each of its turns, ending the effect on itself on a success. ' +
-              "If a target's saving throw is successful or the effect ends for " +
-              "it, the target is immune to the lich's gaze for the next 24 hours.",
-          }),
-          new MonsterAction({
-            name: 'Disrupt Life (Costs 3 Actions)',
-            isAttack: false,
-            description:
-              'Each non-undead creature within 20 feet of the lich ' +
-              'must make a DC 18 Constitution saving throw against this magic, ' +
-              'taking 21 (6d6) necrotic damage on a failed save, or half as much ' +
-              'damage on a successful one.',
-          }),
-        ],
-      })
-    );
-  };
-
   return (
     <Box className={classes.root}>
       <Box className={classes.monsterContainer}>
@@ -423,11 +201,10 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterDescription
-              name={monster.name}
-              size={monster.size}
-              type={monster.type}
-              alignment={monster.alignment}
-              handleChange={handleChange}
+              name={custMonster.name}
+              size={custMonster.size}
+              type={custMonster.type}
+              alignment={custMonster.alignment}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -441,12 +218,11 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterSpeed
-              landSpeed={monster.landSpeed}
-              flySpeed={monster.flySpeed}
-              burrowSpeed={monster.burrowSpeed}
-              climbSpeed={monster.climbSpeed}
-              hoverSpeed={monster.hoverSpeed}
-              handleChange={handleChange}
+              landSpeed={custMonster.landSpeed}
+              flySpeed={custMonster.flySpeed}
+              burrowSpeed={custMonster.burrowSpeed}
+              climbSpeed={custMonster.climbSpeed}
+              hoverSpeed={custMonster.hoverSpeed}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -460,19 +236,18 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterStats
-              handleChange={handleChange}
-              armourClass={monster.armourClass}
-              hitPoints={monster.hitPoints}
-              hitDie={monster.hitDie}
-              str={monster.str}
-              dex={monster.dex}
-              con={monster.con}
-              int={monster.int}
-              wis={monster.wis}
-              chr={monster.chr}
-              profBonus={monster.profBonus}
-              proficiencies={monster.proficiencies}
-              savingThrows={monster.savingThrows}
+              armourClass={custMonster.armourClass}
+              hitPoints={custMonster.hitPoints}
+              hitDie={custMonster.hitDie}
+              str={custMonster.str}
+              dex={custMonster.dex}
+              con={custMonster.con}
+              int={custMonster.int}
+              wis={custMonster.wis}
+              chr={custMonster.chr}
+              profBonus={custMonster.profBonus}
+              proficiencies={custMonster.proficiencies}
+              savingThrows={custMonster.savingThrows}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -486,11 +261,10 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterSenses
-              blindsight={monster.blindsight}
-              darkvision={monster.darkvision}
-              tremorsense={monster.tremorsense}
-              truesight={monster.truesight}
-              handleChange={handleChange}
+              blindsight={custMonster.blindsight}
+              darkvision={custMonster.darkvision}
+              tremorsense={custMonster.tremorsense}
+              truesight={custMonster.truesight}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -504,14 +278,13 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterProperties
-              immunities={monster.immunities}
-              condImmunities={monster.condImmunities}
-              resistances={monster.resistances}
-              weaknesses={monster.weaknesses}
-              languages={monster.languages}
-              challengeRating={monster.challengeRating}
-              rewardXP={monster.rewardXP}
-              handleChange={handleChange}
+              immunities={custMonster.immunities}
+              condImmunities={custMonster.condImmunities}
+              resistances={custMonster.resistances}
+              weaknesses={custMonster.weaknesses}
+              languages={custMonster.languages}
+              challengeRating={custMonster.challengeRating}
+              rewardXP={custMonster.rewardXP}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -524,11 +297,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterAbilities
-              monsterAbilities={monster.abilities}
-              addMonsterAbility={updateMonsterAbilities}
-              removeAbility={removeAbility}
-            />
+            <MonsterAbilities />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -540,14 +309,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterActions
-              actions={monster.actions}
-              legenActions={monster.legenActions}
-              lairActions={monster.lairActions}
-              reactions={monster.reactions}
-              addMonsterAction={updateMonsterActions}
-              removeAction={removeAction}
-            />
+            <MonsterActions />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 
@@ -557,7 +319,7 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
               color="primary"
               variant="contained"
               aria-label="Load Example"
-              onClick={generateExample}
+              onClick={loadExample}
             >
               Example
             </Button>
@@ -609,14 +371,10 @@ function Monster({ classes }: InferProps<typeof Monster.propTypes>) {
         </Box>
       </Box>
       <div className={classes.statBlockContainer}>
-        <StatBlock monster={monster} twoColumns={twoCols} saveRef={componentRef} />
+        <StatBlock twoColumns={twoCols} saveRef={componentRef} />
       </div>
     </Box>
   );
-}
+});
 
-Monster.propTypes = {
-  classes: PropTypes.any,
-};
-
-export default withStyles(styles, { withTheme: true })(Monster);
+export default Monster;

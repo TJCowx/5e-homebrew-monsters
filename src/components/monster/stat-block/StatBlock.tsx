@@ -1,6 +1,5 @@
 import React from 'react';
-import PropTypes, { InferProps } from 'prop-types';
-import { withStyles, createStyles, Box } from '@material-ui/core';
+import { createStyles, Box, makeStyles } from '@material-ui/core';
 import SectionSeparator from './SectionSeparator';
 import StatBlockBorder from './StatBlockBorder';
 import SpeedFormat from './SpeedFormat';
@@ -11,9 +10,12 @@ import { getProfModifier } from '../../../hooks/getProfModifier';
 import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
+import { lairActionsSelector, legenActionsSelector, monsterSelector, normActionsSelector, reactionsSelector } from '../../../selectors/monsterSelector';
+import { connect } from 'react-redux';
+import { AppState } from '../../../store/store';
+import { MonsterType } from '../../../models/MonsterDefinition';
 
-const useStyles = () =>
-  createStyles({
+const useStyles = makeStyles(() => createStyles({
     root: {
       fontFamily: 'Arial, Helvetica, sans-serif',
       paddingLeft: '16px',
@@ -66,6 +68,7 @@ const useStyles = () =>
     },
     actionContainer: {
       display: 'inline-block',
+      width: '100%',
     },
     stats: {
       fontSize: '15px',
@@ -89,14 +92,38 @@ const useStyles = () =>
     firstSectionContainer: {
       display:'inline-block'
     }
-  });
+  }));
 
-function StatBlock({
+type Props = {
+  monster: MonsterType;
+  actions: Array<MonsterAction>;
+  reactions: Array<MonsterAction>;
+  legenActions: Array<MonsterAction>;
+  lairActions: Array<MonsterAction>;
+  twoColumns: boolean;
+  saveRef: React.MutableRefObject<undefined>;
+};
+
+const mapState = (state: AppState) => ({
+  monster: monsterSelector(state),
+  actions: normActionsSelector(state),
+  reactions: reactionsSelector(state),
+  legenActions: legenActionsSelector(state),
+  lairActions: lairActionsSelector(state),
+});
+
+const StatBlock = connect(mapState)(({
   monster,
+  actions,
+  reactions,
+  legenActions,
+  lairActions,
   twoColumns,
   saveRef,
-  classes,
-}: InferProps<typeof StatBlock.propTypes>) {
+}: Props) => {
+
+  const classes = useStyles();
+
   /**
    * Calculates the passive perception. This is calculated from
    * 10 + proficiency bonus + perception.
@@ -327,29 +354,29 @@ function StatBlock({
               );
             })}
           </div>
-          {monster.actions.length > 0 && (
+          {actions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Actions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.actions.map((action: MonsterAction) => (
+              {actions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {monster.reactions.length > 0 && (
+          {reactions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Reactions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.reactions.map((action: MonsterAction) => (
+              {reactions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {monster.legenActions.length > 0 && (
+          {legenActions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Legendary Actions
@@ -361,18 +388,18 @@ function StatBlock({
                 only at the end of another creature's turn. Spent legendary Actions
                 are regained at the start of each turn.
               </p>
-              {monster.legenActions.map((action: MonsterAction) => (
+              {legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {monster.lairActions.length > 0 && (
+          {lairActions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Lair Actions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.lairActions.map((action: MonsterAction) => (
+              {lairActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
@@ -382,13 +409,6 @@ function StatBlock({
       </div>
     </div>
   );
-}
+})
 
-StatBlock.propTypes = {
-  monster: PropTypes.any.isRequired,
-  twoColumns: PropTypes.bool.isRequired,
-  saveRef: PropTypes.any,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(StatBlock);
+export default StatBlock;

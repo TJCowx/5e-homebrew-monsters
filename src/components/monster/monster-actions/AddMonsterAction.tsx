@@ -14,14 +14,14 @@ import {
   Checkbox,
   FormControlLabel,
   Theme,
-  withStyles,
   Button,
+  makeStyles,
+  createStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
 import MonsterAction from '../../../models/MonsterAction';
 import { getDamageTypes } from '../../../hooks/getDamageTypes';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   inputField: { display: 'flex', margin: theme.spacing(1) },
   topRowContainer: {
     display: 'flex',
@@ -94,15 +94,32 @@ const useStyles = (theme: Theme) => ({
       width: '100%',
     },
   },
-});
+}));
 
+type Props = {
+  addMonsterAction: (action: MonsterAction) => unknown;
+  updateMonsterAction: (action: MonsterAction) => unknown;
+  editAction: MonsterAction;
+}
 function AddMonsterAction({
   addMonsterAction,
-  editAction,
-  classes,
-}: InferProps<typeof AddMonsterAction.propTypes>) {
-  const [action, setAction] = useState(new MonsterAction({}));
+  updateMonsterAction,
+  editAction
+}: Props) {
+  const [action, setAction] = useState({
+    name: '',
+    description: '',
+    actionType: '',
+    isAttack: false,
+    attackType: '',
+    toHit: '',
+    damage: '',
+    damageType: '',
+    reach: '',
+  } as MonsterAction);
   const [isNew, setIsNew] = useState(true);
+
+  const classes = useStyles();
 
   /** List of action types available in 5e */
   const actionTypes: Array<string> = ['Action', 'Reaction', 'Legendary', 'Lair'];
@@ -124,11 +141,11 @@ function AddMonsterAction({
     if (!action.isAttack) {
       setAction({
         ...action,
-        attackType: null,
-        toHit: null,
-        damage: null,
-        damageType: null,
-        reach: null,
+        attackType: '',
+        toHit: '',
+        damage: '',
+        damageType: '',
+        reach: '',
       });
     }
   }, [action.isAttack]);
@@ -141,17 +158,28 @@ function AddMonsterAction({
    */
   useEffect(() => {
     if (editAction == null) {
-      setIsNew(true);
-      setAction(new MonsterAction({}));
+      newActionState();
     } else {
       setIsNew(false);
       setAction(editAction);
     }
-
-    return () => {
-      setAction(new MonsterAction({}));
-    };
   }, [editAction]);
+
+  /** Reset the action to a new action */
+  const newActionState = () => {
+    setAction({
+      name: '',
+      description: '',
+      actionType: '',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      damage: '',
+      damageType: '',
+      reach: '',
+    } as MonsterAction);
+    setIsNew(true);
+  }
 
   /**
    * Handles updating the
@@ -176,22 +204,28 @@ function AddMonsterAction({
   };
 
   /**
-   * Add or edit a monster action by passing it up to the parent
+   * Add a monster action by passing it up to the parent
    * and then reset the state of the action inputs
    */
   const addAction = () => {
     addMonsterAction(action);
-    setAction(new MonsterAction());
-    setIsNew(true);
+    newActionState();
   };
+
+  /**
+   * Update a monster action by passing it up the state
+   */
+  const updateAction = () => {
+    updateMonsterAction(action);
+    newActionState();
+  }
 
   /**
    * Cancels editting an action setting the state
    * back to a new state
    */
   const cancelEdit = () => {
-    setAction(new MonsterAction());
-    setIsNew(true);
+    newActionState();
   };
 
   return (
@@ -329,7 +363,7 @@ function AddMonsterAction({
             color="primary"
             variant="contained"
             aria-label="Save Action"
-            onClick={addAction}
+            onClick={isNew ? addAction : updateAction}
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
@@ -350,10 +384,4 @@ function AddMonsterAction({
   );
 }
 
-AddMonsterAction.propTypes = {
-  addMonsterAction: PropTypes.func.isRequired,
-  editAction: PropTypes.instanceOf(MonsterAction),
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(AddMonsterAction);
+export default AddMonsterAction;

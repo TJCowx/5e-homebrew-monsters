@@ -3,26 +3,36 @@
  * Lists all the monster actions
  */
 import React from 'react';
-import { List, withStyles } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import { createStyles, List, makeStyles } from '@material-ui/core';
 import MonsterAction from '../../../models/MonsterAction';
 import MonsterActionListItem from './MonsterActionListItem';
+import { AppState } from '../../../store/store';
+import { actionsSelector } from '../../../selectors/monsterSelector';
+import { connect } from 'react-redux';
 
-const useStyles = () => ({
+const useStyles = makeStyles(() => createStyles({
   list: {
     width: '100%',
   },
+}));
+
+type Props = {
+  actions: Array<MonsterAction>;
+  removeAction: (id: string) => unknown;
+  editAction: (action: MonsterAction) => unknown;
+}
+
+const mapState = (state: AppState) => ({
+  actions: actionsSelector(state),
 });
 
-function MonsterActionsList({
+const MonsterActionsList = connect(mapState)(({
   actions,
-  reactions,
-  legenActions,
-  lairActions,
   removeAction,
   editAction,
-  classes,
-}: InferProps<typeof MonsterActionsList.propTypes>) {
+}: Props) => {
+  const classes = useStyles();
+
   return (
     <>
       <List className={classes.list}>
@@ -30,51 +40,13 @@ function MonsterActionsList({
           <MonsterActionListItem
             key={action.id}
             action={action}
-            actionType={'Action'}
             removeAction={removeAction}
-            editAction={editAction.bind(this, action, 'Action')}
-          />
-        ))}
-        {reactions.map((action: MonsterAction) => (
-          <MonsterActionListItem
-            key={action.id}
-            action={action}
-            actionType={'Reaction'}
-            removeAction={removeAction}
-            editAction={editAction.bind(this, action, 'Reaction')}
-          />
-        ))}
-        {legenActions.map((action: MonsterAction) => (
-          <MonsterActionListItem
-            key={action.id}
-            action={action}
-            actionType={'Legendary Action'}
-            removeAction={removeAction}
-            editAction={editAction.bind(this, action, 'Legendary')}
-          />
-        ))}
-        {lairActions.map((action: MonsterAction) => (
-          <MonsterActionListItem
-            key={action.id}
-            action={action}
-            actionType={'Lair Action'}
-            removeAction={removeAction}
-            editAction={editAction.bind(this, action, 'Lair')}
+            editAction={editAction}
           />
         ))}
       </List>
     </>
   );
-}
+});
 
-MonsterActionsList.propTypes = {
-  actions: PropTypes.array.isRequired,
-  reactions: PropTypes.array.isRequired,
-  legenActions: PropTypes.array.isRequired,
-  lairActions: PropTypes.array.isRequired,
-  removeAction: PropTypes.func.isRequired,
-  editAction: PropTypes.func.isRequired,
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(MonsterActionsList);
+export default MonsterActionsList;

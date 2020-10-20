@@ -3,11 +3,10 @@
  * Handles adding an individual monster property with the title and description
  */
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box, Theme, withStyles } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
+import { TextField, Button, Box, makeStyles, createStyles, Theme } from '@material-ui/core';
 import MonsterAbility from '../../../models/MonsterAbility';
 
-const useStyles = (theme: Theme) => ({
+const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
     display: 'flex',
     'flex-direction': 'row',
@@ -46,15 +45,23 @@ const useStyles = (theme: Theme) => ({
       display: 'inline-block',
     },
   },
-});
+}));
+
+type Props = {
+  addMonsterAbility: (ability: MonsterAbility) => unknown;
+  updateMonsterAbility: (ability: MonsterAbility) => unknown;
+  editAbility: MonsterAbility;
+}
 
 function AddMonsterAbility({
   addMonsterAbility,
+  updateMonsterAbility,
   editAbility,
-  classes,
-}: InferProps<typeof AddMonsterAbility.propTypes>) {
-  const [ability, setAbility] = useState(new MonsterAbility({}));
+}: Props) {
+  const [ability, setAbility] = useState({ name: '', description: ''} as MonsterAbility);
   const [isNew, setIsNew] = useState(true);
+
+  const classes = useStyles();
 
   /**
    * An effect that checks if the editAbility prop has been change
@@ -65,14 +72,14 @@ function AddMonsterAbility({
   useEffect(() => {
     if (editAbility == null) {
       setIsNew(true);
-      setAbility(new MonsterAbility({}));
+      setAbility({name: '', description: ''} as MonsterAbility);
     } else {
       setIsNew(false);
       setAbility(editAbility);
     }
 
     return () => {
-      setAbility(new MonsterAbility({}));
+      setAbility({name: '', description: ''} as MonsterAbility);
     };
   }, [editAbility]);
 
@@ -87,21 +94,26 @@ function AddMonsterAbility({
     } as MonsterAbility);
   };
 
+  /** Sets the state to the default new ability state */
+  const newAbilityState = () => {
+    setAbility({name: '', description: ''} as MonsterAbility);
+    setIsNew(true);
+  }
+
   /**
    * Add or edit a monster ability by passing it up to the parent
    * and then reset the state
    */
   const addAbility = () => {
     addMonsterAbility(ability);
-    setAbility(new MonsterAbility());
-    setIsNew(true);
+    newAbilityState();
   };
 
-  /** Cancels editting a monster ability */
-  const cancelEdit = () => {
-    setAbility(new MonsterAbility());
-    setIsNew(true);
-  };
+  /** Updates the monster ability that has been passed in */
+  const updateAbility = () => {
+    updateMonsterAbility(ability);
+    newAbilityState();
+  }
 
   return (
     <>
@@ -137,7 +149,7 @@ function AddMonsterAbility({
             color="primary"
             variant="contained"
             aria-label="Save Ability"
-            onClick={addAbility}
+            onClick={isNew ? addAbility : updateAbility}
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
@@ -147,7 +159,7 @@ function AddMonsterAbility({
               variant="contained"
               aria-label="Cancel Edit"
               style={{ marginLeft: '8px' }}
-              onClick={cancelEdit}
+              onClick={newAbilityState}
             >
               Cancel
             </Button>
@@ -158,10 +170,4 @@ function AddMonsterAbility({
   );
 }
 
-AddMonsterAbility.propTypes = {
-  addMonsterAbility: PropTypes.func.isRequired,
-  editAbility: PropTypes.instanceOf(MonsterAbility),
-  classes: PropTypes.any,
-};
-
-export default withStyles(useStyles, { withTheme: true })(AddMonsterAbility);
+export default AddMonsterAbility;
