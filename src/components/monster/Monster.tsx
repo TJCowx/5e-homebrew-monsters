@@ -416,9 +416,7 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterAbilities
-              removeAbility={removeAbility}
-            />
+            <MonsterAbilities />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 

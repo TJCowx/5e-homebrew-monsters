@@ -38,7 +38,7 @@ export default function MonsterAbilityListItem({
           </IconButton>
           <IconButton
             aria-label="delete ability"
-            onClick={removeAbility.bind(this, ability.id)}
+            onClick={() => removeAbility(ability.id)}
           >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>

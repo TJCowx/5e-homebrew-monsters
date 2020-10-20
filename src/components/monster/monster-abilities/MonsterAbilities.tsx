@@ -27,6 +27,7 @@ const mapState = (state: AppState) => ({
 const mapDispatch = (dispatch: Dispatch) => ({
   addAbility: (ability: MonsterAbility) => dispatch(monster.actions.addAbility(ability)),
   updateAbility: (ability: MonsterAbility) => dispatch(monster.actions.updateAbility(ability)),
+  removeAbility: (id: string) => dispatch(monster.actions.removeAbility(id)),
 });
 
 const MonsterAbilities = connect(mapState, mapDispatch)(({
