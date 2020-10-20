@@ -32,7 +32,7 @@ export default function MonsterAbilityListItem({
         <ListItemSecondaryAction>
           <IconButton
             aria-label="edit ability"
-            onClick={editAbility.bind(this, ability)}
+            onClick={() => editAbility(ability)}
           >
             <EditIcon />
           </IconButton>

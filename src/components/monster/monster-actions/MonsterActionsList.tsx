@@ -19,7 +19,7 @@ const useStyles = makeStyles(() => createStyles({
 type Props = {
   actions: Array<MonsterAction>;
   removeAction: (id: string) => unknown;
-  editAction: (action: MonsterAction, actionType: string) => unknown;
+  editAction: (action: MonsterAction) => unknown;
 }
 
 const mapState = (state: AppState) => ({
@@ -40,8 +40,8 @@ const MonsterActionsList = connect(mapState)(({
           <MonsterActionListItem
             key={action.id}
             action={action}
-            removeAction={removeAction.bind(this, action, 'Action')}
-            editAction={editAction.bind(this, action, 'Action')}
+            removeAction={removeAction}
+            editAction={editAction}
           />
         ))}
       </List>

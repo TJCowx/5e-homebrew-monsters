@@ -98,10 +98,12 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 type Props = {
   addMonsterAction: (action: MonsterAction) => unknown;
+  updateMonsterAction: (action: MonsterAction) => unknown;
   editAction: MonsterAction;
 }
 function AddMonsterAction({
   addMonsterAction,
+  updateMonsterAction,
   editAction
 }: Props) {
   const [action, setAction] = useState({
@@ -202,13 +204,21 @@ function AddMonsterAction({
   };
 
   /**
-   * Add or edit a monster action by passing it up to the parent
+   * Add a monster action by passing it up to the parent
    * and then reset the state of the action inputs
    */
   const addAction = () => {
     addMonsterAction(action);
     newActionState();
   };
+
+  /**
+   * Update a monster action by passing it up the state
+   */
+  const updateAction = () => {
+    updateMonsterAction(action);
+    newActionState();
+  }
 
   /**
    * Cancels editting an action setting the state
@@ -353,7 +363,7 @@ function AddMonsterAction({
             color="primary"
             variant="contained"
             aria-label="Save Action"
-            onClick={addAction}
+            onClick={isNew ? addAction : updateAction}
           >
             {isNew ? 'Save' : 'Update'}
           </Button>

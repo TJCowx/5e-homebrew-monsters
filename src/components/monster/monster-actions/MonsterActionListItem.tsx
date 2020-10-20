@@ -12,8 +12,8 @@ import MonsterAction from '../../../models/MonsterAction';
 
 type Props = {
   action: MonsterAction;
-  removeAction: () => unknown;
-  editAction: () => unknown;
+  removeAction: (id: string) => unknown;
+  editAction: (action: MonsterAction) => unknown;
 }
 
 function MonsterActionListItem({
@@ -46,13 +46,13 @@ function MonsterActionListItem({
         <ListItemSecondaryAction>
           <IconButton
             aria-label="edit ability"
-            onClick={editAction.bind(this, action)}
+            onClick={() => editAction(action)}
           >
             <EditIcon />
           </IconButton>
           <IconButton
             aria-label="delete ability"
-            onClick={removeAction.bind(this, action.id)}
+            onClick={() => removeAction(action.id)}
           >
             <DeleteIcon style={{ color: '#ff0000' }} />
           </IconButton>

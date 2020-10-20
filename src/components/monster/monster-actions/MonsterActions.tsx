@@ -12,18 +12,20 @@ import { connect } from 'react-redux';
 
 
 type Props = {
-  addAction: (updatedAbility: MonsterAction) => unknown;
+  addAction: (action: MonsterAction) => unknown;
+  updateAction: (action: MonsterAction) => unknown;
   removeAction: (id: string) => unknown;
 }
 
 const mapDispatch = (dispatch: Dispatch) => ({
   addAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
-  updateAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
+  updateAction: (action: MonsterAction) => dispatch(monster.actions.updateAction(action)),
   removeAction: (id: string) => dispatch(monster.actions.removeAction(id)),
 })
 
 const MonsterActions = connect(null, mapDispatch)(({
   addAction,
+  updateAction,
   removeAction,
 }: Props) => {
   const [edittingAction, setEdittingAction] = useState(null);
@@ -34,8 +36,7 @@ const MonsterActions = connect(null, mapDispatch)(({
    * an existing one
    * @param action the action we are editting
    */
-  const editAction = (action: MonsterAction, actionType: string) => {
-    action.actionType = actionType;
+  const editAction = (action: MonsterAction) => {
     setEdittingAction(action);
   };
 
@@ -43,6 +44,7 @@ const MonsterActions = connect(null, mapDispatch)(({
     <div style={{ width: '100%' }}>
       <AddMonsterAction
         addMonsterAction={addAction}
+        updateMonsterAction={updateAction}
         editAction={edittingAction}
       />
       <MonsterActionsList
