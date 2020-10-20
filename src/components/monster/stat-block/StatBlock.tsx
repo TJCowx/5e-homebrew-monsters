@@ -11,7 +11,7 @@ import FormattedAction from './FormattedAction';
 import MonsterAbility from '../../../models/MonsterAbility';
 import MonsterAction from '../../../models/MonsterAction';
 import MonsterDefinition from '../../../models/MonsterDefinition';
-import { monsterSelector } from '../../../selectors/monsterSelector';
+import { lairActionsSelector, legenActionsSelector, monsterSelector, normActionsSelector, reactionsSelector } from '../../../selectors/monsterSelector';
 import { connect } from 'react-redux';
 import { AppState } from '../../../store/store';
 
@@ -68,6 +68,7 @@ const useStyles = makeStyles(() => createStyles({
     },
     actionContainer: {
       display: 'inline-block',
+      width: '100%',
     },
     stats: {
       fontSize: '15px',
@@ -95,16 +96,28 @@ const useStyles = makeStyles(() => createStyles({
 
 type Props = {
   monster: MonsterDefinition;
+  actions: Array<MonsterAction>;
+  reactions: Array<MonsterAction>;
+  legenActions: Array<MonsterAction>;
+  lairActions: Array<MonsterAction>;
   twoColumns: boolean;
   saveRef: React.MutableRefObject<undefined>;
 };
 
 const mapState = (state: AppState) => ({
   monster: monsterSelector(state),
+  actions: normActionsSelector(state),
+  reactions: reactionsSelector(state),
+  legenActions: legenActionsSelector(state),
+  lairActions: lairActionsSelector(state),
 });
 
 const StatBlock = connect(mapState)(({
   monster,
+  actions,
+  reactions,
+  legenActions,
+  lairActions,
   twoColumns,
   saveRef,
 }: Props) => {
@@ -341,29 +354,29 @@ const StatBlock = connect(mapState)(({
               );
             })}
           </div>
-          {monster.actions.length > 0 && (
+          {actions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Actions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.actions.map((action: MonsterAction) => (
+              {actions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {/* {monster.reactions.length > 0 && (
+          {reactions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Reactions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.reactions.map((action: MonsterAction) => (
+              {reactions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {monster.legenActions.length > 0 && (
+          {legenActions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Legendary Actions
@@ -375,22 +388,22 @@ const StatBlock = connect(mapState)(({
                 only at the end of another creature's turn. Spent legendary Actions
                 are regained at the start of each turn.
               </p>
-              {monster.legenActions.map((action: MonsterAction) => (
+              {legenActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
           )}
-          {monster.lairActions.length > 0 && (
+          {lairActions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Lair Actions
               </div>
               <hr className={classes.titleUnderline} />
-              {monster.lairActions.map((action: MonsterAction) => (
+              {lairActions.map((action: MonsterAction) => (
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
-          )} */}
+          )}
         </div>
         <StatBlockBorder />
       </div>
