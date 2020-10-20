@@ -381,7 +381,6 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
               darkvision={custMonster.darkvision}
               tremorsense={custMonster.tremorsense}
               truesight={custMonster.truesight}
-              handleChange={handleChange}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -402,7 +401,6 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
               languages={custMonster.languages}
               challengeRating={custMonster.challengeRating}
               rewardXP={custMonster.rewardXP}
-              handleChange={handleChange}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>

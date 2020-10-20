@@ -3,9 +3,10 @@
  * Handles the monster's properties.
  */
 import React, { ChangeEvent } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 import {
   TextField,
-  withStyles,
   Theme,
   InputLabel,
   FormControl,
@@ -15,8 +16,9 @@ import {
   createStyles,
   makeStyles,
 } from '@material-ui/core';
-import PropTypes, { InferProps } from 'prop-types';
 import { getDamageTypes } from '../../../hooks/getDamageTypes';
+import monster from '../../../reducers/monsterReducer';
+
 
 /** Setup the styling for these inputs */
 const useStyles = makeStyles((theme: Theme) => createStyles({
@@ -65,10 +67,15 @@ type Props = {
   languages: Array<string>;
   challengeRating: string;
   rewardXP: string;
-  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  updateProperty: (property: string, value: string) => unknown;
 }
 
-function MonsterProperties({
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+
+const MonsterProperties = connect(null, mapDispatch)(({
   immunities,
   resistances,
   weaknesses,
@@ -76,8 +83,8 @@ function MonsterProperties({
   languages,
   challengeRating,
   rewardXP,
-  handleChange,
-}: Props) {
+  updateProperty,
+}: Props) => {
 
   const classes = useStyles();
 
@@ -127,6 +134,10 @@ function MonsterProperties({
     'Sylvan',
     'Undercommon',
   ];
+
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   return (
     <div className={classes.descriptionRoot}>
@@ -238,6 +249,6 @@ function MonsterProperties({
       </Box>
     </div>
   );
-}
+});
 
 export default MonsterProperties;
