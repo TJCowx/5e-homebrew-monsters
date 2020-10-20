@@ -13,7 +13,11 @@ export default createSlice({
     /** Resets the monster to the initial state */
     reset: () => initialState,
     loadExample: () => exampleMonster(),
-    /** Adds the action to the state of normal actions */
+    /** 
+     * Adds the action to the state of normal actions
+     * @param state the state of the monster
+     * @param action the payload of the monster ability to add
+     */
     addAbility(state, action: PayloadAction<MonsterAbility>) {
       const {name, description} = action.payload;
       state.abilities.push({
@@ -23,31 +27,53 @@ export default createSlice({
       });
       return;
     },
-    /** Updates the passed in ability */
+    /** 
+     * Updates the passed in ability
+     * @param state the state of the monster
+     * @param action the payload of the monster ability to update
+     */
     updateAbility(state, action: PayloadAction<MonsterAbility>) {
       const updateIndex: number = state.abilities.findIndex(
         (ability: MonsterAbility) => ability.id === action.payload.id);
 
       state.abilities[updateIndex] = action.payload;
+
+      return;
+    },
+    /**
+     * Removes the ability using the passed in id
+     * @param state the state of the monster
+     * @param action the payload of the id of the ability to remove
+     */
+    removeAbility(state, action: PayloadAction<string>) {
+      state.abilities = state.abilities.filter(
+        (ability: MonsterAbility) => ability.id !== action.payload);
+      
+      return;
     },
     /** Adds the action to the state of normal actions */
-    addAction(state, payload: PayloadAction<MonsterAction>) {
+    addAction(state, action: PayloadAction<MonsterAction>) {
       // state.monster.actions.push(payload.payload);
+      state.actions.push({
+        ...action.payload,
+        id: v4(),
+      })
       return;
     },
-    /** Adds the action to the state of legendary actions */
-    addLegenAction(state, payload: PayloadAction<MonsterAction>) {
-      // state.monster.legenActions.push(payload.payload);
+    /** Updates an action using the incoming action */
+    updateAction(state, action: PayloadAction<MonsterAction>) {
+      const updateIndex: number = state.actions.findIndex(
+        (monsterAction: MonsterAction) => monsterAction.id === action.payload.id);
+
+      state.actions[updateIndex] = action.payload;
+
       return;
     },
-    /** Add the action to the state of reactions */
-    addReaction(state, payload: PayloadAction<MonsterAction>) {
-      // state.monster.reactions.push(payload.payload);
-      return;
-    },
-    /** Adds the action to the state of lair actions */
-    addLairAction(state, payload: PayloadAction<MonsterAction>) {
-      // state.monster.lairActions.push(payload.payload);
+    /** Removes the action from the list of actions */
+    removeAction(state, action: PayloadAction<string>) {
+      state.actions = state.actions.filter(
+        (monsterAction: MonsterAction) => monsterAction.id !== action.payload);
+      
       return;
     },
   }

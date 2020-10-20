@@ -352,7 +352,7 @@ const StatBlock = connect(mapState)(({
               ))}
             </div>
           )}
-          {monster.reactions.length > 0 && (
+          {/* {monster.reactions.length > 0 && (
             <div className={classes.actionContainer}>
               <div className={`${classes.actionTypeHeader} ${classes.accentColour}`}>
                 Reactions
@@ -390,7 +390,7 @@ const StatBlock = connect(mapState)(({
                 <FormattedAction key={`formatted-${action.id}`} action={action} />
               ))}
             </div>
-          )}
+          )} */}
         </div>
         <StatBlockBorder />
       </div>

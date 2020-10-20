@@ -1,3 +1,4 @@
+import MonsterAction from "../models/MonsterAction";
 import { AppState } from "../store/store";
 
 export const monsterSelector = (state: AppState) => state;
@@ -13,7 +14,8 @@ export const monsterSelector = (state: AppState) => state;
 export const abilitiesSelector = (state: AppState) => state.abilities;
 
 // // Select all the actions
-// export const actionsSelector = (state: AppState) => state.monster.actions;
-// export const legenActionsSelector = (state: AppState) => state.monster.legenActions;
-// export const reactionsSelector = (state: AppState) => state.monster.reactions;
-// export const lairActionsSelector = (state: AppState) => state.monster.lairActions;
+export const actionsSelector = (state: AppState) => state.actions;
+export const normActionsSelector = (state: AppState) => state.actions.filter((action: MonsterAction) => action.actionType === 'Action');
+export const legenActionsSelector = (state: AppState) => state.actions.filter((action: MonsterAction) => action.actionType === 'Legendary')
+export const reactionsSelector = (state: AppState) => state.actions.filter((action: MonsterAction) => action.actionType === 'Reaction')
+export const lairActionsSelector = (state: AppState) => state.actions.filter((action: MonsterAction) => action.actionType === 'Lair')

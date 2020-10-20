@@ -12,23 +12,21 @@ import MonsterAction from '../../../models/MonsterAction';
 
 type Props = {
   action: MonsterAction;
-  actionType: string;
   removeAction: () => unknown;
   editAction: () => unknown;
 }
 
 function MonsterActionListItem({
   action,
-  actionType,
   removeAction,
   editAction,
 }: Props) {
   const [actionSummary, setActionSummary] = useState('');
 
   useEffect(() => {
-    let summary: string = `${actionType} -`;
-    if (action.attackType != null) {
-      summary += ` ${action.attackType} Attack: ${action.toHit} to hit, reach ${action.reach}`;
+    let summary: string = `${action.actionType} -`;
+    if (action.isAttack && action.attackType !== '') {
+      summary += ` ${action.attackType}: ${action.toHit} to hit, reach ${action.reach}`;
       summary += `, Hit: ${action.damage} ${action.damageType} damage`;
     }
 

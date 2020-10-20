@@ -6,23 +6,28 @@ import React, { useState } from 'react';
 import AddMonsterAction from './AddMonsterAction';
 import MonsterActionsList from './MonsterActionsList';
 import MonsterAction from '../../../models/MonsterAction';
+import { AppState } from '../../../store/store';
+import { Dispatch } from 'redux';
+import { actionsSelector } from '../../../selectors/monsterSelector';
+import monster from '../../../reducers/monsterReducer';
+import { connect } from 'react-redux';
+
 
 type Props = {
-  actions: Array<MonsterAction>;
-  legenActions: Array<MonsterAction>;
-  reactions: Array<MonsterAction>;
-  lairActions: Array<MonsterAction>;
-  addMonsterAction: (updatedAbility: MonsterAction) => unknown;
-  removeAction: (id: string, actionType: string) => unknown;
+  addAction: (updatedAbility: MonsterAction) => unknown;
+  removeAction: (id: string) => unknown;
 }
-function MonsterActions({
-  actions,
-  legenActions,
-  reactions,
-  lairActions,
-  addMonsterAction,
+
+const mapDispatch = (dispatch: Dispatch) => ({
+  addAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
+  updateAction: () => {},
+  removeAction: (id: string) => {},
+})
+
+const MonsterActions = connect(null, mapDispatch)(({
+  addAction,
   removeAction,
-}: Props) {
+}: Props) => {
   const [edittingAction, setEdittingAction] = useState(null);
 
   /**
@@ -39,19 +44,15 @@ function MonsterActions({
   return (
     <div style={{ width: '100%' }}>
       <AddMonsterAction
-        addMonsterAction={addMonsterAction}
+        addMonsterAction={addAction}
         editAction={edittingAction}
       />
       <MonsterActionsList
-        actions={actions}
-        reactions={reactions}
-        legenActions={legenActions}
-        lairActions={lairActions}
         removeAction={removeAction}
         editAction={editAction}
       />
     </div>
   );
-}
+});
 
 export default MonsterActions;

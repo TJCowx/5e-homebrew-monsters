@@ -428,14 +428,7 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
             </Typography>
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
-            <MonsterActions
-              actions={custMonster.actions}
-              legenActions={custMonster.legenActions}
-              lairActions={custMonster.lairActions}
-              reactions={custMonster.reactions}
-              addMonsterAction={updateMonsterActions}
-              removeAction={removeAction}
-            />
+            <MonsterActions />
           </ExpansionPanelDetails>
         </ExpansionPanel>
 

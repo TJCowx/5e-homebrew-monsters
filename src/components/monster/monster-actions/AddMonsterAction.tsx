@@ -105,7 +105,17 @@ function AddMonsterAction({
   addMonsterAction,
   editAction
 }: Props) {
-  const [action, setAction] = useState(new MonsterAction({}));
+  const [action, setAction] = useState({
+    name: '',
+    description: '',
+    actionType: '',
+    isAttack: false,
+    attackType: '',
+    toHit: '',
+    damage: '',
+    damageType: '',
+    reach: '',
+  } as MonsterAction);
   const [isNew, setIsNew] = useState(true);
 
   const classes = useStyles();
@@ -130,11 +140,11 @@ function AddMonsterAction({
     if (!action.isAttack) {
       setAction({
         ...action,
-        attackType: null,
-        toHit: null,
-        damage: null,
-        damageType: null,
-        reach: null,
+        attackType: '',
+        toHit: '',
+        damage: '',
+        damageType: '',
+        reach: '',
       });
     }
   }, [action.isAttack]);
@@ -147,17 +157,28 @@ function AddMonsterAction({
    */
   useEffect(() => {
     if (editAction == null) {
-      setIsNew(true);
-      setAction(new MonsterAction({}));
+      newActionState();
     } else {
       setIsNew(false);
       setAction(editAction);
     }
-
-    return () => {
-      setAction(new MonsterAction({}));
-    };
   }, [editAction]);
+
+  /** Reset the action to a new action */
+  const newActionState = () => {
+    setAction({
+      name: '',
+      description: '',
+      actionType: '',
+      isAttack: false,
+      attackType: '',
+      toHit: '',
+      damage: '',
+      damageType: '',
+      reach: '',
+    } as MonsterAction);
+    setIsNew(true);
+  }
 
   /**
    * Handles updating the
@@ -187,8 +208,7 @@ function AddMonsterAction({
    */
   const addAction = () => {
     addMonsterAction(action);
-    setAction(new MonsterAction());
-    setIsNew(true);
+    newActionState();
   };
 
   /**
@@ -196,8 +216,7 @@ function AddMonsterAction({
    * back to a new state
    */
   const cancelEdit = () => {
-    setAction(new MonsterAction());
-    setIsNew(true);
+    newActionState();
   };
 
   return (
