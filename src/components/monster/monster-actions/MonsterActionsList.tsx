@@ -7,8 +7,7 @@ import { createStyles, List, makeStyles } from '@material-ui/core';
 import MonsterAction from '../../../models/MonsterAction';
 import MonsterActionListItem from './MonsterActionListItem';
 import { AppState } from '../../../store/store';
-import { Dispatch } from 'redux';
-import { actionsSelector, lairActionsSelector, legenActionsSelector, normActionsSelector, reactionsSelector } from '../../../selectors/monsterSelector';
+import { actionsSelector } from '../../../selectors/monsterSelector';
 import { connect } from 'react-redux';
 
 const useStyles = makeStyles(() => createStyles({

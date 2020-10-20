@@ -14,7 +14,6 @@ import {
   Checkbox,
   FormControlLabel,
   Theme,
-  withStyles,
   Button,
   makeStyles,
   createStyles,
