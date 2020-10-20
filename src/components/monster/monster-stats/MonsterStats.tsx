@@ -19,6 +19,9 @@ import {
   createStyles,
 } from '@material-ui/core';
 import { getStats, getProficiencies } from '../../../hooks/getTypeMaps';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import monster from '../../../reducers/monsterReducer';
 
 /** Setup the styling for these inputs */
 const useStyles =  makeStyles((theme: Theme) => createStyles({
@@ -95,10 +98,15 @@ type Props = {
   proficiencies: Array<string>;
   savingThrows: Array<string>;
   hitDie: string;
-  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  updateProperty: (property: string, value: string) => unknown;
 };
 
-function MonsterStats({
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+
+const MonsterStats = connect(null, mapDispatch)(({
   armourClass,
   hitPoints,
   str,
@@ -111,12 +119,20 @@ function MonsterStats({
   proficiencies,
   savingThrows,
   hitDie,
-  handleChange,
-}: Props) {
+  updateProperty,
+}: Props) => {
   const classes = useStyles();
 
   const availableProfs: object = getProficiencies();
   const availableSavingThrows: object = getStats();
+
+  /** 
+   * Handles the basic change of an input change 
+   * @param event the event passed in from the material UI onChange event
+   */
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
+    updateProperty(event.target.name, event.target.value);
+  }
 
   /**
    * Takes an input event and checks to see if it was an integer input
@@ -126,7 +142,7 @@ function MonsterStats({
   const handleIntChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
-      handleChange(event);
+      updateProperty(event.target.name, event.target.value);
     }
   };
 
@@ -257,6 +273,6 @@ function MonsterStats({
       </Box>
     </div>
   );
-}
+});
 
 export default MonsterStats;

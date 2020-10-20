@@ -1,4 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import monster from '../../../reducers/monsterReducer';
 import {
   Box,
   FormControlLabel,
@@ -21,17 +24,21 @@ type Props = {
   burrowSpeed: string;
   climbSpeed: string;
   hoverSpeed: string;
-  handleChange: (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => void;
+  updateProperty: (property: string, value: string) => unknown;
 };
 
-function MonsterSpeed({
+const mapDispatch = (dispatch: Dispatch) => ({
+  updateProperty: (property: string, value: string) => dispatch(monster.actions.updateProperty({property, value})),
+})
+
+const MonsterSpeed = connect(null, mapDispatch)(({
   landSpeed,
   flySpeed,
   burrowSpeed,
   climbSpeed,
   hoverSpeed,
-  handleChange,
-}: Props) {
+  updateProperty,
+}: Props) => {
   const [hasLand, setHasLand] = useState(landSpeed !== '');
   const [hasFly, setHasFly] = useState(flySpeed !== '');
   const [hasBurrow, setHasBurrow] = useState(burrowSpeed !== '');
@@ -47,52 +54,27 @@ function MonsterSpeed({
 
   /** Setup the effect to toggle the requirements for land speed */
   useEffect(() => {
-    // handleChange({
-    //   target: {
-    //     name: 'landSpeed',
-    //     value: !hasLand ? '' : landSpeed,
-    //   },
-    // }) as HTMLInputElement;
+    updateProperty('landSpeed', !hasLand ? '' : landSpeed);
   }, [hasLand]);
 
   /** Setup the effect to toggle the requirements for fly speed */
   useEffect(() => {
-    // handleChange({
-    //   target: {
-    //     name: 'flySpeed',
-    //     value: !hasFly ? '' : flySpeed,
-    //   },
-    // });
+    updateProperty('flySpeed', !hasFly ? '' : flySpeed);
   }, [hasFly]);
 
   /** Setup the effect to toggle the requirements for burrow speed */
   useEffect(() => {
-    // handleChange({
-    //   target: {
-    //     name: 'burrowSpeed',
-    //     value: !hasBurrow ? '' : burrowSpeed,
-    //   },
-    // });
+    updateProperty('burrowSpeed', !hasBurrow ? '' : burrowSpeed);
   }, [hasBurrow]);
 
   /** Setup the effect to toggle the requirements for climb speed */
   useEffect(() => {
-    // handleChange({
-    //   target: {
-    //     name: 'climbSpeed',
-    //     value: !hasClimb ? '' : climbSpeed,
-    //   },
-    // });
+    updateProperty('climbSpeed', !hasClimb ? '' : climbSpeed);
   }, [hasClimb]);
 
   /** Setup the effect to toggle the requirements for hover speed */
   useEffect(() => {
-    // handleChange({
-    //   target: {
-    //     name: 'hasHover',
-    //     value: !hasHover ? '' : hoverSpeed,
-    //   },
-    // });
+    updateProperty('hoverSpeed', !hasHover ? '' : hoverSpeed);
   }, [hasHover]);
 
   // **************************************
@@ -133,7 +115,7 @@ function MonsterSpeed({
   const handleIntChange = (event: ChangeEvent<HTMLTextAreaElement | HTMLInputElement>) => {
     // If it's null or a number value we will let it update the state in the parent
     if (event.target.value == null || /^-?[0-9]*$/.test(event.target.value)) {
-      handleChange(event);
+      updateProperty(event.target.name, event.target.value);
     }
   };
 
@@ -251,6 +233,6 @@ function MonsterSpeed({
       </Box>
     </Box>
   );
-}
+});
 
 export default MonsterSpeed;

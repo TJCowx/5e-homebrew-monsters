@@ -337,7 +337,6 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
               burrowSpeed={custMonster.burrowSpeed}
               climbSpeed={custMonster.climbSpeed}
               hoverSpeed={custMonster.hoverSpeed}
-              handleChange={handleChange}
             />
           </ExpansionPanelDetails>
         </ExpansionPanel>
@@ -351,7 +350,6 @@ const Monster = connect(mapState, mapDispatch)(({custMonster, loadExample}: Prop
           </ExpansionPanelSummary>
           <ExpansionPanelDetails>
             <MonsterStats
-              handleChange={handleChange}
               armourClass={custMonster.armourClass}
               hitPoints={custMonster.hitPoints}
               hitDie={custMonster.hitDie}
