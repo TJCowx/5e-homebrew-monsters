@@ -6,9 +6,7 @@ import React, { useState } from 'react';
 import AddMonsterAction from './AddMonsterAction';
 import MonsterActionsList from './MonsterActionsList';
 import MonsterAction from '../../../models/MonsterAction';
-import { AppState } from '../../../store/store';
 import { Dispatch } from 'redux';
-import { actionsSelector } from '../../../selectors/monsterSelector';
 import monster from '../../../reducers/monsterReducer';
 import { connect } from 'react-redux';
 
@@ -20,8 +18,8 @@ type Props = {
 
 const mapDispatch = (dispatch: Dispatch) => ({
   addAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
-  updateAction: () => {},
-  removeAction: (id: string) => {},
+  updateAction: (action: MonsterAction) => dispatch(monster.actions.addAction(action)),
+  removeAction: (id: string) => dispatch(monster.actions.removeAction(id)),
 })
 
 const MonsterActions = connect(null, mapDispatch)(({

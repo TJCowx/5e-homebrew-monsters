@@ -18,7 +18,7 @@ const useStyles = makeStyles(() => createStyles({
 
 type Props = {
   actions: Array<MonsterAction>;
-  removeAction: (id: string, actionType: string) => unknown;
+  removeAction: (id: string) => unknown;
   editAction: (action: MonsterAction, actionType: string) => unknown;
 }
 

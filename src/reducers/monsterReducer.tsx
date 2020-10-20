@@ -15,7 +15,6 @@ export default createSlice({
     loadExample: () => exampleMonster(),
     /** 
      * Adds the action to the state of normal actions
-     * @param state the state of the monster
      * @param action the payload of the monster ability to add
      */
     addAbility(state, action: PayloadAction<MonsterAbility>) {
@@ -29,7 +28,6 @@ export default createSlice({
     },
     /** 
      * Updates the passed in ability
-     * @param state the state of the monster
      * @param action the payload of the monster ability to update
      */
     updateAbility(state, action: PayloadAction<MonsterAbility>) {
@@ -42,7 +40,6 @@ export default createSlice({
     },
     /**
      * Removes the ability using the passed in id
-     * @param state the state of the monster
      * @param action the payload of the id of the ability to remove
      */
     removeAbility(state, action: PayloadAction<string>) {
@@ -51,7 +48,10 @@ export default createSlice({
       
       return;
     },
-    /** Adds the action to the state of normal actions */
+    /** 
+     * Adds the action to the state of normal actions 
+     * @param action the payload of the monster action we're adding
+     */
     addAction(state, action: PayloadAction<MonsterAction>) {
       // state.monster.actions.push(payload.payload);
       state.actions.push({
@@ -60,7 +60,10 @@ export default createSlice({
       })
       return;
     },
-    /** Updates an action using the incoming action */
+    /**
+     * Updates an action using the incoming action
+     * @param action the payload of the action we're updating
+     */
     updateAction(state, action: PayloadAction<MonsterAction>) {
       const updateIndex: number = state.actions.findIndex(
         (monsterAction: MonsterAction) => monsterAction.id === action.payload.id);
@@ -69,7 +72,10 @@ export default createSlice({
 
       return;
     },
-    /** Removes the action from the list of actions */
+    /**
+     * Removes the action from the list of actions 
+     * @param action the id string of the action to remove
+     */
     removeAction(state, action: PayloadAction<string>) {
       state.actions = state.actions.filter(
         (monsterAction: MonsterAction) => monsterAction.id !== action.payload);
