@@ -3,9 +3,8 @@
  * Handles adding an individual monster property with the title and description
  */
 import React, { useState, useEffect } from 'react';
-import { TextField, Button, Box, makeStyles, createStyles, Theme } from '@material-ui/core';
+import { Button, Box, makeStyles, createStyles, Theme } from '@material-ui/core';
 import MonsterAbility from '../../../models/MonsterAbility';
-import ErrorObject from '../../../models/ErrorObject';
 import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
