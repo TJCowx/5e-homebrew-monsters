@@ -5,6 +5,8 @@
 import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box, makeStyles, createStyles, Theme } from '@material-ui/core';
 import MonsterAbility from '../../../models/MonsterAbility';
+import ErrorObject from '../../../models/ErrorObject';
+import { ValidatorForm, TextValidator} from 'react-material-ui-form-validator';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   root: {
@@ -88,11 +90,14 @@ function AddMonsterAbility({
    * @param event The event from the input
    */
   const handleChange = (event: any) => {
+    const {name, value} = event.target;
+
     setAbility({
       ...ability,
-      [event.target.name]: event.target.value,
+      [name]: value,
     } as MonsterAbility);
   };
+
 
   /** Sets the state to the default new ability state */
   const newAbilityState = () => {
@@ -105,9 +110,23 @@ function AddMonsterAbility({
    * and then reset the state
    */
   const addAbility = () => {
-    addMonsterAbility(ability);
-    newAbilityState();
+      addMonsterAbility(ability);
+      newAbilityState();
   };
+
+  /**
+   * Submits an ability. Either adds or updates depending on what is 
+   * the state of the component.
+   * @param e the event from the submit
+   */
+  const submitAbility = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (isNew)
+      addAbility();
+    else
+      updateAbility();
+  }
 
   /** Updates the monster ability that has been passed in */
   const updateAbility = () => {
@@ -117,23 +136,27 @@ function AddMonsterAbility({
 
   return (
     <>
-      <Box className={classes.root}>
+      <ValidatorForm className={classes.root} onSubmit={submitAbility}>
         <Box className={classes.nameWrapper} width="25%">
-          <TextField
+          <TextValidator
             label="Name"
             aria-label="Ability Name"
             name="name"
             value={ability.name}
             onChange={handleChange}
             className={classes.inputField}
+            validators={['required']}
+            errorMessages={['* Required']}
           />
         </Box>
         <Box className={classes.descriptionWrapper} width="60%">
-          <TextField
+          <TextValidator
             multiline
             label="Description"
             aria-label="Ability Description"
             name="description"
+            validators={['required']}
+            errorMessages={['* Required']}
             value={ability.description}
             onChange={handleChange}
             className={classes.inputField}
@@ -149,7 +172,7 @@ function AddMonsterAbility({
             color="primary"
             variant="contained"
             aria-label="Save Ability"
-            onClick={isNew ? addAbility : updateAbility}
+            type="submit"
           >
             {isNew ? 'Save' : 'Update'}
           </Button>
@@ -165,7 +188,7 @@ function AddMonsterAbility({
             </Button>
           )}
         </Box>
-      </Box>
+      </ValidatorForm>
     </>
   );
 }
