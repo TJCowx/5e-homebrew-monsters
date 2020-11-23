@@ -68,7 +68,7 @@ export const getModifier = (stat: string): number => {
       modifier = 10;
       break;
     default:
-      modifier = 0;
+      modifier = Number(stat) - 10 / 2;
   }
 
   return modifier;
@@ -84,6 +84,6 @@ export const getDisplayModifier = (stat: string): string => {
   if (mod >= 0) {
     return `+${mod}`;
   } else {
-    return `-${mod}`;
+    return `${mod}`;
   }
 };
