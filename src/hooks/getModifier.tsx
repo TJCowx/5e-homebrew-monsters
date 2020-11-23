@@ -5,7 +5,7 @@
  */
 export const getModifier = (stat: string): number => {
   if (Number(stat) != NaN) {
-    return Math.floor((Number(stat) - 10)/ 2);
+    return Math.floor((Number(stat) - 10) / 2);
   } else {
     return 0;
   }
